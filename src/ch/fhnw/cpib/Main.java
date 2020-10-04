@@ -1,4 +1,4 @@
-package ch.fhnw.cpib.imlcompiler;
+package ch.fhnw.cpib;
 
 public class Main {
 
