@@ -4,5 +4,5 @@ import ch.fhnw.cpib.compiler.tokens.enums.ITerminal;
 
 public interface IToken {
     ITerminal getTerminal();
-    public String toString();
+    String toString();
 }

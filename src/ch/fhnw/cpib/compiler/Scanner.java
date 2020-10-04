@@ -1,10 +1,14 @@
 package ch.fhnw.cpib.compiler;
 
 import ch.fhnw.cpib.compiler.error.LexicalError;
+import ch.fhnw.cpib.compiler.tokens.AttributeToken;
 import ch.fhnw.cpib.compiler.tokens.ITokenList;
+import ch.fhnw.cpib.compiler.tokens.KeywordToken;
 import ch.fhnw.cpib.compiler.tokens.Symbols;
 import ch.fhnw.cpib.compiler.tokens.Token;
 import ch.fhnw.cpib.compiler.tokens.TokenList;
+import ch.fhnw.cpib.compiler.tokens.enums.AttributeTerminals;
+import ch.fhnw.cpib.compiler.tokens.enums.KeywordTerminals;
 
 public class Scanner {
 
@@ -15,23 +19,23 @@ public class Scanner {
 
         int state = 0;
         long numAccu = 0L;
+        StringBuilder currentWord = new StringBuilder();
         ITokenList list = new TokenList();
 
         for (int i = 0; i < cs.length(); i++) {
             char c = cs.charAt(i);
-
             switch (state) {
                 case 0:
                     if (('A' <= c && c <= 'Z') || ('a' <= c && c <= 'z')) {
                         // is a letter
+                        currentWord.append(c);
                        state = 1;
                     } else if ('0' <= c && c <= '9') {
                         // is number
                         state = 2;
-                        int digit = Character.digit(c, 10);
-                        numAccu = digit;
                     } else if (Symbols.contains(c)) {
                         // is symbol
+                        currentWord.append(c);
                         state = 3;
                     } else if ((' ' == c) || ('\t' == c) || ('\n' == c)) {
                         // is whitespace
@@ -41,13 +45,43 @@ public class Scanner {
                     }
                     break;
                 case 1:
-
+                    if (('A' <= c && c <= 'Z') || ('a' <= c && c <= 'z') || ('0' <= c && c <= '9')) {
+                        currentWord.append(c);
+                    } else {
+                        if (KeywordTerminals.contains(currentWord.toString().toUpperCase())) {
+                            // is an keyword
+                            list.add(new KeywordToken(KeywordTerminals.valueOf(currentWord.toString())));
+                            state = 0;
+                        } else {
+                            // must be an identifier
+                            list.add(new AttributeToken<>(AttributeTerminals.IDENT, currentWord.toString()));
+                            state = 0;
+                        }
+                        currentWord.setLength(0);
+                    }
+                    break;
                 case 2:
-
+                    if ('0' <= c && c <= '9') {
+                        currentWord.append(c);
+                    } else {
+                        list.add(new AttributeToken<>(AttributeTerminals.LITERAL, Integer.valueOf(currentWord.toString())));
+                        state = 0;
+                        currentWord.setLength(0);
+                    }
+                    break;
                 case 3:
-
+                    if (c == '=') {
+                        currentWord.append(c);
+                    }
+                    state = 0;
+                    // TODO add symbol with operator
+                    list.add(new Token());
+                    currentWord.setLength(0);
+                    break;
                 case 4:
-
+                    state = 0;
+                    currentWord.setLength(0);
+                    break;
                 default:
                     throw new Error("Default");
             }

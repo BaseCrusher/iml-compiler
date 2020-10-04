@@ -5,5 +5,15 @@ public enum KeywordTerminals implements ITerminal {
     DO,
     BECOMES,
     ENDWHILE,
-    SENTINEL
+    SENTINEL;
+    
+    
+    public static boolean contains(String value) {
+        for (KeywordTerminals kt : values()) {
+            return kt.toString().equals(value);
+        }
+        return false;
+    }
+    
+    
 }

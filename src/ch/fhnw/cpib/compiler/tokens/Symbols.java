@@ -2,11 +2,12 @@ package ch.fhnw.cpib.compiler.tokens;
 
 public enum Symbols {
     EQUALS('='),
-    LT('<'),
+    LT('<'),,
     GT('>'),
     PLUS('+'),
     MINUS('-'),
     SLASH('/'),
+    BACKSLASH('\\'),
     ASTERISK('*'),
     EXCLAMARK('!'),
     SEMICOLON(';'),
