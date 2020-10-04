@@ -5,7 +5,6 @@ import ch.fhnw.cpib.compiler.tokens.AttributeToken;
 import ch.fhnw.cpib.compiler.tokens.ITokenList;
 import ch.fhnw.cpib.compiler.tokens.KeywordToken;
 import ch.fhnw.cpib.compiler.tokens.Symbols;
-import ch.fhnw.cpib.compiler.tokens.Token;
 import ch.fhnw.cpib.compiler.tokens.TokenList;
 import ch.fhnw.cpib.compiler.tokens.enums.AttributeTerminals;
 import ch.fhnw.cpib.compiler.tokens.enums.KeywordTerminals;
@@ -89,7 +88,7 @@ public class Scanner {
         if (state == 0) {
             throw new LexicalError();
         }
-        list.add(new Token());
+        list.add(new KeywordToken(KeywordTerminals.SENTINEL));
 
         return list;
     }

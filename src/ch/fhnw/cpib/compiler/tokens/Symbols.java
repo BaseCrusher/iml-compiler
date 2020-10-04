@@ -1,29 +1,36 @@
 package ch.fhnw.cpib.compiler.tokens;
 
 public enum Symbols {
-    EQUALS('='),
-    LT('<'),,
-    GT('>'),
-    PLUS('+'),
-    MINUS('-'),
-    SLASH('/'),
-    BACKSLASH('\\'),
-    ASTERISK('*'),
-    EXCLAMARK('!'),
-    SEMICOLON(';'),
-    COLON(':'),
-    COMMA(','),
-    LBRACK('('),
-    RBRACK(')'),
-    LBRACE('{'),
-    RBRACE('}'),
-    LSQBRACK('['),
-    RSQBRACK(']');
+    LPAREN("("),
+    RPAREN(")"),
+    COMMA(","),
+    SEMICOLON(";"),
+    COLON(":"),
+    BECOMES(":="),
+    TIMES("*"),
+    PLUS("+"),
+    MINUS("-"),
+    EQ("="),
+    NE("/="),
+    LT("<"),
+    GT(">"),
+    LE("<="),
+    GE(">=");
 
-    private int charVal;
+    /*
+    SLASH("/"),
+    BACKSLASH("\\"),
+    EXCLAMARK("!"),
+    LBRACE("{"),
+    RBRACE("}"),
+    LSQBRACK("["),
+    RSQBRACK("]");
+    */
 
-    private Symbols(int charVal) {
-        this.charVal = charVal;
+    private String charVal;
+
+    private Symbols(String s) {
+        this.charVal = s;
     }
 
     public static boolean contains(int value) {
