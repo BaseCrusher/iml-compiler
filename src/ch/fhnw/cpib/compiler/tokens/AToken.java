@@ -1,14 +1,14 @@
 package ch.fhnw.cpib.compiler.tokens;
 
-public class BaseToken implements IToken {
+public abstract class AToken implements IToken {
     private final Terminal terminal;
 
-    public BaseToken(Terminal t) {
+    public AToken(Terminal t) {
         terminal = t;
     }
 
     @Override
     public Terminal getTerminal() {
-        return null;
+        return terminal;
     }
 }
