@@ -1,8 +1,10 @@
 package ch.fhnw.cpib.compiler.tokens;
 
+import ch.fhnw.cpib.compiler.tokens.terminals.ITerminal;
+
 public class Token implements IToken {
     @Override
-    public Terminal getTerminal() {
+    public ITerminal getTerminal() {
         return null;
     }
 }

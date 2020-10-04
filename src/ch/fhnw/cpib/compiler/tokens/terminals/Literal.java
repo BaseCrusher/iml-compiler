@@ -1,10 +1,12 @@
-package ch.fhnw.cpib.compiler.tokens;
+package ch.fhnw.cpib.compiler.tokens.terminals;
+
+import ch.fhnw.cpib.compiler.tokens.AToken;
 
 public class Literal extends AToken {
     private final int _value;
 
     public Literal(int value) {
-        super(Terminal.LITERAL);
+        super(AttributeTerminals.LITERAL);
         _value = value;
     }
 
