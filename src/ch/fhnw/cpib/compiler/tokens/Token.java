@@ -1,6 +1,6 @@
 package ch.fhnw.cpib.compiler.tokens;
 
-import ch.fhnw.cpib.compiler.tokens.terminals.ITerminal;
+import ch.fhnw.cpib.compiler.tokens.enums.ITerminal;
 
 public class Token implements IToken {
     @Override

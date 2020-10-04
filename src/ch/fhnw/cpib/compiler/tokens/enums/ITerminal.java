@@ -1,4 +1,4 @@
-package ch.fhnw.cpib.compiler.tokens.terminals;
+package ch.fhnw.cpib.compiler.tokens.enums;
 
 public interface ITerminal {
     String toString();

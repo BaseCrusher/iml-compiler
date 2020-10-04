@@ -1,12 +1,12 @@
 package ch.fhnw.cpib.compiler.tokens;
 
-import ch.fhnw.cpib.compiler.tokens.terminals.AttributeTerminals;
-import ch.fhnw.cpib.compiler.tokens.terminals.ITerminal;
+import ch.fhnw.cpib.compiler.tokens.enums.ITerminal;
+import ch.fhnw.cpib.compiler.tokens.enums.KeywordTerminals;
 
-public abstract class AToken implements IToken {
+public class KeywordToken implements IToken {
     private final ITerminal terminal;
 
-    public AToken(ITerminal t) {
+    public KeywordToken(KeywordTerminals t) {
         terminal = t;
     }
 
