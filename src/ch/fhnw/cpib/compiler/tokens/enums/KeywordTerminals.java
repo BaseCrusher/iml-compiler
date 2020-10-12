@@ -1,5 +1,7 @@
 package ch.fhnw.cpib.compiler.tokens.enums;
 
+import ch.fhnw.cpib.compiler.tokens.enums.modes.ChangeModes;
+
 public enum KeywordTerminals implements ITerminal {
     PROGRAM,
     ENDPROGRAM,
@@ -26,13 +28,12 @@ public enum KeywordTerminals implements ITerminal {
     THEN,
     SENTINEL;
 
-
-    public static boolean contains(String value) {
-        for (KeywordTerminals kt : values()) {
-            return kt.toString().equals(value);
-        }
-        return false;
+    public static KeywordTerminals getByName(String name){
+        KeywordTerminals mode = null;
+        try {
+            mode = KeywordTerminals.valueOf(name);
+        }catch (IllegalArgumentException ignored){}
+        return mode;
     }
-
 
 }

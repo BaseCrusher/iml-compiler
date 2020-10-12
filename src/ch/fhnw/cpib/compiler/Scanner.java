@@ -4,10 +4,13 @@ import ch.fhnw.cpib.compiler.error.LexicalError;
 import ch.fhnw.cpib.compiler.tokens.AttributeToken;
 import ch.fhnw.cpib.compiler.tokens.ITokenList;
 import ch.fhnw.cpib.compiler.tokens.KeywordToken;
+import ch.fhnw.cpib.compiler.tokens.enums.ITerminal;
 import ch.fhnw.cpib.compiler.tokens.enums.dictionary.Symbols;
 import ch.fhnw.cpib.compiler.tokens.TokenList;
 import ch.fhnw.cpib.compiler.tokens.enums.AttributeTerminals;
 import ch.fhnw.cpib.compiler.tokens.enums.KeywordTerminals;
+import ch.fhnw.cpib.compiler.tokens.enums.modes.ChangeModes;
+import ch.fhnw.cpib.compiler.tokens.enums.modes.IChangeMode;
 import ch.fhnw.cpib.compiler.tokens.enums.operators.AddOperators;
 import ch.fhnw.cpib.compiler.tokens.enums.operators.IRelOperator;
 import ch.fhnw.cpib.compiler.tokens.enums.operators.MultOperators;
@@ -62,38 +65,46 @@ public class Scanner {
             // is a letter
             currentWord.append(c);
             return 1;
-        } else if ('0' <= c && c <= '9') {
+        }
+        if ('0' <= c && c <= '9') {
             // is number
             currentWord.append(c);
             return 2;
-        } else if (Symbols.contains(Character.toString(c)) > 0) {
+        }
+        if (Symbols.contains(Character.toString(c)) > 0) {
             // is symbol
             currentWord.append(c);
             return 3;
-        } else if ((' ' == c) || ('\t' == c) || ('\n' == c)) {
+        }
+        if ((' ' == c) || ('\t' == c) || ('\n' == c)) {
             // is whitespace
             return 4;
-        } else {
-            throw new LexicalError();
         }
+
+        throw new LexicalError();
     }
 
     private int letterState(char c, StringBuilder currentWord) {
         if (('A' <= c && c <= 'Z') || ('a' <= c && c <= 'z') || ('0' <= c && c <= '9') || c == '_' || c == '\'') {
             currentWord.append(c);
             return 1;
-        // TODO: all keywords that arent identifier
-        } else {
-            if (KeywordTerminals.contains(currentWord.toString().toUpperCase())) {
-                // must be a keyword
-                list.add(new KeywordToken(KeywordTerminals.valueOf(currentWord.toString())));
-            } else {
-                // must be an identifier
-                list.add(new AttributeToken<>(AttributeTerminals.IDENT, currentWord.toString()));
-            }
-            currentWord.setLength(0);
+        }
+
+        String name = currentWord.toString();
+        currentWord.setLength(0);
+
+        // Check if it is a mode
+
+        // Check if it is a keyword
+        KeywordTerminals terminal = KeywordTerminals.getByName(name);
+        if (terminal != null){
+            list.add(new KeywordToken(terminal));
             return 0;
         }
+
+        // must be an identifier
+        list.add(new AttributeToken<>(AttributeTerminals.IDENT, name));
+        return 0;
     }
 
     private int numberState(char c, StringBuilder currentWord) {
@@ -101,25 +112,24 @@ public class Scanner {
             currentWord.append(c);
             return 2;
         // TODO NATURAL INT
-        } else {
-            list.add(new AttributeToken<>(AttributeTerminals.LITERAL, Integer.valueOf(currentWord.toString())));
-            currentWord.setLength(0);
-            return 0;
         }
+
+        list.add(new AttributeToken<>(AttributeTerminals.LITERAL, Integer.valueOf(currentWord.toString())));
+        currentWord.setLength(0);
+        return 0;
     }
 
     private int symbolState(char c, StringBuilder currentWord) throws LexicalError {
         currentWord.append(c);
 
-        if (Symbols.contains(currentWord.toString()) > 1)
+        String currentString = currentWord.toString();
+        if (Symbols.contains(currentString) > 1)
             return 3;
 
-        if (Symbols.contains(Character.toString(c)) == 1) {
+        if (Symbols.contains(currentString) == 1) {
             // Checks if the currentWord is a valid symbol. if not reads another char.
-            Symbols symbol = null;
-            try {
-                symbol = Symbols.valueOf(Character.toString(c));
-            }catch (IllegalArgumentException ignored){}
+
+            Symbols symbol = Symbols.getByName(currentString);
             if(symbol == null)
                 return 3;
 
@@ -133,7 +143,7 @@ public class Scanner {
             }
             return 0;
         }
-        
+
         throw new LexicalError();
     }
 }

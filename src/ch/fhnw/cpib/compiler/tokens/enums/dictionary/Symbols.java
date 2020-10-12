@@ -38,4 +38,12 @@ public enum Symbols {
         return num;
     }
 
+    public static Symbols getByName(String name){
+        Symbols symbol = null;
+        try {
+            symbol = Symbols.valueOf(name);
+        }catch (IllegalArgumentException ignored){}
+        return symbol;
+    }
+
 }
