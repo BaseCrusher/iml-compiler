@@ -110,11 +110,20 @@ public class Scanner {
 
     private int symbolState(char c, StringBuilder currentWord) throws LexicalError {
         currentWord.append(c);
-        if (Symbols.contains(currentWord.toString()) > 1) {
-            return 3;
-        } else if (Symbols.contains(Character.toString(c)) == 1) {
 
-            Symbols symbol = Symbols.valueOf(Character.toString(c));
+        if (Symbols.contains(currentWord.toString()) > 1)
+            return 3;
+
+        if (Symbols.contains(Character.toString(c)) == 1) {
+            // Checks if the currentWord is a valid symbol. if not reads another char.
+            Symbols symbol = null;
+            try {
+                symbol = Symbols.valueOf(Character.toString(c));
+            }catch (IllegalArgumentException ignored){}
+            if(symbol == null)
+                return 3;
+
+            // Creates the right attribute to the symbol.
             if (RelOperators.contains(symbol)) {
                 list.add(new AttributeToken<IRelOperator>(AttributeTerminals.RELOPR, RelOperators.valueOf(symbol.name())));
             } else if (AddOperators.contains(symbol)) {
@@ -123,9 +132,8 @@ public class Scanner {
                 list.add(new AttributeToken<IRelOperator>(AttributeTerminals.MULOPR, RelOperators.valueOf(symbol.name())));
             }
             return 0;
-        } else if (Symbols.contains(Character.toString(c)) == 0) {
-            
-            throw new LexicalError();
         }
+        
+        throw new LexicalError();
     }
 }
