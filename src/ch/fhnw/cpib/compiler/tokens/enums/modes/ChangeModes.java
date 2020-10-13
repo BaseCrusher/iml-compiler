@@ -1,8 +1,5 @@
 package ch.fhnw.cpib.compiler.tokens.enums.modes;
 
-import ch.fhnw.cpib.compiler.tokens.enums.Inttypes;
-import ch.fhnw.cpib.compiler.tokens.enums.dictionary.Symbols;
-
 public enum ChangeModes implements IChangeMode {
 
     CONST,

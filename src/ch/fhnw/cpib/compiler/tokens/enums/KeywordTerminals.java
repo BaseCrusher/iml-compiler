@@ -4,6 +4,7 @@ import ch.fhnw.cpib.compiler.tokens.enums.modes.ChangeModes;
 
 public enum KeywordTerminals implements ITerminal {
     PROGRAM,
+    DO,
     ENDPROGRAM,
     CALL,
     IF,
@@ -11,7 +12,6 @@ public enum KeywordTerminals implements ITerminal {
     ELSEIF,
     ENDIF,
     WHILE,
-    DO,
     ENDWHILE,
     BECOMES,
     DEBUGIN,

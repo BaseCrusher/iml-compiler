@@ -1,7 +1,5 @@
 package ch.fhnw.cpib.compiler.tokens.enums.modes;
 
-import ch.fhnw.cpib.compiler.tokens.enums.Inttypes;
-
 public enum MechModes implements IMechMode {
     
     COPY,

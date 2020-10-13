@@ -1,13 +1,11 @@
-package ch.fhnw.cpib.compiler.tokens.enums;
+package ch.fhnw.cpib.compiler.tokens.enums.types;
 
-import ch.fhnw.cpib.compiler.tokens.enums.modes.ChangeModes;
-
-public enum Inttypes implements IInttype {
+public enum Inttypes implements IType {
     INT32,
     INT64,
     INT1024;
 
-    public static IInttype getByName(String name){
+    public static IType getByName(String name){
         Inttypes mode = null;
         try {
             mode = Inttypes.valueOf(name);

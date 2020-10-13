@@ -4,17 +4,16 @@ import ch.fhnw.cpib.compiler.error.LexicalError;
 import ch.fhnw.cpib.compiler.tokens.AttributeToken;
 import ch.fhnw.cpib.compiler.tokens.ITokenList;
 import ch.fhnw.cpib.compiler.tokens.KeywordToken;
-import ch.fhnw.cpib.compiler.tokens.enums.ITerminal;
+import ch.fhnw.cpib.compiler.tokens.enums.*;
 import ch.fhnw.cpib.compiler.tokens.enums.dictionary.Symbols;
 import ch.fhnw.cpib.compiler.tokens.TokenList;
-import ch.fhnw.cpib.compiler.tokens.enums.AttributeTerminals;
-import ch.fhnw.cpib.compiler.tokens.enums.KeywordTerminals;
-import ch.fhnw.cpib.compiler.tokens.enums.modes.ChangeModes;
-import ch.fhnw.cpib.compiler.tokens.enums.modes.IChangeMode;
+import ch.fhnw.cpib.compiler.tokens.enums.modes.*;
 import ch.fhnw.cpib.compiler.tokens.enums.operators.AddOperators;
 import ch.fhnw.cpib.compiler.tokens.enums.operators.IRelOperator;
 import ch.fhnw.cpib.compiler.tokens.enums.operators.MultOperators;
 import ch.fhnw.cpib.compiler.tokens.enums.operators.RelOperators;
+import ch.fhnw.cpib.compiler.tokens.enums.types.IType;
+import ch.fhnw.cpib.compiler.tokens.enums.types.Types;
 
 public class Scanner {
 
@@ -94,6 +93,30 @@ public class Scanner {
         currentWord.setLength(0);
 
         // Check if it is a mode
+        IChangeMode cMode = ChangeModes.getByName(name);
+        if (cMode != null){
+            list.add(new AttributeToken<>(AttributeTerminals.CHANGEMODE, cMode));
+            return 0;
+        }
+        IFlowMode fMode = FlowModes.getByName(name);
+        if (fMode != null){
+            list.add(new AttributeToken<>(AttributeTerminals.FLOWMODE, fMode));
+            return 0;
+        }
+        IMechMode mMode = MechModes.getByName(name);
+        if (mMode != null){
+            list.add(new AttributeToken<>(AttributeTerminals.MENCHMODE, mMode));
+            return 0;
+        }
+
+        // Check if it is a type
+        IType type = Types.getByName(name);
+        if (type != null){
+            list.add(new AttributeToken<>(AttributeTerminals.TYPE, type));
+            return 0;
+        }
+
+        // TODO: MultOperators, true, false, not
 
         // Check if it is a keyword
         KeywordTerminals terminal = KeywordTerminals.getByName(name);
@@ -102,7 +125,7 @@ public class Scanner {
             return 0;
         }
 
-        // must be an identifier
+        // Must be an identifier
         list.add(new AttributeToken<>(AttributeTerminals.IDENT, name));
         return 0;
     }

@@ -15,5 +15,10 @@ public enum AttributeTerminals implements ITerminal {
     MULOPR,
     
     // Type
-    TYPE
+    TYPE,
+
+    // Modes
+    CHANGEMODE,
+    FLOWMODE,
+    MENCHMODE
 }
