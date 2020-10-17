@@ -27,6 +27,14 @@ public enum KeywordTerminals implements ITerminal {
     SKIP,
     THEN,
     NOT,
+    LPAREN,
+    COMMA,
+    RPAREN,
+    COLON,
+    SEMICOLON,
+    PIPE,
+    LBRACK,
+    RBRACK,
     SENTINEL;
 
     public static KeywordTerminals getByName(String name){
