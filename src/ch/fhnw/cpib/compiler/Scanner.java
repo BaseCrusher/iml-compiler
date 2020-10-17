@@ -16,8 +16,9 @@ public class Scanner {
 
     public final ITokenList list = new TokenList();
 
-    int line = 0;
+    int line = 1;
     int col = 0;
+    boolean isWordFinished = false;
 
     public ITokenList scan(CharSequence cs) throws LexicalError {
         if (cs.length() == 0) {
@@ -31,6 +32,10 @@ public class Scanner {
         StringBuilder currentWord = new StringBuilder();
 
         for (int i = 0; i < cs.length(); i++) {
+            if (isWordFinished) {
+                isWordFinished = false;
+                i--;
+            }
             char c = cs.charAt(i);
             col++;
             switch (state) {
@@ -99,6 +104,7 @@ public class Scanner {
 
         String name = currentWord.toString();
         currentWord.setLength(0);
+        isWordFinished = true;
 
         // Check if it is a mode
         IChangeMode cMode = ChangeModes.getByName(name);
@@ -161,22 +167,27 @@ public class Scanner {
 
         list.add(new AttributeToken<>(AttributeTerminals.LITERAL, Integer.valueOf(currentWord.toString())));
         currentWord.setLength(0);
+        isWordFinished = true;
         return 0;
     }
 
     private int symbolState(char c, StringBuilder currentWord) throws LexicalError {
-        currentWord.append(c);
+
 
         String currentString = currentWord.toString();
-        if (Symbols.contains(currentString) > 1)
+        if (Symbols.contains(currentString) > 1) {
+            currentWord.append(c);
             return 3;
+        }
 
         if (Symbols.contains(currentString) == 1) {
             // Checks if the currentWord is a valid symbol. if not reads another char.
 
             Symbols symbol = Symbols.getByName(currentString);
-            if(symbol == null)
+            if(symbol == null) {
+                currentWord.append(c);
                 return 3;
+            }
 
             if(symbol == Symbols.COMMENT){
                 return 4;
@@ -196,6 +207,7 @@ public class Scanner {
                 list.add(new AttributeToken<>(AttributeTerminals.MULOPR, multOperator));
                 return 0;
             }
+
         }
 
         throw new LexicalError(line, col, 4);
