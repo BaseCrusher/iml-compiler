@@ -1,11 +1,13 @@
 package ch.fhnw.cpib.compiler.tokens;
 
 public interface ITokenList {
-    public void add(IToken token);
+    void add(IToken token);
 
-    public void reset();
+    void reset();
 
-    public IToken nextToken();
+    IToken nextToken();
 
-    public String toString();
+    String toString();
+
+    boolean hasSentinel();
 }

@@ -1,5 +1,7 @@
 package ch.fhnw.cpib.compiler.tokens.enums.dictionary;
 
+import java.util.Arrays;
+
 public enum Symbols {
     LPAREN("("),
     COMMA(","),
@@ -40,12 +42,9 @@ public enum Symbols {
     }
 
     public static Symbols getByName(String name){
-        Symbols symbol = null;
-
-        try {
-            symbol = Symbols.valueOf(name);
-        }catch (IllegalArgumentException ignored){}
-        return symbol;
+        return Arrays.stream(Symbols.values())
+                .filter(s -> s.charVal.equals(name))
+                .findFirst().orElse(null);
     }
 
 }
