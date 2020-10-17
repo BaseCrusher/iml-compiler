@@ -8,10 +8,7 @@ import ch.fhnw.cpib.compiler.tokens.enums.*;
 import ch.fhnw.cpib.compiler.tokens.enums.dictionary.Symbols;
 import ch.fhnw.cpib.compiler.tokens.TokenList;
 import ch.fhnw.cpib.compiler.tokens.enums.modes.*;
-import ch.fhnw.cpib.compiler.tokens.enums.operators.AddOperators;
-import ch.fhnw.cpib.compiler.tokens.enums.operators.IRelOperator;
-import ch.fhnw.cpib.compiler.tokens.enums.operators.MultOperators;
-import ch.fhnw.cpib.compiler.tokens.enums.operators.RelOperators;
+import ch.fhnw.cpib.compiler.tokens.enums.operators.*;
 import ch.fhnw.cpib.compiler.tokens.enums.types.IType;
 import ch.fhnw.cpib.compiler.tokens.enums.types.Types;
 
@@ -116,7 +113,21 @@ public class Scanner {
             return 0;
         }
 
-        // TODO: MultOperators, true, false, not
+        IMultOperator multOperator = MultOperators.getByName(name);
+        if (multOperator != null){
+            list.add(new AttributeToken<>(AttributeTerminals.MULOPR, multOperator));
+            return 0;
+        }
+
+        if (name.toLowerCase().equals("true")){
+            list.add(new AttributeToken<>(AttributeTerminals.LITERAL, true));
+            return 0;
+        }
+
+        if (name.toLowerCase().equals("false")){
+            list.add(new AttributeToken<>(AttributeTerminals.LITERAL, false));
+            return 0;
+        }
 
         // Check if it is a keyword
         KeywordTerminals terminal = KeywordTerminals.getByName(name);
@@ -159,12 +170,17 @@ public class Scanner {
             // Creates the right attribute to the symbol.
             if (RelOperators.contains(symbol)) {
                 list.add(new AttributeToken<IRelOperator>(AttributeTerminals.RELOPR, RelOperators.valueOf(symbol.name())));
-            } else if (AddOperators.contains(symbol)) {
-                list.add(new AttributeToken<IRelOperator>(AttributeTerminals.ADDOPR, RelOperators.valueOf(symbol.name())));
-            } else if (MultOperators.contains(symbol)) {
-                list.add(new AttributeToken<IRelOperator>(AttributeTerminals.MULOPR, RelOperators.valueOf(symbol.name())));
+                return 0;
             }
-            return 0;
+            if (AddOperators.contains(symbol)) {
+                list.add(new AttributeToken<IAddOperator>(AttributeTerminals.ADDOPR, AddOperators.valueOf(symbol.name())));
+                return 0;
+            }
+            IMultOperator multOperator = MultOperators.contains(symbol);
+            if (multOperator != null) {
+                list.add(new AttributeToken<IMultOperator>(AttributeTerminals.MULOPR, multOperator));
+                return 0;
+            }
         }
 
         throw new LexicalError();

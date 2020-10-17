@@ -1,0 +1,47 @@
+// BasicIML V01
+// Edgar F.A. Lederer, FHNW
+// October 2018
+// October 2020
+
+program GcdDef
+  (in a:int64, in b:int64,
+   out g:int64, out numIt:int32)
+global
+  proc gcdDefNatPlus
+    (in copy var a:int64, in copy var b:int64,
+     out copy var g:int64, out copy var numIt:int32)
+    // requires a > 0 /\? b > 0
+    // ensures g = gcd(a, b)
+  local
+    const h:int64 ; var small:int64 ; var large:int64 ; var run:bool
+  do
+    h init := a ; if a > b then a := b ; b := h endif ;
+    // assert a <= b
+    g init := 1 ;
+    small init := 1 ;
+    large init := a ;
+    run init := true ;
+    numIt init := 0 ;
+    while run /\? small * small <= a do
+      if a modE small = 0 then
+        large := a divE small ;
+        // assert a = small * large /\? small <= large
+        if b modE large = 0 then
+          g := large ;
+          run := false
+        else
+          if b modE small = 0 then
+            g := small
+          endif ;
+          small := small + 1 ;
+          numIt := numIt + 1
+        endif
+      else
+        small := small + 1 ;
+        numIt := numIt + 1
+      endif
+    endwhile
+  endproc
+do
+  call gcdDefNatPlus(a, b, g init, numIt init)
+endprogram

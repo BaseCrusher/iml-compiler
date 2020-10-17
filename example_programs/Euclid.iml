@@ -1,0 +1,57 @@
+// BasicIML V01
+// Edgar F.A. Lederer, FHNW
+// October 2018
+// October 2020
+
+program Euclid
+  (in a:int1024, in b:int1024,
+   out g:int1024, out numIt:int32)
+global
+  proc euclidDivNat
+    (in copy const a:int1024, in copy const b:int1024,
+     out copy var g:int1024, out copy var numIt:int32)
+    //requires a >= 0 /\? b >= 0
+    //ensures g = gcd(a, b) >= 0
+  local
+    var g':int1024
+  do
+    g init := a ; g' init := b ;
+    numIt init := 0 ;
+    while g' > 0
+      //invariant g >= 0 /\? g' >= 0
+      //invariant gcd(g, g') = gcd(a, b)
+      //decreases g'
+    do
+      g := g modE g' ;
+      call swap(g, g') ;
+      numIt := numIt + 1
+    endwhile
+  endproc ;
+
+  proc swap(inout ref var x:int1024, inout ref var y:int1024)
+  local const h:int1024
+  do h init := x ; x := y ; y := h endproc ;
+
+  const a1:int1024 ;
+  const b1:int1024
+do
+  a1 init := // 300 Stellen
+    1234567890'1234567890'1234567890'1234567890'1234567890'1234567890'
+    1234567890'1234567890'1234567890'1234567890'1234567890'1234567890'
+    1234567890'1234567890'1234567890'1234567890'1234567890'1234567890'
+    1234567890'1234567890'1234567890'1234567890'1234567890'1234567890'
+    1234567890'1234567890'1234567890'1234567890'1234567890'1234567890 ;
+
+  b1 init := // 300 Stellen
+    1234567890'0987654321'0987654321'0987654321'0987654321'0987654321'
+    1234567890'0987654321'0987654321'0987654321'0987654321'0987654321'
+    1234567890'0987654321'0987654321'0987654321'0987654321'0987654321'
+    1234567890'0987654321'0987654321'0987654321'0987654321'0987654321'
+    1234567890'0987654321'0987654321'0987654321'0987654321'0987654321 ;
+
+  if true then
+    call euclidDivNat(a, b, g init, numIt init)
+  else
+    call euclidDivNat(a1, b1, g init, numIt init)
+  endif
+endprogram
