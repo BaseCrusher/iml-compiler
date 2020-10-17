@@ -16,17 +16,23 @@ public class Scanner {
 
     public final ITokenList list = new TokenList();
 
+    int line = 0;
+    int col = 0;
+
     public ITokenList scan(CharSequence cs) throws LexicalError {
-        if (cs.length() == 0 || cs.charAt(cs.length() - 1) == '\n') {
-            throw new LexicalError();
+        if (cs.length() == 0) {
+            throw new LexicalError(0, 0, -1);
+        }
+        if (cs.charAt(cs.length() - 1) != '\n') {
+            throw new LexicalError(-1, cs.charAt(cs.length() - 1), -1);
         }
 
         int state = 0;
-        long numAccu = 0L;
         StringBuilder currentWord = new StringBuilder();
 
         for (int i = 0; i < cs.length(); i++) {
             char c = cs.charAt(i);
+            col++;
             switch (state) {
                 case 0:
                     state = initState(c, currentWord);
@@ -44,17 +50,22 @@ public class Scanner {
                     state = 0;
                     currentWord.setLength(0);
                     break;
+                case 5:
+                    state = commentState(c, currentWord);
+                    break;
                 default:
                     throw new Error("Default");
             }
         }
         if (state == 0) {
-            throw new LexicalError();
+            throw new LexicalError(line, col, 0);
         }
         list.add(new KeywordToken(KeywordTerminals.SENTINEL));
 
         return list;
     }
+
+
 
     private int initState(char c, StringBuilder currentWord) throws LexicalError {
         if (('A' <= c && c <= 'Z') || ('a' <= c && c <= 'z')) {
@@ -74,10 +85,13 @@ public class Scanner {
         }
         if ((' ' == c) || ('\t' == c) || ('\n' == c)) {
             // is whitespace
+            if ('\n' == c) {
+                line++;
+                col = 0;
+            }
             return 4;
         }
-
-        throw new LexicalError();
+        throw new LexicalError(line, col, 0);
     }
 
     private int letterState(char c, StringBuilder currentWord) {
@@ -167,6 +181,10 @@ public class Scanner {
             if(symbol == null)
                 return 3;
 
+            if(symbol == Symbols.COMMENT){
+                return 5;
+            }
+
             // Creates the right attribute to the symbol.
             if (RelOperators.contains(symbol)) {
                 list.add(new AttributeToken<IRelOperator>(AttributeTerminals.RELOPR, RelOperators.valueOf(symbol.name())));
@@ -178,11 +196,19 @@ public class Scanner {
             }
             IMultOperator multOperator = MultOperators.contains(symbol);
             if (multOperator != null) {
-                list.add(new AttributeToken<IMultOperator>(AttributeTerminals.MULOPR, multOperator));
+                list.add(new AttributeToken<>(AttributeTerminals.MULOPR, multOperator));
                 return 0;
             }
         }
 
-        throw new LexicalError();
+        throw new LexicalError(line, col, 4);
+    }
+
+    private int commentState(char c, StringBuilder currentWord) {
+        if (c != '\n'){
+            return 5;
+        }
+        currentWord.setLength(0);
+        return 0;
     }
 }

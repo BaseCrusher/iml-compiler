@@ -20,7 +20,8 @@ public enum Symbols {
     TIMES("*"),
     LBRACK("["),
     RBRACK("]"),
-    PIPE("|");
+    PIPE("|"),
+    COMMENT("//");
 
     private final String charVal;
 
@@ -31,7 +32,7 @@ public enum Symbols {
     public static int contains(String value) {
         int num = 0;
         for (Symbols s : values()) {
-            if (value.contains(s.charVal)) {
+            if (s.charVal.contains(value)) {
                 num++;
             }
         }
@@ -40,6 +41,7 @@ public enum Symbols {
 
     public static Symbols getByName(String name){
         Symbols symbol = null;
+
         try {
             symbol = Symbols.valueOf(name);
         }catch (IllegalArgumentException ignored){}
