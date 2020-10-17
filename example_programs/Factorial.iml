@@ -1,0 +1,73 @@
+// BasicIML V01
+// Edgar F.A. Lederer, FHNW
+// January 2020
+// October 2020
+
+program Factorial
+  (in n:int32, out factRec1024:int1024, out allEqual:bool)
+global
+  // 170! ok, 171! overflow
+  fun factRec1024(n:int32) returns const fact:int1024
+  do
+    if n = 0 then
+      fact init := 1
+    else
+      fact init := n * factRec1024(n-1)
+    endif
+  endfun;
+
+  // 170! ok, 171! overflow
+  fun fact1024(n:int32) returns var fact:int1024
+  local
+    var i:int32
+  do
+    fact init := 1;
+    i    init := 2;
+    while i <= n do
+      fact := fact * i;
+      i    := i + 1
+    endwhile
+  endfun;
+
+  // 20! ok, 21! overflow
+  fun fact64(n:int32) returns var fact:int64
+  local
+    var i:int32
+  do
+    fact init := 1;
+    i    init := 2;
+    while i <= n do
+      fact := fact * i;
+      i    := i + 1
+    endwhile
+  endfun;
+
+  // 12! ok, 13! overflow
+  fun fact32(n:int32) returns var fact:int32
+  local
+    var i:int32
+  do
+    fact init := 1;
+    i    init := 2;
+    while i <= n do
+      fact := fact * i;
+      i    := i + 1
+    endwhile
+  endfun;
+
+  fact1024:int1024;
+  fact64:int64;
+  fact32:int32
+do
+  factRec1024 init := factRec1024(n);
+  debugout factRec1024;
+  fact1024 init := fact1024(n);
+  debugout fact1024;
+  fact64 init := fact64(n);
+  debugout fact64;
+  fact32 init := fact32(n);
+  debugout fact32;
+
+  allEqual init :=
+    factRec1024 = fact1024 /\? fact1024 = fact64 /\? fact64 = fact32
+endprogram

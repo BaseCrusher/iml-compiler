@@ -1,0 +1,24 @@
+// BasicIML V01
+// Edgar F.A. Lederer, FHNW
+// October 2020
+
+program intDiv(in  a:int32, in  b:int32,
+               out q:int32, out r:int32)
+global
+  proc divide(in copy const a:int32, in copy const b:int32,
+              out ref var   q:int32, out ref var   r:int32)
+    //requires a >= 0 /\? b > 0
+    //ensures a = b * q + r /\? 0 <= r < b
+  do
+    q init := 0;
+    r init := a;
+    while r >= b
+      //invar a = b * q + r /\? 0 <= r
+    do
+      q := q + 1;
+      r := r - b
+    endwhile
+  endproc
+do
+  call divide(a, b, q init, r init)
+endprogram

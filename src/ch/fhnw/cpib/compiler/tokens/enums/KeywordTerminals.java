@@ -26,6 +26,7 @@ public enum KeywordTerminals implements ITerminal {
     RETURNS,
     SKIP,
     THEN,
+    NOT,
     SENTINEL;
 
     public static KeywordTerminals getByName(String name){
