@@ -47,10 +47,6 @@ public class Scanner {
                     state = symbolState(c, currentWord);
                     break;
                 case 4:
-                    state = 0;
-                    currentWord.setLength(0);
-                    break;
-                case 5:
                     state = commentState(c, currentWord);
                     break;
                 default:
@@ -89,7 +85,8 @@ public class Scanner {
                 line++;
                 col = 0;
             }
-            return 4;
+            currentWord.setLength(0);
+            return 0;
         }
         throw new LexicalError(line, col, 0);
     }
@@ -182,7 +179,7 @@ public class Scanner {
                 return 3;
 
             if(symbol == Symbols.COMMENT){
-                return 5;
+                return 4;
             }
 
             // Creates the right attribute to the symbol.
@@ -206,8 +203,10 @@ public class Scanner {
 
     private int commentState(char c, StringBuilder currentWord) {
         if (c != '\n'){
-            return 5;
+            return 4;
         }
+        line++;
+        col = 0;
         currentWord.setLength(0);
         return 0;
     }

@@ -1,6 +1,6 @@
 package ch.fhnw.cpib.compiler.tokens.enums;
 
-import ch.fhnw.cpib.compiler.tokens.enums.modes.ChangeModes;
+import java.util.Arrays;
 
 public enum KeywordTerminals implements ITerminal {
     PROGRAM,
@@ -30,11 +30,10 @@ public enum KeywordTerminals implements ITerminal {
     SENTINEL;
 
     public static KeywordTerminals getByName(String name){
-        KeywordTerminals mode = null;
-        try {
-            mode = KeywordTerminals.valueOf(name);
-        }catch (IllegalArgumentException ignored){}
-        return mode;
+        String uppercaseName = name.toUpperCase();
+        return Arrays.stream(KeywordTerminals.values())
+                .filter(s -> s.name().equals(uppercaseName))
+                .findFirst().orElse(null);
     }
 
 }

@@ -1,15 +1,16 @@
 package ch.fhnw.cpib.compiler.tokens.enums.modes;
 
+import java.util.Arrays;
+
 public enum MechModes implements IMechMode {
     
     COPY,
     REF;
 
     public static IMechMode getByName(String name){
-        MechModes mode = null;
-        try {
-            mode = MechModes.valueOf(name);
-        }catch (IllegalArgumentException ignored){}
-        return mode;
+        String uppercaseName = name.toUpperCase();
+        return Arrays.stream(MechModes.values())
+                .filter(s -> s.name().equals(uppercaseName))
+                .findFirst().orElse(null);
     }
 }

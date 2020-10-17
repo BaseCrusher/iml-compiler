@@ -1,5 +1,7 @@
 package ch.fhnw.cpib.compiler.tokens.enums.modes;
 
+import java.util.Arrays;
+
 public enum FlowModes implements IFlowMode {
     
     IN,
@@ -7,10 +9,9 @@ public enum FlowModes implements IFlowMode {
     INOUT;
 
     public static IFlowMode getByName(String name){
-        FlowModes mode = null;
-        try {
-            mode = FlowModes.valueOf(name);
-        }catch (IllegalArgumentException ignored){}
-        return mode;
+        String uppercaseName = name.toUpperCase();
+        return Arrays.stream(FlowModes.values())
+                .filter(s -> s.name().equals(uppercaseName))
+                .findFirst().orElse(null);
     }
 }
