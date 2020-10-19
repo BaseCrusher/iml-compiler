@@ -36,7 +36,7 @@ public class Scanner {
         if (cs.charAt(cs.length() - 1) != '\n') {
             throw new LexicalError(-1, column, state);
         }
-        char currentChar = ' ';
+        char currentChar;
         state = ScannerState.InitState;
         for (int i = 0; i < cs.length(); i++) {
             currentChar = cs.charAt(i);
@@ -176,7 +176,9 @@ public class Scanner {
         if ('0' <= currentChar && currentChar <= '9') {
             currentRead.append(currentRead);
             return;
-            // TODO NATURAL INT
+        }
+        if (currentChar == '\'') {
+            return;
         }
 
         String s = currentRead.toString();
