@@ -58,7 +58,7 @@ public class Scanner {
                     processCommentState(currentChar);
                     break;
                 default:
-                    break;
+                    throw new LexicalError(line, column, state);
             }
             // Sets line and char counter correctly
             if (currentChar == '\n'){
@@ -145,7 +145,7 @@ public class Scanner {
         // check if it is a mult operator
         IMultOperator multOperator = MultOperators.getByName(name);
         if (multOperator != null){
-            list.add(new AttributeToken<>(AttributeTerminals.MULOPR, multOperator));
+            list.add(new AttributeToken<>(AttributeTerminals.MULTOPR, multOperator));
             return;
         }
 
@@ -229,9 +229,15 @@ public class Scanner {
             }
             IMultOperator multOperator = MultOperators.contains(symbol);
             if (multOperator != null) {
-                list.add(new AttributeToken<>(AttributeTerminals.MULOPR, multOperator));
+                list.add(new AttributeToken<>(AttributeTerminals.MULTOPR, multOperator));
                 return;
             }
+            IBoolOperator boolOperator = BoolOperators.getByName(symbol.name());
+            if (boolOperator != null) {
+                list.add(new AttributeToken<>(AttributeTerminals.BOOLOPR, boolOperator));
+                return;
+            }
+
             KeywordTerminals keywordTerminal = KeywordTerminals.getByName(symbol.name());
             if (keywordTerminal != null) {
                 list.add(new KeywordToken(keywordTerminal));

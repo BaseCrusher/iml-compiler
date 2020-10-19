@@ -11,50 +11,76 @@ public class Main {
         try {
             ITokenList bla = s.scan("// BasicIML V01\n" +
                     "// Edgar F.A. Lederer, FHNW\n" +
-                    "// October 2018\n" +
+                    "// January 2020\n" +
                     "// October 2020\n" +
                     "\n" +
-                    "program GcdDef\n" +
-                    "  (in a:int64, in b:int64,\n" +
-                    "   out g:int64, out numIt:int32)\n" +
+                    "program Factorial\n" +
+                    "  (in n:int32, out factRec1024:int1024, out allEqual:bool)\n" +
                     "global\n" +
-                    "  proc gcdDefNatPlus\n" +
-                    "    (in copy var a:int64, in copy var b:int64,\n" +
-                    "     out copy var g:int64, out copy var numIt:int32)\n" +
-                    "    // requires a > 0 /\\? b > 0\n" +
-                    "    // ensures g = gcd(a, b)\n" +
-                    "  local\n" +
-                    "    const h:int64 ; var small:int64 ; var large:int64 ; var run:bool\n" +
+                    "  // 170! ok, 171! overflow\n" +
+                    "  fun factRec1024(n:int32) returns const fact:int1024\n" +
                     "  do\n" +
-                    "    h init := a ; if a > b then a := b ; b := h endif ;\n" +
-                    "    // assert a <= b\n" +
-                    "    g init := 1 ;\n" +
-                    "    small init := 1 ;\n" +
-                    "    large init := a ;\n" +
-                    "    run init := true ;\n" +
-                    "    numIt init := 0 ;\n" +
-                    "    while run /\\? small * small <= a do\n" +
-                    "      if a modE small = 0 then\n" +
-                    "        large := a divE small ;\n" +
-                    "        // assert a = small * large /\\? small <= large\n" +
-                    "        if b modE large = 0 then\n" +
-                    "          g := large ;\n" +
-                    "          run := false\n" +
-                    "        else\n" +
-                    "          if b modE small = 0 then\n" +
-                    "            g := small\n" +
-                    "          endif ;\n" +
-                    "          small := small + 1 ;\n" +
-                    "          numIt := numIt + 1\n" +
-                    "        endif\n" +
-                    "      else\n" +
-                    "        small := small + 1 ;\n" +
-                    "        numIt := numIt + 1\n" +
-                    "      endif\n" +
+                    "    if n = 0 then\n" +
+                    "      fact init := 1\n" +
+                    "    else\n" +
+                    "      fact init := n * factRec1024(n-1)\n" +
+                    "    endif\n" +
+                    "  endfun;\n" +
+                    "\n" +
+                    "  // 170! ok, 171! overflow\n" +
+                    "  fun fact1024(n:int32) returns var fact:int1024\n" +
+                    "  local\n" +
+                    "    var i:int32\n" +
+                    "  do\n" +
+                    "    fact init := 1;\n" +
+                    "    i    init := 2;\n" +
+                    "    while i <= n do\n" +
+                    "      fact := fact * i;\n" +
+                    "      i    := i + 1\n" +
                     "    endwhile\n" +
-                    "  endproc\n" +
+                    "  endfun;\n" +
+                    "\n" +
+                    "  // 20! ok, 21! overflow\n" +
+                    "  fun fact64(n:int32) returns var fact:int64\n" +
+                    "  local\n" +
+                    "    var i:int32\n" +
+                    "  do\n" +
+                    "    fact init := 1;\n" +
+                    "    i    init := 2;\n" +
+                    "    while i <= n do\n" +
+                    "      fact := fact * i;\n" +
+                    "      i    := i + 1\n" +
+                    "    endwhile\n" +
+                    "  endfun;\n" +
+                    "\n" +
+                    "  // 12! ok, 13! overflow\n" +
+                    "  fun fact32(n:int32) returns var fact:int32\n" +
+                    "  local\n" +
+                    "    var i:int32\n" +
+                    "  do\n" +
+                    "    fact init := 1;\n" +
+                    "    i    init := 2;\n" +
+                    "    while i <= n do\n" +
+                    "      fact := fact * i;\n" +
+                    "      i    := i + 1\n" +
+                    "    endwhile\n" +
+                    "  endfun;\n" +
+                    "\n" +
+                    "  fact1024:int1024;\n" +
+                    "  fact64:int64;\n" +
+                    "  fact32:int32\n" +
                     "do\n" +
-                    "  call gcdDefNatPlus(a, b, g init, numIt init)\n" +
+                    "  factRec1024 init := factRec1024(n);\n" +
+                    "  debugout factRec1024;\n" +
+                    "  fact1024 init := fact1024(n);\n" +
+                    "  debugout fact1024;\n" +
+                    "  fact64 init := fact64(n);\n" +
+                    "  debugout fact64;\n" +
+                    "  fact32 init := fact32(n);\n" +
+                    "  debugout fact32;\n" +
+                    "\n" +
+                    "  allEqual init :=\n" +
+                    "    factRec1024 = fact1024 /\\? fact1024 = fact64 /\\? fact64 = fact32\n" +
                     "endprogram\n");
 
             System.out.println(bla);
