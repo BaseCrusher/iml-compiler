@@ -1,11 +1,13 @@
 package ch.fhnw.cpib.compiler.error;
 
+import ch.fhnw.cpib.compiler.Scanner;
+
 public class LexicalError extends Throwable {
     int line;
     int col;
-    int state;
+    Scanner.ScannerState state;
 
-    public LexicalError(int line, int col, int state){
+    public LexicalError(int line, int col, Scanner.ScannerState state){
         this.line = line;
         this.col = col;
         this.state = state;

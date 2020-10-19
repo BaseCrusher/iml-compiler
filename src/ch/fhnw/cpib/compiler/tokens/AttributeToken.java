@@ -19,6 +19,10 @@ public class AttributeToken<T> implements IToken {
 
     @Override
     public String toString(){
-        return "(" + _terminal.toString() + ";" + _value + ")";
+        String tempValue = _value.toString();
+        if (_value instanceof String) {
+            tempValue = "\""+_value+"\"";
+        }
+        return "(" + _terminal.toString() + "; " + tempValue + ")";
     }
 }

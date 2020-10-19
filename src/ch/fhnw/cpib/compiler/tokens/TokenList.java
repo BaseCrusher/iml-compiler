@@ -36,7 +36,7 @@ public class TokenList implements ITokenList {
         StringBuilder sb = new StringBuilder();
         for (IToken token : list){
             sb.append(token.toString());
-            sb.append(",");
+            sb.append(", ");
         }
         sb.setLength(sb.length()-1);
         return sb.toString();
