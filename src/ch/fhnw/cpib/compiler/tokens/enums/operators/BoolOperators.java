@@ -4,8 +4,8 @@ import java.util.Arrays;
 
 public enum BoolOperators implements IBoolOperator{
     NOT,
-    AND,
-    OR;
+    CON_AND,
+    CON_OR;
 
     public static BoolOperators getByName(String name){
         String uppercaseName = name.toUpperCase();

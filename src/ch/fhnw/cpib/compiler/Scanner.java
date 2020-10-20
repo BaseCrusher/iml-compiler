@@ -12,6 +12,8 @@ import ch.fhnw.cpib.compiler.tokens.enums.operators.*;
 import ch.fhnw.cpib.compiler.tokens.enums.types.IType;
 import ch.fhnw.cpib.compiler.tokens.enums.types.Types;
 
+import java.math.BigInteger;
+
 public class Scanner {
     public enum ScannerState {
         UnknownState,
@@ -96,7 +98,7 @@ public class Scanner {
             processSymbolState(currentChar);
             return;
         }
-        if ((' ' == currentChar) || ('\t' == currentChar) || ('\n' == currentChar)) {
+        if (isWhitespace(currentChar)) {
             // is whitespace
             state = ScannerState.InitState;
             return;
@@ -174,15 +176,16 @@ public class Scanner {
 
     private void processNumberState(char currentChar) {
         if ('0' <= currentChar && currentChar <= '9') {
-            currentRead.append(currentRead);
+            currentRead.append(currentChar);
             return;
         }
-        if (currentChar == '\'') {
+        if (currentChar == '\'' || isWhitespace(currentChar)) {
             return;
         }
 
         String s = currentRead.toString();
-        list.add(new AttributeToken<>(AttributeTerminals.LITERAL, s));
+        BigInteger integer = new BigInteger(s);
+        list.add(new AttributeToken<>(AttributeTerminals.LITERAL, integer));
         state = ScannerState.InitState;
         currentRead.setLength(0);
         isWordFinished = true;
@@ -257,5 +260,9 @@ public class Scanner {
             return;
         }
         state = ScannerState.InitState;
+    }
+
+    private boolean isWhitespace(char currentChar){
+        return (' ' == currentChar) || ('\t' == currentChar) || ('\n' == currentChar);
     }
 }

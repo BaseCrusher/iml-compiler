@@ -11,76 +11,60 @@ public class Main {
         try {
             ITokenList bla = s.scan("// BasicIML V01\n" +
                     "// Edgar F.A. Lederer, FHNW\n" +
-                    "// January 2020\n" +
+                    "// October 2018\n" +
                     "// October 2020\n" +
                     "\n" +
-                    "program Factorial\n" +
-                    "  (in n:int32, out factRec1024:int1024, out allEqual:bool)\n" +
+                    "program Euclid\n" +
+                    "  (in a:int1024, in b:int1024,\n" +
+                    "   out g:int1024, out numIt:int32)\n" +
                     "global\n" +
-                    "  // 170! ok, 171! overflow\n" +
-                    "  fun factRec1024(n:int32) returns const fact:int1024\n" +
-                    "  do\n" +
-                    "    if n = 0 then\n" +
-                    "      fact init := 1\n" +
-                    "    else\n" +
-                    "      fact init := n * factRec1024(n-1)\n" +
-                    "    endif\n" +
-                    "  endfun;\n" +
-                    "\n" +
-                    "  // 170! ok, 171! overflow\n" +
-                    "  fun fact1024(n:int32) returns var fact:int1024\n" +
+                    "  proc euclidDivNat\n" +
+                    "    (in copy const a:int1024, in copy const b:int1024,\n" +
+                    "     out copy var g:int1024, out copy var numIt:int32)\n" +
+                    "    //requires a >= 0 /\\? b >= 0\n" +
+                    "    //ensures g = gcd(a, b) >= 0\n" +
                     "  local\n" +
-                    "    var i:int32\n" +
+                    "    var g':int1024\n" +
                     "  do\n" +
-                    "    fact init := 1;\n" +
-                    "    i    init := 2;\n" +
-                    "    while i <= n do\n" +
-                    "      fact := fact * i;\n" +
-                    "      i    := i + 1\n" +
+                    "    g init := a ; g' init := b ;\n" +
+                    "    numIt init := 0 ;\n" +
+                    "    while g' > 0\n" +
+                    "      //invariant g >= 0 /\\? g' >= 0\n" +
+                    "      //invariant gcd(g, g') = gcd(a, b)\n" +
+                    "      //decreases g'\n" +
+                    "    do\n" +
+                    "      g := g modE g' ;\n" +
+                    "      call swap(g, g') ;\n" +
+                    "      numIt := numIt + 1\n" +
                     "    endwhile\n" +
-                    "  endfun;\n" +
+                    "  endproc ;\n" +
                     "\n" +
-                    "  // 20! ok, 21! overflow\n" +
-                    "  fun fact64(n:int32) returns var fact:int64\n" +
-                    "  local\n" +
-                    "    var i:int32\n" +
-                    "  do\n" +
-                    "    fact init := 1;\n" +
-                    "    i    init := 2;\n" +
-                    "    while i <= n do\n" +
-                    "      fact := fact * i;\n" +
-                    "      i    := i + 1\n" +
-                    "    endwhile\n" +
-                    "  endfun;\n" +
+                    "  proc swap(inout ref var x:int1024, inout ref var y:int1024)\n" +
+                    "  local const h:int1024\n" +
+                    "  do h init := x ; x := y ; y := h endproc ;\n" +
                     "\n" +
-                    "  // 12! ok, 13! overflow\n" +
-                    "  fun fact32(n:int32) returns var fact:int32\n" +
-                    "  local\n" +
-                    "    var i:int32\n" +
-                    "  do\n" +
-                    "    fact init := 1;\n" +
-                    "    i    init := 2;\n" +
-                    "    while i <= n do\n" +
-                    "      fact := fact * i;\n" +
-                    "      i    := i + 1\n" +
-                    "    endwhile\n" +
-                    "  endfun;\n" +
-                    "\n" +
-                    "  fact1024:int1024;\n" +
-                    "  fact64:int64;\n" +
-                    "  fact32:int32\n" +
+                    "  const a1:int1024 ;\n" +
+                    "  const b1:int1024\n" +
                     "do\n" +
-                    "  factRec1024 init := factRec1024(n);\n" +
-                    "  debugout factRec1024;\n" +
-                    "  fact1024 init := fact1024(n);\n" +
-                    "  debugout fact1024;\n" +
-                    "  fact64 init := fact64(n);\n" +
-                    "  debugout fact64;\n" +
-                    "  fact32 init := fact32(n);\n" +
-                    "  debugout fact32;\n" +
+                    "  a1 init := // 300 Stellen\n" +
+                    "    1234567890'1234567890'1234567890'1234567890'1234567890'1234567890'\n" +
+                    "    1234567890'1234567890'1234567890'1234567890'1234567890'1234567890'\n" +
+                    "    1234567890'1234567890'1234567890'1234567890'1234567890'1234567890'\n" +
+                    "    1234567890'1234567890'1234567890'1234567890'1234567890'1234567890'\n" +
+                    "    1234567890'1234567890'1234567890'1234567890'1234567890'1234567890 ;\n" +
                     "\n" +
-                    "  allEqual init :=\n" +
-                    "    factRec1024 = fact1024 /\\? fact1024 = fact64 /\\? fact64 = fact32\n" +
+                    "  b1 init := // 300 Stellen\n" +
+                    "    1234567890'0987654321'0987654321'0987654321'0987654321'0987654321'\n" +
+                    "    1234567890'0987654321'0987654321'0987654321'0987654321'0987654321'\n" +
+                    "    1234567890'0987654321'0987654321'0987654321'0987654321'0987654321'\n" +
+                    "    1234567890'0987654321'0987654321'0987654321'0987654321'0987654321'\n" +
+                    "    1234567890'0987654321'0987654321'0987654321'0987654321'0987654321 ;\n" +
+                    "\n" +
+                    "  if true then\n" +
+                    "    call euclidDivNat(a, b, g init, numIt init)\n" +
+                    "  else\n" +
+                    "    call euclidDivNat(a1, b1, g init, numIt init)\n" +
+                    "  endif\n" +
                     "endprogram\n");
 
             System.out.println(bla);
