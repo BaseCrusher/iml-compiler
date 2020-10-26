@@ -3,7 +3,6 @@ package ch.fhnw.cpib.compiler.tokens.enums.operators;
 import java.util.Arrays;
 
 public enum BoolOperators implements IBoolOperator{
-    NOT,
     CON_AND,
     CON_OR;
 

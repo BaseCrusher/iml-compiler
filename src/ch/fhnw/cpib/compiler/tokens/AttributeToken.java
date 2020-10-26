@@ -6,10 +6,14 @@ import ch.fhnw.cpib.compiler.tokens.enums.ITerminal;
 public class AttributeToken<T> implements IToken {
     private final T _value;
     private final ITerminal _terminal;
+    private final int line;
+    private final int column;
 
-    public AttributeToken(AttributeTerminals terminal, T value) {
+    public AttributeToken(AttributeTerminals terminal, T value, int line, int column) {
         _value = value;
         _terminal = terminal;
+        this.line = line;
+        this.column = column;
     }
 
     @Override
@@ -24,5 +28,15 @@ public class AttributeToken<T> implements IToken {
             tempValue = "\""+_value+"\"";
         }
         return "(" + _terminal.toString() + "; " + tempValue + ")";
+    }
+
+    @Override
+    public int getLine() {
+        return line;
+    }
+
+    @Override
+    public int getColumn() {
+        return column;
     }
 }

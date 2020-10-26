@@ -75,7 +75,7 @@ public class Scanner {
             isWordFinished = false;
         }
 
-        list.add(new KeywordToken(KeywordTerminals.SENTINEL));
+        list.add(new KeywordToken(KeywordTerminals.SENTINEL, line, column));
         return list;
     }
 
@@ -123,55 +123,61 @@ public class Scanner {
         // Check if it is a mode
         IChangeMode cMode = ChangeModes.getByName(name);
         if (cMode != null){
-            list.add(new AttributeToken<>(AttributeTerminals.CHANGEMODE, cMode));
+            list.add(new AttributeToken<>(AttributeTerminals.CHANGEMODE, cMode, line, column));
             return;
         }
         IFlowMode fMode = FlowModes.getByName(name);
         if (fMode != null){
-            list.add(new AttributeToken<>(AttributeTerminals.FLOWMODE, fMode));
+            list.add(new AttributeToken<>(AttributeTerminals.FLOWMODE, fMode, line, column));
             return;
         }
         IMechMode mMode = MechModes.getByName(name);
         if (mMode != null){
-            list.add(new AttributeToken<>(AttributeTerminals.MENCHMODE, mMode));
+            list.add(new AttributeToken<>(AttributeTerminals.MENCHMODE, mMode, line, column));
             return;
         }
 
         // Check if it is a type
         IType type = Types.getByName(name);
         if (type != null){
-            list.add(new AttributeToken<>(AttributeTerminals.TYPE, type));
+            list.add(new AttributeToken<>(AttributeTerminals.TYPE, type, line, column));
             return;
         }
 
         // check if it is a mult operator
         IMultOperator multOperator = MultOperators.getByName(name);
         if (multOperator != null){
-            list.add(new AttributeToken<>(AttributeTerminals.MULTOPR, multOperator));
+            list.add(new AttributeToken<>(AttributeTerminals.MULTOPR, multOperator, line, column));
             return;
         }
 
         // check if it is "true"
         if (name.toLowerCase().equals("true")) {
-            list.add(new AttributeToken<>(AttributeTerminals.LITERAL, true));
+            list.add(new AttributeToken<>(AttributeTerminals.LITERAL, true, line, column));
             return;
         }
 
         // check if it is "false"
         if (name.toLowerCase().equals("false")) {
-            list.add(new AttributeToken<>(AttributeTerminals.LITERAL, false));
+            list.add(new AttributeToken<>(AttributeTerminals.LITERAL, false, line, column));
+            return;
+        }
+
+        // check if it is "not"
+        if (name.toLowerCase().equals("not")) {
+            list.add(new AttributeToken<>(AttributeTerminals.MONOOPR, MonoOperators.NOT, line, column));
             return;
         }
 
         // Check if it is a keyword
         KeywordTerminals terminal = KeywordTerminals.getByName(name);
         if (terminal != null){
-            list.add(new KeywordToken(terminal));
+            list.add(new KeywordToken(terminal, line, column));
             return;
         }
 
         // Must be an identifier
-        list.add(new AttributeToken<>(AttributeTerminals.IDENT, name));
+        list.add(new AttributeToken<>(AttributeTerminals.IDENT, name, line, column));
     }
 
     private void processNumberState(char currentChar) {
@@ -185,7 +191,7 @@ public class Scanner {
 
         String s = currentRead.toString();
         BigInteger integer = new BigInteger(s);
-        list.add(new AttributeToken<>(AttributeTerminals.LITERAL, integer));
+        list.add(new AttributeToken<>(AttributeTerminals.LITERAL, integer, line, column));
         state = ScannerState.InitState;
         currentRead.setLength(0);
         isWordFinished = true;
@@ -225,27 +231,27 @@ public class Scanner {
             // Creates the right attribute to the symbol.
             state = ScannerState.InitState;
             if (RelOperators.contains(symbol)) {
-                list.add(new AttributeToken<IRelOperator>(AttributeTerminals.RELOPR, RelOperators.valueOf(symbol.name())));
+                list.add(new AttributeToken<IRelOperator>(AttributeTerminals.RELOPR, RelOperators.valueOf(symbol.name()), line, column));
                 return;
             }
-            if (AddOperators.contains(symbol)) {
-                list.add(new AttributeToken<IAddOperator>(AttributeTerminals.ADDOPR, AddOperators.valueOf(symbol.name())));
+            if (MonoOperators.contains(symbol)) {
+                list.add(new AttributeToken<IMonoOperator>(AttributeTerminals.MONOOPR, MonoOperators.valueOf(symbol.name()), line, column));
                 return;
             }
             IMultOperator multOperator = MultOperators.contains(symbol);
             if (multOperator != null) {
-                list.add(new AttributeToken<>(AttributeTerminals.MULTOPR, multOperator));
+                list.add(new AttributeToken<>(AttributeTerminals.MULTOPR, multOperator, line, column));
                 return;
             }
             IBoolOperator boolOperator = BoolOperators.getByName(symbol.name());
             if (boolOperator != null) {
-                list.add(new AttributeToken<>(AttributeTerminals.BOOLOPR, boolOperator));
+                list.add(new AttributeToken<>(AttributeTerminals.BOOLOPR, boolOperator, line, column));
                 return;
             }
 
             KeywordTerminals keywordTerminal = KeywordTerminals.getByName(symbol.name());
             if (keywordTerminal != null) {
-                list.add(new KeywordToken(keywordTerminal));
+                list.add(new KeywordToken(keywordTerminal, line, column));
                 return;
             }
         }

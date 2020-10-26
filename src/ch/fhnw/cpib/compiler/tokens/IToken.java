@@ -5,4 +5,6 @@ import ch.fhnw.cpib.compiler.tokens.enums.ITerminal;
 public interface IToken {
     ITerminal getTerminal();
     String toString();
+    int getLine();
+    int getColumn();
 }
