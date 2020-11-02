@@ -11,16 +11,61 @@ import static ch.fhnw.cpib.compiler.tokens.enums.AttributeTerminals.*;
 import static ch.fhnw.cpib.compiler.tokens.enums.KeywordTerminals.*;
 
 public class OptProgParamRepCommaProgParam implements INtsParser {
-    private IToken identifier;
+    private IToken token;
     private INtsParser progParam;
     private INtsParser repCommaProgParam;
-
+    private INtsParser epsilon;
+    private String string;
 
     public OptProgParamRepCommaProgParam() throws GrammarError {
-        IToken token = Parser.consume(IDENT, CHANGEMODE, FLOWMODE, RPAREN);
-        if (token.getTerminal().)
-        identifier = Parser.consume(IDENT);
-        progParam = null;
-        repCommaProgParam = null;
+        token = Parser.consume(IDENT, CHANGEMODE, FLOWMODE, RPAREN);
+        if (token.hasTerminal(IDENT)
+            || token.hasTerminal(CHANGEMODE)
+            || token.hasTerminal(FLOWMODE)) {
+            progParam = null;
+            repCommaProgParam = null;
+            string = token.getTerminal().toString() + " " +  progParam.toString() + " " + repCommaProgParam.toString();
+        }
+        else if (token.hasTerminal(RPAREN)) {
+            epsilon = new Epsilon();
+            string = epsilon.toString();
+        }
+    }
+
+    @Override
+    public String toString() {
+        return string;
+    }
+
+    public IToken getToken() {
+        return token;
+    }
+
+    public void setToken(IToken token) {
+        this.token = token;
+    }
+
+    public INtsParser getProgParam() {
+        return progParam;
+    }
+
+    public void setProgParam(INtsParser progParam) {
+        this.progParam = progParam;
+    }
+
+    public INtsParser getRepCommaProgParam() {
+        return repCommaProgParam;
+    }
+
+    public void setRepCommaProgParam(INtsParser repCommaProgParam) {
+        this.repCommaProgParam = repCommaProgParam;
+    }
+
+    public INtsParser getEpsilon() {
+        return epsilon;
+    }
+
+    public void setEpsilon(INtsParser epsilon) {
+        this.epsilon = epsilon;
     }
 }
