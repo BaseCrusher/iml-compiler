@@ -16,14 +16,18 @@ import static ch.fhnw.cpib.compiler.tokens.enums.KeywordTerminals.ENDWHILE;
 import static ch.fhnw.cpib.compiler.tokens.enums.KeywordTerminals.SEMICOLON;
 
 public class RepCommaIdent implements INtsParser {
+    private final IToken token;
     private IToken identifier;
     private INtsParser repCommaIdent;
+    private INtsParser epsilon;
+    private String string;
 
     public RepCommaIdent() throws GrammarError {
-        IToken token = Parser.consume(COMMA, ENDWHILE, ENDIF, ELSE, ENDPROC, ENDFUN, ENDPROGRAM, SEMICOLON);
+        token = Parser.consume(COMMA, ENDWHILE, ENDIF, ELSE, ENDPROC, ENDFUN, ENDPROGRAM, SEMICOLON);
         if (token.hasTerminal(COMMA)) {
             identifier = Parser.consume(AttributeTerminals.IDENT);
             repCommaIdent = new RepCommaIdent();
+            string = token.getTerminal().toString() + " " + identifier + " " + repCommaIdent.toString();
         } else if (token.hasTerminal(ENDWHILE) ||
                 token.hasTerminal(ENDIF) ||
                 token.hasTerminal(ELSE) ||
@@ -31,8 +35,37 @@ public class RepCommaIdent implements INtsParser {
                 token.hasTerminal(ENDFUN) ||
                 token.hasTerminal(ENDPROGRAM) ||
                 token.hasTerminal(SEMICOLON)) {
+            epsilon = new Epsilon();
+            string = token.getTerminal().toString() + epsilon.toString();
         }
+    }
 
+    @Override
+    public String toString() {
+        return string;
+    }
 
+    public IToken getIdentifier() {
+        return identifier;
+    }
+
+    public void setIdentifier(IToken identifier) {
+        this.identifier = identifier;
+    }
+
+    public INtsParser getRepCommaIdent() {
+        return repCommaIdent;
+    }
+
+    public void setRepCommaIdent(INtsParser repCommaIdent) {
+        this.repCommaIdent = repCommaIdent;
+    }
+
+    public INtsParser getEpsilon() {
+        return epsilon;
+    }
+
+    public void setEpsilon(INtsParser epsilon) {
+        this.epsilon = epsilon;
     }
 }
