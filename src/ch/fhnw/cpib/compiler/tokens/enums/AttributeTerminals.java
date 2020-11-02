@@ -10,10 +10,10 @@ public enum AttributeTerminals implements ITerminal {
 
     // Operators
     RELOPR,
-    MONOOPR,
+    MONOPR,
     BOOLOPR,
     MULTOPR,
-    
+
     // Type
     TYPE,
 
