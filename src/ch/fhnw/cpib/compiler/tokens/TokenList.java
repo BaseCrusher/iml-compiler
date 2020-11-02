@@ -8,7 +8,7 @@ import ch.fhnw.cpib.compiler.tokens.enums.KeywordTerminals;
 
 public class TokenList implements ITokenList {
 
-    private final List<IToken> list = new LinkedList<IToken>();
+    private final List<IToken> list = new LinkedList<>();
     private Iterator<IToken> listIterator;
 
     @Override
@@ -44,6 +44,6 @@ public class TokenList implements ITokenList {
 
     @Override
     public boolean hasSentinel() {
-        return list.stream().anyMatch(token -> token.getTerminal().equals(KeywordTerminals.SENTINEL));
+        return list.get(list.size()-1).getTerminal() == KeywordTerminals.SENTINEL;
     }
 }
