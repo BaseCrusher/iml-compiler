@@ -165,7 +165,7 @@ public class Scanner {
 
         // check if it is "not"
         if (name.toLowerCase().equals("not")) {
-            list.add(new AttributeToken<>(AttributeTerminals.MONOOPR, MonoOperators.NOT, line, column));
+            list.add(new AttributeToken<>(AttributeTerminals.MONOPR, MonoOperators.NOT, line, column));
             return;
         }
 
@@ -235,7 +235,7 @@ public class Scanner {
                 return;
             }
             if (MonoOperators.contains(symbol)) {
-                list.add(new AttributeToken<IMonoOperator>(AttributeTerminals.MONOOPR, MonoOperators.valueOf(symbol.name()), line, column));
+                list.add(new AttributeToken<IMonoOperator>(AttributeTerminals.MONOPR, MonoOperators.valueOf(symbol.name()), line, column));
                 return;
             }
             IMultOperator multOperator = MultOperators.contains(symbol);
