@@ -1,22 +1,25 @@
 package ch.fhnw.cpib.compiler.parser.nts;
 
 import ch.fhnw.cpib.compiler.error.GrammarError;
-import ch.fhnw.cpib.compiler.parser.INtsParser;
+import ch.fhnw.cpib.compiler.parser.ANtsParser;
 import ch.fhnw.cpib.compiler.parser.Parser;
 import ch.fhnw.cpib.compiler.tokens.IToken;
 import ch.fhnw.cpib.compiler.tokens.enums.AttributeTerminals;
 import ch.fhnw.cpib.compiler.tokens.enums.KeywordTerminals;
 
-public class Program implements INtsParser {
+public class Program extends ANtsParser {
     private IToken identifier;
-    private INtsParser programParamList;
-    private INtsParser optGlobalCpsDecl;
+    private ANtsParser programParamList;
+    private ANtsParser optGlobalCpsDecl;
     private IToken _do;
-    private INtsParser cpsCmd;
+    private ANtsParser cpsCmd;
     private IToken endProgram;
 
-    @Override
-    public INtsParser processNts() throws GrammarError {
+    public Program() throws GrammarError {
+        super();
+    }
+
+    public ANtsParser processNts() throws GrammarError {
         Parser.consume(KeywordTerminals.PROGRAM);
         identifier = Parser.consume(AttributeTerminals.IDENT);
         programParamList = null;
@@ -41,19 +44,19 @@ public class Program implements INtsParser {
         this.identifier = identifier;
     }
 
-    public INtsParser getProgramParamList() {
+    public ANtsParser getProgramParamList() {
         return programParamList;
     }
 
-    public void setProgramParamList(INtsParser programParamList) {
+    public void setProgramParamList(ANtsParser programParamList) {
         this.programParamList = programParamList;
     }
 
-    public INtsParser getOptGlobalCpsDecl() {
+    public ANtsParser getOptGlobalCpsDecl() {
         return optGlobalCpsDecl;
     }
 
-    public void setOptGlobalCpsDecl(INtsParser optGlobalCpsDecl) {
+    public void setOptGlobalCpsDecl(ANtsParser optGlobalCpsDecl) {
         this.optGlobalCpsDecl = optGlobalCpsDecl;
     }
 
@@ -65,11 +68,11 @@ public class Program implements INtsParser {
         this._do = _do;
     }
 
-    public INtsParser getCpsCmd() {
+    public ANtsParser getCpsCmd() {
         return cpsCmd;
     }
 
-    public void setCpsCmd(INtsParser cpsCmd) {
+    public void setCpsCmd(ANtsParser cpsCmd) {
         this.cpsCmd = cpsCmd;
     }
 

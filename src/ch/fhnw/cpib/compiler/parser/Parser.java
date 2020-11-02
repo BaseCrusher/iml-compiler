@@ -5,7 +5,6 @@ import ch.fhnw.cpib.compiler.parser.nts.Program;
 import ch.fhnw.cpib.compiler.tokens.IToken;
 import ch.fhnw.cpib.compiler.tokens.ITokenList;
 import ch.fhnw.cpib.compiler.tokens.enums.ITerminal;
-import ch.fhnw.cpib.compiler.tokens.enums.KeywordTerminals;
 
 public class Parser implements IParser {
 
@@ -36,9 +35,9 @@ public class Parser implements IParser {
 
     @Override
     public IConcreteTree parse() throws GrammarError {
-        INtsParser program = new Program();
+        Program program = new Program();
 
-        concreteTree.setProgram((Program) program.processNts());
+        concreteTree.setProgram(program);
 
         return concreteTree;
     }
