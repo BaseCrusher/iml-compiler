@@ -33,4 +33,9 @@ public class KeywordToken implements IToken {
     public int getColumn() {
         return column;
     }
+
+    @Override
+    public boolean hasTerminal(ITerminal terminal) {
+        return this.terminal == terminal;
+    }
 }

@@ -39,4 +39,9 @@ public class AttributeToken<T> implements IToken {
     public int getColumn() {
         return column;
     }
+
+    @Override
+    public boolean hasTerminal(ITerminal terminal) {
+        return this._terminal == terminal;
+    }
 }
