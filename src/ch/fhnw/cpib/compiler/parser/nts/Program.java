@@ -1,25 +1,21 @@
 package ch.fhnw.cpib.compiler.parser.nts;
 
 import ch.fhnw.cpib.compiler.error.GrammarError;
-import ch.fhnw.cpib.compiler.parser.ANtsParser;
+import ch.fhnw.cpib.compiler.parser.INtsParser;
 import ch.fhnw.cpib.compiler.parser.Parser;
 import ch.fhnw.cpib.compiler.tokens.IToken;
 import ch.fhnw.cpib.compiler.tokens.enums.AttributeTerminals;
 import ch.fhnw.cpib.compiler.tokens.enums.KeywordTerminals;
 
-public class Program extends ANtsParser {
+public class Program implements INtsParser {
     private IToken identifier;
-    private ANtsParser programParamList;
-    private ANtsParser optGlobalCpsDecl;
+    private INtsParser programParamList;
+    private INtsParser optGlobalCpsDecl;
     private IToken _do;
-    private ANtsParser cpsCmd;
+    private INtsParser cpsCmd;
     private IToken endProgram;
 
     public Program() throws GrammarError {
-        super();
-    }
-
-    public ANtsParser processNts() throws GrammarError {
         Parser.consume(KeywordTerminals.PROGRAM);
         identifier = Parser.consume(AttributeTerminals.IDENT);
         programParamList = null;
@@ -27,8 +23,6 @@ public class Program extends ANtsParser {
         _do = Parser.consume(KeywordTerminals.DO);
         cpsCmd = null;
         endProgram = Parser.consume(KeywordTerminals.ENDPROGRAM);
-
-        return this;
     }
 
     @Override
@@ -44,19 +38,19 @@ public class Program extends ANtsParser {
         this.identifier = identifier;
     }
 
-    public ANtsParser getProgramParamList() {
+    public INtsParser getProgramParamList() {
         return programParamList;
     }
 
-    public void setProgramParamList(ANtsParser programParamList) {
+    public void setProgramParamList(INtsParser programParamList) {
         this.programParamList = programParamList;
     }
 
-    public ANtsParser getOptGlobalCpsDecl() {
+    public INtsParser getOptGlobalCpsDecl() {
         return optGlobalCpsDecl;
     }
 
-    public void setOptGlobalCpsDecl(ANtsParser optGlobalCpsDecl) {
+    public void setOptGlobalCpsDecl(INtsParser optGlobalCpsDecl) {
         this.optGlobalCpsDecl = optGlobalCpsDecl;
     }
 
@@ -68,11 +62,11 @@ public class Program extends ANtsParser {
         this._do = _do;
     }
 
-    public ANtsParser getCpsCmd() {
+    public INtsParser getCpsCmd() {
         return cpsCmd;
     }
 
-    public void setCpsCmd(ANtsParser cpsCmd) {
+    public void setCpsCmd(INtsParser cpsCmd) {
         this.cpsCmd = cpsCmd;
     }
 
