@@ -8,21 +8,19 @@ import ch.fhnw.cpib.compiler.tokens.IToken;
 import static ch.fhnw.cpib.compiler.tokens.enums.AttributeTerminals.*;
 import static ch.fhnw.cpib.compiler.tokens.enums.KeywordTerminals.*;
 
-public class OptProgParamRepCommaProgParam implements INtsParser {
+public class RepCommaProgParam implements INtsParser {
     private IToken token;
     private INtsParser progParam;
     private INtsParser repCommaProgParam;
     private INtsParser epsilon;
     private String string;
 
-    public OptProgParamRepCommaProgParam() throws GrammarError {
-        token = Parser.consume(IDENT, CHANGEMODE, FLOWMODE, RPAREN);
-        if (token.hasTerminal(IDENT)
-            || token.hasTerminal(CHANGEMODE)
-            || token.hasTerminal(FLOWMODE)) {
+    public RepCommaProgParam() throws GrammarError {
+        token = Parser.consume(COMMA, RPAREN);
+        if (token.hasTerminal(COMMA)) {
             progParam = null;
             repCommaProgParam = null;
-            string = token.getTerminal().toString() + " " +  progParam.toString() + " " + repCommaProgParam.toString();
+            string = token.getTerminal().toString() + " " + progParam.toString() + " " + repCommaProgParam.toString();
         }
         else {
             epsilon = new Epsilon();
