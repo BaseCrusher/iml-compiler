@@ -18,7 +18,7 @@ public class Expr implements INtsParser {
     public Expr() throws GrammarError {
         token = Parser.consume(LPAREN, MONOPR, IDENT, LITERAL);
         term1 = null;
-        repBoolOprTerm1 = null;
+        repBoolOprTerm1 = new RepBoolOprTerm1();
     }
 
     @Override
