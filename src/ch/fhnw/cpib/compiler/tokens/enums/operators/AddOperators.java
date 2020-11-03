@@ -1,14 +1,15 @@
 package ch.fhnw.cpib.compiler.tokens.enums.operators;
 
-import ch.fhnw.cpib.compiler.tokens.enums.dictionary.Symbols;
-
 import java.util.Arrays;
 
-public enum MonoOperators implements IMonoOperator {
-    NOT;
+import ch.fhnw.cpib.compiler.tokens.enums.dictionary.Symbols;
 
-    public static boolean contains (Symbols symbol) {
-        for (MonoOperators op : values()) {
+public enum AddOperators implements IAddOperator {
+    PLUS,
+    MINUS;
+
+    public static boolean contains(Symbols symbol) {
+        for (AddOperators op : values()) {
             if (symbol.name().equals(op.name())) {
                 return true;
             }
@@ -16,10 +17,11 @@ public enum MonoOperators implements IMonoOperator {
         return false;
     }
 
-    public static MonoOperators getByName(String name){
+    public static AddOperators getByName(String name) {
         String uppercaseName = name.toUpperCase();
-        return Arrays.stream(MonoOperators.values())
+        return Arrays.stream(AddOperators.values())
                 .filter(s -> s.name().equals(uppercaseName))
                 .findFirst().orElse(null);
     }
+
 }

@@ -238,11 +238,22 @@ public class Scanner {
                 list.add(new AttributeToken<IMonoOperator>(AttributeTerminals.MONOPR, MonoOperators.valueOf(symbol.name()), line, column));
                 return;
             }
+            if (AddOperators.contains(symbol)) {
+                list.add(new AttributeToken<IAddOperator>(AttributeTerminals.ADDOPR, AddOperators.valueOf(symbol.name()), line, column));
+            }
+
             IMultOperator multOperator = MultOperators.contains(symbol);
             if (multOperator != null) {
                 list.add(new AttributeToken<>(AttributeTerminals.MULTOPR, multOperator, line, column));
                 return;
             }
+
+            IDivOperator divOperator = DivOperators.contains(symbol);
+            if (divOperator != null) {
+                list.add(new AttributeToken<>(AttributeTerminals.DIVOPR, divOperator, line, column));
+                return;
+            }
+
             IBoolOperator boolOperator = BoolOperators.getByName(symbol.name());
             if (boolOperator != null) {
                 list.add(new AttributeToken<>(AttributeTerminals.BOOLOPR, boolOperator, line, column));

@@ -13,6 +13,8 @@ public enum AttributeTerminals implements ITerminal {
     MONOPR,
     BOOLOPR,
     MULTOPR,
+    DIVOPR,
+    ADDOPR,
 
     // Type
     TYPE,
