@@ -4,7 +4,6 @@ import ch.fhnw.cpib.compiler.error.GrammarError;
 import ch.fhnw.cpib.compiler.parser.INtsParser;
 import ch.fhnw.cpib.compiler.parser.Parser;
 import ch.fhnw.cpib.compiler.tokens.IToken;
-import ch.fhnw.cpib.compiler.tokens.enums.KeywordTerminals;
 
 
 import static ch.fhnw.cpib.compiler.tokens.enums.AttributeTerminals.*;
