@@ -26,7 +26,7 @@ public class OptProgParamRepCommaProgParam implements INtsParser {
             repCommaProgParam = null;
             string = token.getTerminal().toString() + " " +  progParam.toString() + " " + repCommaProgParam.toString();
         }
-        else if (token.hasTerminal(RPAREN)) {
+        else {
             epsilon = new Epsilon();
             string = epsilon.toString();
         }
