@@ -23,7 +23,7 @@ public class Term1 implements INtsParser {
 
     @Override
     public String toString() {
-        return token.getTerminal().toString() + " " + term2.toString() + " " + optRelOprTerm2.toString();
+        return term2.toString() + " " + optRelOprTerm2.toString();
     }
 
     public IToken getToken() {

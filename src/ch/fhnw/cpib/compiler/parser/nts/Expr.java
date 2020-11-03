@@ -23,7 +23,7 @@ public class Expr implements INtsParser {
 
     @Override
     public String toString() {
-        return token.getTerminal().toString() + " " + term1.toString() + " " + repBoolOprTerm1.toString();
+        return term1.toString() + " " + repBoolOprTerm1.toString();
     }
 
     public IToken getToken() {
