@@ -5,21 +5,21 @@ import ch.fhnw.cpib.compiler.parser.INtsParser;
 import ch.fhnw.cpib.compiler.parser.Parser;
 import ch.fhnw.cpib.compiler.tokens.IToken;
 
-import static ch.fhnw.cpib.compiler.tokens.enums.AttributeTerminals.*;
-import static ch.fhnw.cpib.compiler.tokens.enums.KeywordTerminals.*;
+import static ch.fhnw.cpib.compiler.tokens.enums.KeywordTerminals.DO;
+import static ch.fhnw.cpib.compiler.tokens.enums.KeywordTerminals.SEMICOLON;
 
 public class RepSemicolonStoDecl implements INtsParser {
-    private IToken token;
+    private final IToken token;
     private INtsParser stoDecl;
     private INtsParser repSemicolonStoDecl;
     private INtsParser epsilon;
-    private String string;
+    private final String string;
 
     public RepSemicolonStoDecl() throws GrammarError {
         token = Parser.consume(SEMICOLON, DO);
         if (token.hasTerminal(SEMICOLON)) {
-            stoDecl = null;
-            repSemicolonStoDecl = null;
+            stoDecl = new StoDecl();
+            repSemicolonStoDecl = new RepSemicolonStoDecl();
             string = token.getTerminal().toString() + " " + stoDecl.toString() + " " + repSemicolonStoDecl.toString();
         }
         else {

@@ -5,25 +5,31 @@ import ch.fhnw.cpib.compiler.parser.INtsParser;
 import ch.fhnw.cpib.compiler.parser.Parser;
 import ch.fhnw.cpib.compiler.tokens.IToken;
 
-import static ch.fhnw.cpib.compiler.tokens.enums.AttributeTerminals.*;
-import static ch.fhnw.cpib.compiler.tokens.enums.KeywordTerminals.*;
+import static ch.fhnw.cpib.compiler.tokens.enums.KeywordTerminals.COMMA;
+import static ch.fhnw.cpib.compiler.tokens.enums.KeywordTerminals.DO;
+import static ch.fhnw.cpib.compiler.tokens.enums.KeywordTerminals.LOCAL;
 
 public class RepCommaGlobImp implements INtsParser {
-    private IToken token;
+    private final IToken token;
     private INtsParser globImps;
     private INtsParser epsilon;
-    private String string;
+    private final String string;
 
     public RepCommaGlobImp() throws GrammarError {
         token = Parser.consume(COMMA, DO, LOCAL);
         if (token.hasTerminal(COMMA)) {
-            globImps = null;
+            globImps = new GlobImps();
             string = token.getTerminal().toString() + " " + globImps.toString();
         }
         else {
             epsilon = new Epsilon();
             string = epsilon.toString();
         }
+    }
+
+    @Override
+    public String toString() {
+        return string;
     }
 
     public IToken getToken() {

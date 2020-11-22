@@ -21,7 +21,7 @@ public class Factor implements INtsParser {
     public Factor() throws GrammarError {
         token = Parser.consume(LITERAL, IDENT, MONOPR, LPAREN);
         if (token.hasTerminal(IDENT)) {
-            optInitOrExprList = null;
+            optInitOrExprList = new OptInitOrExprList();
             string = token.getTerminal().toString() + " " + optInitOrExprList.toString();
         } else if (token.hasTerminal(MONOPR)) {
             factor = new Factor();

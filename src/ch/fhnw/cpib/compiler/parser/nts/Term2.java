@@ -5,7 +5,6 @@ import ch.fhnw.cpib.compiler.parser.INtsParser;
 import ch.fhnw.cpib.compiler.parser.Parser;
 import ch.fhnw.cpib.compiler.tokens.IToken;
 
-import static ch.fhnw.cpib.compiler.tokens.enums.AttributeTerminals.ADDOPR;
 import static ch.fhnw.cpib.compiler.tokens.enums.AttributeTerminals.IDENT;
 import static ch.fhnw.cpib.compiler.tokens.enums.AttributeTerminals.LITERAL;
 import static ch.fhnw.cpib.compiler.tokens.enums.AttributeTerminals.MONOPR;
@@ -18,8 +17,8 @@ public class Term2 implements INtsParser {
 
     public Term2() throws GrammarError {
         token = Parser.consume(LPAREN, MONOPR, IDENT, LITERAL);
-        term3 = null;
-        repAddOprTerm3 = null;
+        term3 = new Term3();
+        repAddOprTerm3 = new RepAddOprTerm3();
     }
 
     @Override
@@ -35,15 +34,7 @@ public class Term2 implements INtsParser {
         return term3;
     }
 
-    public void setTerm3(INtsParser term3) {
-        this.term3 = term3;
-    }
-
     public INtsParser getRepAddOprTerm3() {
         return repAddOprTerm3;
-    }
-
-    public void setRepAddOprTerm3(INtsParser repAddOprTerm3) {
-        this.repAddOprTerm3 = repAddOprTerm3;
     }
 }

@@ -13,7 +13,7 @@ public class RepCommaExpr implements INtsParser {
     private INtsParser expr;
     private INtsParser repCommaExpr;
     private INtsParser epsilon;
-    private String string;
+    private final String string;
 
     public RepCommaExpr() throws GrammarError {
         token = Parser.consume(COMMA, RPAREN);

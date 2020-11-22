@@ -5,24 +5,38 @@ import ch.fhnw.cpib.compiler.parser.INtsParser;
 import ch.fhnw.cpib.compiler.parser.Parser;
 import ch.fhnw.cpib.compiler.tokens.IToken;
 
-import static ch.fhnw.cpib.compiler.tokens.enums.AttributeTerminals.*;
-import static ch.fhnw.cpib.compiler.tokens.enums.KeywordTerminals.*;
+import static ch.fhnw.cpib.compiler.tokens.enums.AttributeTerminals.CHANGEMODE;
+import static ch.fhnw.cpib.compiler.tokens.enums.AttributeTerminals.IDENT;
+import static ch.fhnw.cpib.compiler.tokens.enums.KeywordTerminals.FUN;
+import static ch.fhnw.cpib.compiler.tokens.enums.KeywordTerminals.PROC;
 
 public class CpsDecl implements INtsParser {
-    private IToken token;
+    private final IToken token;
     private INtsParser decl;
     private INtsParser repSemicolonDecl;
-    private String string;
+    private final String string;
 
     public CpsDecl() throws GrammarError {
         token = Parser.consume(PROC, FUN, IDENT, CHANGEMODE);
-        decl = null;
-        repSemicolonDecl = null;
+        decl = new Decl();
+        repSemicolonDecl = new Decl();
         string = token.getTerminal().toString() + " " + decl.toString() + " " + repSemicolonDecl.toString();
     }
 
     @Override
     public String toString() {
         return string;
+    }
+
+    public INtsParser getDecl() {
+        return decl;
+    }
+
+    public INtsParser getRepSemicolonDecl() {
+        return repSemicolonDecl;
+    }
+
+    public IToken getToken() {
+        return token;
     }
 }

@@ -5,26 +5,28 @@ import ch.fhnw.cpib.compiler.parser.INtsParser;
 import ch.fhnw.cpib.compiler.parser.Parser;
 import ch.fhnw.cpib.compiler.tokens.IToken;
 
-import static ch.fhnw.cpib.compiler.tokens.enums.AttributeTerminals.*;
-import static ch.fhnw.cpib.compiler.tokens.enums.KeywordTerminals.*;
+import static ch.fhnw.cpib.compiler.tokens.enums.AttributeTerminals.IDENT;
+import static ch.fhnw.cpib.compiler.tokens.enums.KeywordTerminals.DO;
+import static ch.fhnw.cpib.compiler.tokens.enums.KeywordTerminals.ENDPROC;
+import static ch.fhnw.cpib.compiler.tokens.enums.KeywordTerminals.PROC;
 
 public class ProcDecl implements INtsParser {
-    private IToken token;
+    private final IToken token;
     private IToken identifier;
     private INtsParser paramList;
     private INtsParser optGlobalGlobImps;
     private INtsParser optLocalCpsStoDecl;
     private INtsParser cpsCmd;
-    private String string;
+    private final String string;
 
     public ProcDecl() throws GrammarError {
         token = Parser.consume(PROC);
         identifier = Parser.consume(IDENT);
-        paramList = null;
-        optGlobalGlobImps = null;
-        optLocalCpsStoDecl = null;
+        paramList = new ParamList();
+        optGlobalGlobImps = new OptGlobalGlobImps();
+        optLocalCpsStoDecl = new OptLocalCpsStoDecl();
         Parser.consume(DO);
-        cpsCmd = null;
+        cpsCmd = new CpsCmd();
         Parser.consume(ENDPROC);
         string = token.getTerminal().toString() + " " + identifier.getTerminal().toString() + " " + paramList.toString() + " " + optGlobalGlobImps.toString() +
                 " " + optLocalCpsStoDecl.toString() + " DO " + cpsCmd.toString() + " ENDPROC";

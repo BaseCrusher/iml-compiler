@@ -17,8 +17,8 @@ public class Term1 implements INtsParser {
 
     public Term1() throws GrammarError {
         token = Parser.consume(LPAREN, MONOPR, IDENT, LITERAL);
-        term2 = null;
-        optRelOprTerm2 = null;
+        term2 = new Term2();
+        optRelOprTerm2 = new OptRelOprTerm2();
     }
 
     @Override
@@ -34,15 +34,7 @@ public class Term1 implements INtsParser {
         return term2;
     }
 
-    public void setTerm2(INtsParser term2) {
-        this.term2 = term2;
-    }
-
     public INtsParser getOptRelOprTerm2() {
         return optRelOprTerm2;
-    }
-
-    public void setOptRelOprTerm2(INtsParser optRelOprTerm2) {
-        this.optRelOprTerm2 = optRelOprTerm2;
     }
 }

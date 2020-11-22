@@ -5,19 +5,20 @@ import ch.fhnw.cpib.compiler.parser.INtsParser;
 import ch.fhnw.cpib.compiler.parser.Parser;
 import ch.fhnw.cpib.compiler.tokens.IToken;
 
-import static ch.fhnw.cpib.compiler.tokens.enums.AttributeTerminals.*;
-import static ch.fhnw.cpib.compiler.tokens.enums.KeywordTerminals.*;
+import static ch.fhnw.cpib.compiler.tokens.enums.AttributeTerminals.IDENT;
+import static ch.fhnw.cpib.compiler.tokens.enums.KeywordTerminals.DO;
+import static ch.fhnw.cpib.compiler.tokens.enums.KeywordTerminals.LOCAL;
 
 public class OptLocalCpsStoDecl implements INtsParser {
-    private IToken token;
+    private final IToken token;
     private INtsParser cpsStoDecl;
     private INtsParser epsilon;
-    private String string;
+    private final String string;
 
     public OptLocalCpsStoDecl() throws GrammarError {
         token = Parser.consume(LOCAL, DO);
         if(token.hasTerminal(IDENT)) {
-            cpsStoDecl = null;
+            cpsStoDecl = new CpsStoDecl();
             string = token.getTerminal().toString() + " " + cpsStoDecl.toString();
         }
         else {

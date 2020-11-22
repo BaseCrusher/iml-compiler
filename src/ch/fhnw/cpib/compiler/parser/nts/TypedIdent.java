@@ -5,13 +5,14 @@ import ch.fhnw.cpib.compiler.parser.INtsParser;
 import ch.fhnw.cpib.compiler.parser.Parser;
 import ch.fhnw.cpib.compiler.tokens.IToken;
 
-import static ch.fhnw.cpib.compiler.tokens.enums.AttributeTerminals.*;
-import static ch.fhnw.cpib.compiler.tokens.enums.KeywordTerminals.*;
+import static ch.fhnw.cpib.compiler.tokens.enums.AttributeTerminals.IDENT;
+import static ch.fhnw.cpib.compiler.tokens.enums.AttributeTerminals.TYPE;
+import static ch.fhnw.cpib.compiler.tokens.enums.KeywordTerminals.COLON;
 
 public class TypedIdent implements INtsParser {
-    IToken identifier;
-    IToken type;
-    private String string;
+    private IToken identifier;
+    private IToken type;
+    private final String string;
 
     public TypedIdent() throws GrammarError {
         identifier = Parser.consume(IDENT);
@@ -29,15 +30,7 @@ public class TypedIdent implements INtsParser {
         return identifier;
     }
 
-    public void setIdentifier(IToken identifier) {
-        this.identifier = identifier;
-    }
-
     public IToken getType() {
         return type;
-    }
-
-    public void setType(IToken type) {
-        this.type = type;
     }
 }

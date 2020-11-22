@@ -16,7 +16,7 @@ public class OptExprRepCommaExpr implements INtsParser {
     private INtsParser expr;
     private INtsParser repCommaExpr;
     private INtsParser epsilon;
-    private String string;
+    private final String string;
 
     public OptExprRepCommaExpr() throws GrammarError {
         token = Parser.consume(LPAREN, MONOPR, IDENT, LITERAL, RPAREN);
@@ -25,7 +25,7 @@ public class OptExprRepCommaExpr implements INtsParser {
             string = token.getTerminal().toString() + " " + epsilon.toString();
         } else {
             expr = new Expr();
-            repCommaExpr = null;
+            repCommaExpr = new RepCommaExpr();
             string = expr.toString() + " " + repCommaExpr.toString();
         }
     }

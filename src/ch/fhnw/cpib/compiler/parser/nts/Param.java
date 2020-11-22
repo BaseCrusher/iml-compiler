@@ -5,23 +5,25 @@ import ch.fhnw.cpib.compiler.parser.INtsParser;
 import ch.fhnw.cpib.compiler.parser.Parser;
 import ch.fhnw.cpib.compiler.tokens.IToken;
 
-import static ch.fhnw.cpib.compiler.tokens.enums.AttributeTerminals.*;
-import static ch.fhnw.cpib.compiler.tokens.enums.KeywordTerminals.*;
+import static ch.fhnw.cpib.compiler.tokens.enums.AttributeTerminals.CHANGEMODE;
+import static ch.fhnw.cpib.compiler.tokens.enums.AttributeTerminals.FLOWMODE;
+import static ch.fhnw.cpib.compiler.tokens.enums.AttributeTerminals.IDENT;
+import static ch.fhnw.cpib.compiler.tokens.enums.AttributeTerminals.MENCHMODE;
 
 public class Param implements INtsParser {
-    private IToken token;
+    private final IToken token;
     private INtsParser optFlowmode;
     private INtsParser optMechmode;
     private INtsParser optChangemode;
     private INtsParser typedIdent;
-    private String string;
+    private final String string;
 
     public Param() throws GrammarError {
         token = Parser.consume(IDENT, CHANGEMODE, MENCHMODE, FLOWMODE);
-        optFlowmode = null;
-        optMechmode = null;
-        optChangemode = null;
-        typedIdent = null;
+        optFlowmode = new OptFlowmode();
+        optMechmode = new OptMechmode();
+        optChangemode = new OptChangemode();
+        typedIdent = new TypedIdent();
 
         string = token.getTerminal().toString() + " " + optFlowmode.toString() + " " + optMechmode.toString() + " " + optChangemode.toString() + " " + typedIdent.toString();
     }
@@ -35,39 +37,19 @@ public class Param implements INtsParser {
         return token;
     }
 
-    public void setToken(IToken token) {
-        this.token = token;
-    }
-
     public INtsParser getOptFlowmode() {
         return optFlowmode;
-    }
-
-    public void setOptFlowmode(INtsParser optFlowmode) {
-        this.optFlowmode = optFlowmode;
     }
 
     public INtsParser getOptMechmode() {
         return optMechmode;
     }
 
-    public void setOptMechmode(INtsParser optMechmode) {
-        this.optMechmode = optMechmode;
-    }
-
     public INtsParser getOptChangemode() {
         return optChangemode;
     }
 
-    public void setOptChangemode(INtsParser optChangemode) {
-        this.optChangemode = optChangemode;
-    }
-
     public INtsParser getTypedIdent() {
         return typedIdent;
-    }
-
-    public void setTypedIdent(INtsParser typedIdent) {
-        this.typedIdent = typedIdent;
     }
 }

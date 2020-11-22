@@ -5,13 +5,13 @@ import ch.fhnw.cpib.compiler.parser.INtsParser;
 import ch.fhnw.cpib.compiler.parser.Parser;
 import ch.fhnw.cpib.compiler.tokens.IToken;
 
-import static ch.fhnw.cpib.compiler.tokens.enums.AttributeTerminals.*;
-import static ch.fhnw.cpib.compiler.tokens.enums.KeywordTerminals.RPAREN;
+import static ch.fhnw.cpib.compiler.tokens.enums.AttributeTerminals.CHANGEMODE;
+import static ch.fhnw.cpib.compiler.tokens.enums.AttributeTerminals.IDENT;
 
 public class OptChangemode implements INtsParser {
-    private IToken token;
+    private final IToken token;
     private INtsParser epsilon;
-    private String string;
+    private final String string;
 
     public OptChangemode() throws GrammarError {
         token = Parser.consume(CHANGEMODE, IDENT);
@@ -24,19 +24,16 @@ public class OptChangemode implements INtsParser {
         }
     }
 
+    @Override
+    public String toString() {
+        return string;
+    }
+
     public IToken getToken() {
         return token;
     }
 
-    public void setToken(IToken token) {
-        this.token = token;
-    }
-
     public INtsParser getEpsilon() {
         return epsilon;
-    }
-
-    public void setEpsilon(INtsParser epsilon) {
-        this.epsilon = epsilon;
     }
 }

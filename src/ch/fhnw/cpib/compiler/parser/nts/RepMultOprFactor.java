@@ -27,12 +27,12 @@ public class RepMultOprFactor implements INtsParser {
     private INtsParser factor;
     private INtsParser repMultOprFactor;
     private INtsParser epsilon;
-    private String string;
+    private final String string;
 
     public RepMultOprFactor() throws GrammarError {
         token = Parser.consume(MULTOPR, COMMA, RPAREN, DO, THEN, ENDWHILE, ENDIF, ELSE, ENDPROC, ENDFUN, ENDPROGRAM, SEMICOLON, BECOMES, BOOLOPR, RELOPR, ADDOPR);
         if (token.hasTerminal(MULTOPR)) {
-            factor = null;
+            factor = new Factor();
             repMultOprFactor = new RepMultOprFactor();
             string = token.getTerminal().toString() + " " + factor.toString() + " " + repMultOprFactor.toString();
         } else {

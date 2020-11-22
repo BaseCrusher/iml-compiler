@@ -5,19 +5,19 @@ import ch.fhnw.cpib.compiler.parser.INtsParser;
 import ch.fhnw.cpib.compiler.parser.Parser;
 import ch.fhnw.cpib.compiler.tokens.IToken;
 
-import static ch.fhnw.cpib.compiler.tokens.enums.AttributeTerminals.*;
-import static ch.fhnw.cpib.compiler.tokens.enums.KeywordTerminals.*;
+import static ch.fhnw.cpib.compiler.tokens.enums.KeywordTerminals.ELSE;
+import static ch.fhnw.cpib.compiler.tokens.enums.KeywordTerminals.ENDIF;
 
 public class OptElseCpsCmd implements INtsParser {
-    private IToken token;
+    private final IToken token;
     private INtsParser cpsCmd;
     private INtsParser epsilon;
-    private String string;
+    private final String string;
 
     public OptElseCpsCmd() throws GrammarError {
         token = Parser.consume(ELSE, ENDIF);
         if (token.hasTerminal(ELSE)) {
-            cpsCmd = null;
+            cpsCmd = new CpsCmd();
             string = token.getTerminal().toString() + " " + cpsCmd.toString();
         }
         else {

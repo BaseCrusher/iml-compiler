@@ -5,21 +5,21 @@ import ch.fhnw.cpib.compiler.parser.INtsParser;
 import ch.fhnw.cpib.compiler.parser.Parser;
 import ch.fhnw.cpib.compiler.tokens.IToken;
 
-import static ch.fhnw.cpib.compiler.tokens.enums.AttributeTerminals.*;
-import static ch.fhnw.cpib.compiler.tokens.enums.KeywordTerminals.*;
+import static ch.fhnw.cpib.compiler.tokens.enums.KeywordTerminals.COMMA;
+import static ch.fhnw.cpib.compiler.tokens.enums.KeywordTerminals.RPAREN;
 
 public class RepCommaParam implements INtsParser {
-    private IToken token;
+    private final IToken token;
     private INtsParser param;
     private INtsParser repCommaParam;
     private INtsParser epsilon;
-    private String string;
+    private final String string;
 
     public RepCommaParam() throws GrammarError {
         token = Parser.consume(COMMA, RPAREN);
         if (token.hasTerminal(COMMA)) {
-            param = null;
-            repCommaParam = null;
+            param = new Param();
+            repCommaParam = new RepCommaParam();
             string = token.getTerminal().toString() + " " + param.toString() + " " + repCommaParam.toString();
         }
         else {
@@ -37,31 +37,15 @@ public class RepCommaParam implements INtsParser {
         return token;
     }
 
-    public void setToken(IToken token) {
-        this.token = token;
-    }
-
     public INtsParser getParam() {
         return param;
-    }
-
-    public void setParam(INtsParser param) {
-        this.param = param;
     }
 
     public INtsParser getRepCommaParam() {
         return repCommaParam;
     }
 
-    public void setRepCommaParam(INtsParser repCommaParam) {
-        this.repCommaParam = repCommaParam;
-    }
-
     public INtsParser getEpsilon() {
         return epsilon;
-    }
-
-    public void setEpsilon(INtsParser epsilon) {
-        this.epsilon = epsilon;
     }
 }

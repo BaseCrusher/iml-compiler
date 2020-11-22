@@ -5,19 +5,21 @@ import ch.fhnw.cpib.compiler.parser.INtsParser;
 import ch.fhnw.cpib.compiler.parser.Parser;
 import ch.fhnw.cpib.compiler.tokens.IToken;
 
-import static ch.fhnw.cpib.compiler.tokens.enums.AttributeTerminals.*;
+import static ch.fhnw.cpib.compiler.tokens.enums.AttributeTerminals.CHANGEMODE;
+import static ch.fhnw.cpib.compiler.tokens.enums.AttributeTerminals.FLOWMODE;
+import static ch.fhnw.cpib.compiler.tokens.enums.AttributeTerminals.IDENT;
 
 public class ProgParam implements INtsParser {
-    private IToken token;
+    private final IToken token;
     private INtsParser optFlowmode;
     private INtsParser optChangemode;
     private INtsParser typedIdent;
 
     public ProgParam() throws GrammarError {
         token = Parser.consume(IDENT, CHANGEMODE, FLOWMODE);
-        optFlowmode = null;
-        optChangemode = null;
-        typedIdent = null;
+        optFlowmode = new OptFlowmode();
+        optChangemode = new OptChangemode();
+        typedIdent = new TypedIdent();
     }
 
     public String toString() {
@@ -28,31 +30,15 @@ public class ProgParam implements INtsParser {
         return token;
     }
 
-    public void setToken(IToken token) {
-        this.token = token;
-    }
-
     public INtsParser getOptFlowmode() {
         return optFlowmode;
-    }
-
-    public void setOptFlowmode(INtsParser optFlowmode) {
-        this.optFlowmode = optFlowmode;
     }
 
     public INtsParser getOptChangemode() {
         return optChangemode;
     }
 
-    public void setOptChangemode(INtsParser optChangemode) {
-        this.optChangemode = optChangemode;
-    }
-
     public INtsParser getTypedIdent() {
         return typedIdent;
-    }
-
-    public void setTypedIdent(INtsParser typedIdent) {
-        this.typedIdent = typedIdent;
     }
 }

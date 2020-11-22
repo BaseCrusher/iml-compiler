@@ -5,13 +5,14 @@ import ch.fhnw.cpib.compiler.parser.INtsParser;
 import ch.fhnw.cpib.compiler.parser.Parser;
 import ch.fhnw.cpib.compiler.tokens.IToken;
 
-import static ch.fhnw.cpib.compiler.tokens.enums.AttributeTerminals.*;
-import static ch.fhnw.cpib.compiler.tokens.enums.KeywordTerminals.*;
+import static ch.fhnw.cpib.compiler.tokens.enums.AttributeTerminals.CHANGEMODE;
+import static ch.fhnw.cpib.compiler.tokens.enums.AttributeTerminals.IDENT;
+import static ch.fhnw.cpib.compiler.tokens.enums.AttributeTerminals.MENCHMODE;
 
 public class OptMechmode implements INtsParser {
-    private IToken token;
+    private final IToken token;
     private INtsParser epsilon;
-    private String string;
+    private final String string;
 
     public OptMechmode() throws GrammarError {
         token = Parser.consume(MENCHMODE, IDENT, CHANGEMODE);
@@ -33,7 +34,7 @@ public class OptMechmode implements INtsParser {
         return token;
     }
 
-    public void setToken(IToken token) {
-        this.token = token;
+    public INtsParser getEpsilon() {
+        return epsilon;
     }
 }

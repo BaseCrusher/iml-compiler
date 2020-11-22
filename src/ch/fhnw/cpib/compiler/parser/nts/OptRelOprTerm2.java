@@ -24,16 +24,33 @@ public class OptRelOprTerm2 implements INtsParser {
     private final IToken token;
     private INtsParser term2;
     private INtsParser epsilon;
-    private String string;
+    private final String string;
 
     public OptRelOprTerm2() throws GrammarError {
         token = Parser.consume(RELOPR, COMMA, RPAREN, DO, THEN, ENDWHILE, ENDIF, ELSE, ENDPROC, ENDFUN, ENDPROGRAM, SEMICOLON, BECOMES, BOOLOPR);
         if (token.hasTerminal(RELOPR)) {
-            term2 = null;
+            term2 = new Term2();
             string = token.getTerminal().toString() + " " + term2.toString();
         } else {
             epsilon = new Epsilon();
             string = token.getTerminal().toString() + " " + epsilon.toString();
         }
+    }
+
+    @Override
+    public String toString() {
+        return string;
+    }
+
+    public IToken getToken() {
+        return token;
+    }
+
+    public INtsParser getTerm2() {
+        return term2;
+    }
+
+    public INtsParser getEpsilon() {
+        return epsilon;
     }
 }

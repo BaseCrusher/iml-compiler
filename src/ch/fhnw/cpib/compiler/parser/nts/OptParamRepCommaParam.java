@@ -5,15 +5,18 @@ import ch.fhnw.cpib.compiler.parser.INtsParser;
 import ch.fhnw.cpib.compiler.parser.Parser;
 import ch.fhnw.cpib.compiler.tokens.IToken;
 
-import static ch.fhnw.cpib.compiler.tokens.enums.AttributeTerminals.*;
-import static ch.fhnw.cpib.compiler.tokens.enums.KeywordTerminals.*;
+import static ch.fhnw.cpib.compiler.tokens.enums.AttributeTerminals.CHANGEMODE;
+import static ch.fhnw.cpib.compiler.tokens.enums.AttributeTerminals.FLOWMODE;
+import static ch.fhnw.cpib.compiler.tokens.enums.AttributeTerminals.IDENT;
+import static ch.fhnw.cpib.compiler.tokens.enums.AttributeTerminals.MENCHMODE;
+import static ch.fhnw.cpib.compiler.tokens.enums.KeywordTerminals.RPAREN;
 
 public class OptParamRepCommaParam implements INtsParser {
-    private IToken token;
+    private final IToken token;
     private INtsParser param;
     private INtsParser repCommaParam;
     private INtsParser epsilon;
-    private String string;
+    private final String string;
 
     public OptParamRepCommaParam() throws GrammarError {
         token = Parser.consume(IDENT, CHANGEMODE, MENCHMODE, FLOWMODE, RPAREN);
@@ -22,8 +25,8 @@ public class OptParamRepCommaParam implements INtsParser {
             string = epsilon.toString();
         }
         else {
-            param = null;
-            repCommaParam = null;
+            param = new Param();
+            repCommaParam = new RepCommaParam();
             string = token.getTerminal().toString() + " " + param.toString() + " " + repCommaParam.toString();
         }
     }
@@ -37,31 +40,15 @@ public class OptParamRepCommaParam implements INtsParser {
         return token;
     }
 
-    public void setToken(IToken token) {
-        this.token = token;
-    }
-
     public INtsParser getParam() {
         return param;
-    }
-
-    public void setParam(INtsParser param) {
-        this.param = param;
     }
 
     public INtsParser getRepCommaParam() {
         return repCommaParam;
     }
 
-    public void setRepCommaParam(INtsParser repCommaParam) {
-        this.repCommaParam = repCommaParam;
-    }
-
     public INtsParser getEpsilon() {
         return epsilon;
-    }
-
-    public void setEpsilon(INtsParser epsilon) {
-        this.epsilon = epsilon;
     }
 }

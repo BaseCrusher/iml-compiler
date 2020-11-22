@@ -17,7 +17,7 @@ public class Expr implements INtsParser {
 
     public Expr() throws GrammarError {
         token = Parser.consume(LPAREN, MONOPR, IDENT, LITERAL);
-        term1 = null;
+        term1 = new Term1();
         repBoolOprTerm1 = new RepBoolOprTerm1();
     }
 
@@ -34,15 +34,7 @@ public class Expr implements INtsParser {
         return term1;
     }
 
-    public void setTerm1(INtsParser term1) {
-        this.term1 = term1;
-    }
-
     public INtsParser getRepBoolOprTerm1() {
         return repBoolOprTerm1;
-    }
-
-    public void setRepBoolOprTerm1(INtsParser repBoolOprTerm1) {
-        this.repBoolOprTerm1 = repBoolOprTerm1;
     }
 }

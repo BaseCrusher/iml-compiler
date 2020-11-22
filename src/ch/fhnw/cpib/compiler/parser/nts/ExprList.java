@@ -14,7 +14,7 @@ public class ExprList implements INtsParser {
 
     public ExprList() throws GrammarError {
         token = Parser.consume(LPAREN);
-        optExprRepCommaExpr = null;
+        optExprRepCommaExpr = new OptExprRepCommaExpr();
         Parser.consume(RPAREN);
     }
 

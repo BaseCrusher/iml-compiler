@@ -11,12 +11,16 @@ public class ProgParamList implements INtsParser {
 
     public ProgParamList() throws GrammarError {
         Parser.consume(KeywordTerminals.LPAREN);
-        optProgParamRepCommaProgParam = null;
+        optProgParamRepCommaProgParam = new OptProgParamRepCommaProgParam();
         Parser.consume(KeywordTerminals.RPAREN);
     }
 
     @Override
     public String toString() {
         return "(" + optProgParamRepCommaProgParam.toString() + ")";
+    }
+
+    public INtsParser getOptProgParamRepCommaProgParam() {
+        return optProgParamRepCommaProgParam;
     }
 }

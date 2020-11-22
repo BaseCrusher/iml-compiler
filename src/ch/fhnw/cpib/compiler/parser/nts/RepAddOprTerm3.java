@@ -26,13 +26,13 @@ public class RepAddOprTerm3 implements INtsParser {
     private INtsParser term3;
     private INtsParser repAddOprTerm3;
     private INtsParser epsilon;
-    private String string;
+    private final String string;
 
     public RepAddOprTerm3() throws GrammarError {
         token = Parser.consume(ADDOPR, COMMA, RPAREN, DO, THEN, ENDWHILE, ENDIF, ELSE, ENDPROC, ENDFUN, ENDPROGRAM, SEMICOLON, BECOMES, BOOLOPR, RELOPR);
         if (token.hasTerminal(ADDOPR)) {
-            term3 = null;
-            repAddOprTerm3 = null;
+            term3 = new Term3();
+            repAddOprTerm3 = new RepAddOprTerm3();
             string = token.getTerminal().toString() + " " + term3.toString() + " " + repAddOprTerm3.toString();
         } else {
             epsilon = new Epsilon();
@@ -53,23 +53,11 @@ public class RepAddOprTerm3 implements INtsParser {
         return term3;
     }
 
-    public void setTerm3(INtsParser term3) {
-        this.term3 = term3;
-    }
-
     public INtsParser getRepAddOprTerm3() {
         return repAddOprTerm3;
     }
 
-    public void setRepAddOprTerm3(INtsParser repAddOprTerm3) {
-        this.repAddOprTerm3 = repAddOprTerm3;
-    }
-
     public INtsParser getEpsilon() {
         return epsilon;
-    }
-
-    public void setEpsilon(INtsParser epsilon) {
-        this.epsilon = epsilon;
     }
 }

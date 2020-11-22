@@ -5,19 +5,20 @@ import ch.fhnw.cpib.compiler.parser.INtsParser;
 import ch.fhnw.cpib.compiler.parser.Parser;
 import ch.fhnw.cpib.compiler.tokens.IToken;
 
-import static ch.fhnw.cpib.compiler.tokens.enums.AttributeTerminals.*;
-import static ch.fhnw.cpib.compiler.tokens.enums.KeywordTerminals.*;
+import static ch.fhnw.cpib.compiler.tokens.enums.KeywordTerminals.DO;
+import static ch.fhnw.cpib.compiler.tokens.enums.KeywordTerminals.GLOBAL;
+import static ch.fhnw.cpib.compiler.tokens.enums.KeywordTerminals.LOCAL;
 
 public class OptGlobalGlobImps implements INtsParser {
-    private IToken token;
+    private final IToken token;
     private INtsParser globImps;
     private INtsParser epsilon;
-    private String string;
+    private final String string;
 
     public OptGlobalGlobImps() throws GrammarError {
         token = Parser.consume(GLOBAL, DO, LOCAL);
         if (token.hasTerminal(GLOBAL)) {
-            globImps = null;
+            globImps = new GlobImps();
             string = token.getTerminal().toString() + " " + globImps.toString();
         }
         else {
@@ -35,23 +36,11 @@ public class OptGlobalGlobImps implements INtsParser {
         return token;
     }
 
-    public void setToken(IToken token) {
-        this.token = token;
-    }
-
     public INtsParser getGlobImps() {
         return globImps;
     }
 
-    public void setGlobImps(INtsParser globImps) {
-        this.globImps = globImps;
-    }
-
     public INtsParser getEpsilon() {
         return epsilon;
-    }
-
-    public void setEpsilon(INtsParser epsilon) {
-        this.epsilon = epsilon;
     }
 }

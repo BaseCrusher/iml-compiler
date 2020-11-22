@@ -5,19 +5,19 @@ import ch.fhnw.cpib.compiler.parser.INtsParser;
 import ch.fhnw.cpib.compiler.parser.Parser;
 import ch.fhnw.cpib.compiler.tokens.IToken;
 
-import static ch.fhnw.cpib.compiler.tokens.enums.AttributeTerminals.*;
-import static ch.fhnw.cpib.compiler.tokens.enums.KeywordTerminals.*;
+import static ch.fhnw.cpib.compiler.tokens.enums.AttributeTerminals.CHANGEMODE;
+import static ch.fhnw.cpib.compiler.tokens.enums.AttributeTerminals.IDENT;
 
 public class CpsStoDecl implements INtsParser {
-    private IToken token;
+    private final IToken token;
     private INtsParser stoDecl;
     private INtsParser repSemicolonStoDecl;
-    private String string;
+    private final String string;
 
     public CpsStoDecl() throws GrammarError {
         token = Parser.consume(IDENT, CHANGEMODE);
-        stoDecl = null;
-        repSemicolonStoDecl = null;
+        stoDecl = new StoDecl();
+        repSemicolonStoDecl = new RepSemicolonDecl();
         string = token.getTerminal().toString() + " " + stoDecl.toString() + " " + repSemicolonStoDecl.toString();
     }
 

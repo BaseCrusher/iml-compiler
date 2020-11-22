@@ -5,21 +5,26 @@ import ch.fhnw.cpib.compiler.parser.INtsParser;
 import ch.fhnw.cpib.compiler.parser.Parser;
 import ch.fhnw.cpib.compiler.tokens.IToken;
 
-import static ch.fhnw.cpib.compiler.tokens.enums.AttributeTerminals.*;
-import static ch.fhnw.cpib.compiler.tokens.enums.KeywordTerminals.*;
+import static ch.fhnw.cpib.compiler.tokens.enums.KeywordTerminals.ELSE;
+import static ch.fhnw.cpib.compiler.tokens.enums.KeywordTerminals.ENDFUN;
+import static ch.fhnw.cpib.compiler.tokens.enums.KeywordTerminals.ENDIF;
+import static ch.fhnw.cpib.compiler.tokens.enums.KeywordTerminals.ENDPROC;
+import static ch.fhnw.cpib.compiler.tokens.enums.KeywordTerminals.ENDPROGRAM;
+import static ch.fhnw.cpib.compiler.tokens.enums.KeywordTerminals.ENDWHILE;
+import static ch.fhnw.cpib.compiler.tokens.enums.KeywordTerminals.SEMICOLON;
 
 public class RepSemicolonCmd implements INtsParser {
-    private IToken token;
+    private final IToken token;
     private INtsParser cmd;
     private INtsParser repSemicolonCmd;
     private INtsParser epsilon;
-    private String string;
+    private final String string;
 
     public RepSemicolonCmd() throws GrammarError {
         token = Parser.consume(SEMICOLON, ENDWHILE, ENDIF, ELSE, ENDPROC, ENDFUN, ENDPROGRAM);
         if (token.hasTerminal(SEMICOLON)) {
-            cmd = null;
-            repSemicolonCmd = null;
+            cmd = new Cmd();
+            repSemicolonCmd = new RepSemicolonCmd();
             string = token.getTerminal().toString() + " " + cmd.toString() + " " + repSemicolonCmd.toString();
         }
         else {

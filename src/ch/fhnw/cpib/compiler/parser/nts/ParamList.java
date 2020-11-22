@@ -5,17 +5,17 @@ import ch.fhnw.cpib.compiler.parser.INtsParser;
 import ch.fhnw.cpib.compiler.parser.Parser;
 import ch.fhnw.cpib.compiler.tokens.IToken;
 
-import static ch.fhnw.cpib.compiler.tokens.enums.AttributeTerminals.*;
-import static ch.fhnw.cpib.compiler.tokens.enums.KeywordTerminals.*;
+import static ch.fhnw.cpib.compiler.tokens.enums.KeywordTerminals.LPAREN;
+import static ch.fhnw.cpib.compiler.tokens.enums.KeywordTerminals.RPAREN;
 
 public class ParamList implements INtsParser {
-    private IToken token;
+    private final IToken token;
     private INtsParser optParamRepCommaParam;
-    private String string;
+    private final String string;
 
     public ParamList() throws GrammarError {
         token = Parser.consume(LPAREN);
-        optParamRepCommaParam = null;
+        optParamRepCommaParam = new OptParamRepCommaParam();
         Parser.consume(RPAREN);
         string = "( " + optParamRepCommaParam.toString() + " )";
     }
@@ -29,15 +29,7 @@ public class ParamList implements INtsParser {
         return token;
     }
 
-    public void setToken(IToken token) {
-        this.token = token;
-    }
-
     public INtsParser getOptParamRepCommaParam() {
         return optParamRepCommaParam;
-    }
-
-    public void setOptParamRepCommaParam(INtsParser optParamRepCommaParam) {
-        this.optParamRepCommaParam = optParamRepCommaParam;
     }
 }

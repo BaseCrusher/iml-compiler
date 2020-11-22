@@ -17,8 +17,8 @@ public class Term3 implements INtsParser {
 
     public Term3() throws GrammarError {
         token = Parser.consume(LPAREN, MONOPR, IDENT, LITERAL);
-        factor = null;
-        repMultOprFactor = null;
+        factor = new Factor();
+        repMultOprFactor = new RepMultOprFactor();
     }
 
     @Override

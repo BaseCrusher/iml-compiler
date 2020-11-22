@@ -20,7 +20,7 @@ public class RepCommaIdent implements INtsParser {
     private IToken identifier;
     private INtsParser repCommaIdent;
     private INtsParser epsilon;
-    private String string;
+    private final String string;
 
     public RepCommaIdent() throws GrammarError {
         token = Parser.consume(COMMA, ENDWHILE, ENDIF, ELSE, ENDPROC, ENDFUN, ENDPROGRAM, SEMICOLON);
@@ -43,23 +43,11 @@ public class RepCommaIdent implements INtsParser {
         return identifier;
     }
 
-    public void setIdentifier(IToken identifier) {
-        this.identifier = identifier;
-    }
-
     public INtsParser getRepCommaIdent() {
         return repCommaIdent;
     }
 
-    public void setRepCommaIdent(INtsParser repCommaIdent) {
-        this.repCommaIdent = repCommaIdent;
-    }
-
     public INtsParser getEpsilon() {
         return epsilon;
-    }
-
-    public void setEpsilon(INtsParser epsilon) {
-        this.epsilon = epsilon;
     }
 }

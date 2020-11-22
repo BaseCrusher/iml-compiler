@@ -5,11 +5,24 @@ import ch.fhnw.cpib.compiler.parser.INtsParser;
 import ch.fhnw.cpib.compiler.parser.Parser;
 import ch.fhnw.cpib.compiler.tokens.IToken;
 
-import static ch.fhnw.cpib.compiler.tokens.enums.AttributeTerminals.*;
-import static ch.fhnw.cpib.compiler.tokens.enums.KeywordTerminals.*;
+import static ch.fhnw.cpib.compiler.tokens.enums.AttributeTerminals.IDENT;
+import static ch.fhnw.cpib.compiler.tokens.enums.AttributeTerminals.LITERAL;
+import static ch.fhnw.cpib.compiler.tokens.enums.AttributeTerminals.MONOPR;
+import static ch.fhnw.cpib.compiler.tokens.enums.KeywordTerminals.BECOMES;
+import static ch.fhnw.cpib.compiler.tokens.enums.KeywordTerminals.CALL;
+import static ch.fhnw.cpib.compiler.tokens.enums.KeywordTerminals.DEBUGIN;
+import static ch.fhnw.cpib.compiler.tokens.enums.KeywordTerminals.DEBUGOUT;
+import static ch.fhnw.cpib.compiler.tokens.enums.KeywordTerminals.DO;
+import static ch.fhnw.cpib.compiler.tokens.enums.KeywordTerminals.ENDIF;
+import static ch.fhnw.cpib.compiler.tokens.enums.KeywordTerminals.ENDWHILE;
+import static ch.fhnw.cpib.compiler.tokens.enums.KeywordTerminals.IF;
+import static ch.fhnw.cpib.compiler.tokens.enums.KeywordTerminals.LPAREN;
+import static ch.fhnw.cpib.compiler.tokens.enums.KeywordTerminals.SKIP;
+import static ch.fhnw.cpib.compiler.tokens.enums.KeywordTerminals.THEN;
+import static ch.fhnw.cpib.compiler.tokens.enums.KeywordTerminals.WHILE;
 
 public class Cmd implements INtsParser {
-    private IToken token;
+    private final IToken token;
     private IToken identifier;
     private INtsParser exprList;
     private INtsParser optGlobInits;
@@ -17,7 +30,7 @@ public class Cmd implements INtsParser {
     private INtsParser expr2;
     private INtsParser cpsCmd;
     private INtsParser optElseCpsCmd;
-    private String string;
+    private final String string;
 
     public Cmd() throws GrammarError {
         token = Parser.consume(SKIP, LPAREN, MONOPR, IDENT, LITERAL, IF, WHILE, CALL, DEBUGIN, DEBUGOUT);
@@ -28,34 +41,34 @@ public class Cmd implements INtsParser {
                 || token.hasTerminal(MONOPR)
                 || token.hasTerminal(IDENT)
                 || token.hasTerminal(LITERAL)) {
-            expr1 = null;
+            expr1 = new Expr();
             Parser.consume(BECOMES);
-            expr2 = null;
+            expr2 = new Expr();
             string = expr1.toString() + " BECOMES " + expr2;
         }
         else if (token.hasTerminal(IF)) {
-            expr1 = null;
+            expr1 = new Expr();
             Parser.consume(THEN);
-            cpsCmd = null;
-            optElseCpsCmd = null;
+            cpsCmd = new CpsCmd();
+            optElseCpsCmd = new OptElseCpsCmd();
             Parser.consume(ENDIF);
             string = token.getTerminal().toString() + " " + expr1.toString() + " THEN " + cpsCmd.toString() + " " + optElseCpsCmd.toString() + " ENDIF";
         }
         else if (token.hasTerminal(WHILE)) {
-            expr1 = null;
+            expr1 = new Expr();
             Parser.consume(DO);
-            cpsCmd = null;
+            cpsCmd = new CpsCmd();
             Parser.consume(ENDWHILE);
             string = token.getTerminal().toString() + " " + expr1.toString() + " DO " + cpsCmd.toString() + " ENDWHILE";
         }
         else if (token.hasTerminal(CALL)) {
             identifier = Parser.consume(IDENT);
-            exprList = null;
-            optGlobInits = null;
+            exprList = new ExprList();
+            optGlobInits = new OptGlobInits();
             string = token.getTerminal().toString() + " " + identifier.getTerminal().toString() + " " + exprList.toString() + " " + optGlobInits.toString();
         }
         else {
-            expr1 = null;
+            expr1 = new Expr();
             string = token.getTerminal().toString() + " " + expr1.toString();
         }
     }

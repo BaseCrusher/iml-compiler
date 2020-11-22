@@ -5,19 +5,20 @@ import ch.fhnw.cpib.compiler.parser.INtsParser;
 import ch.fhnw.cpib.compiler.parser.Parser;
 import ch.fhnw.cpib.compiler.tokens.IToken;
 
-import static ch.fhnw.cpib.compiler.tokens.enums.AttributeTerminals.*;
-import static ch.fhnw.cpib.compiler.tokens.enums.KeywordTerminals.*;
+import static ch.fhnw.cpib.compiler.tokens.enums.AttributeTerminals.CHANGEMODE;
+import static ch.fhnw.cpib.compiler.tokens.enums.AttributeTerminals.FLOWMODE;
+import static ch.fhnw.cpib.compiler.tokens.enums.AttributeTerminals.IDENT;
 
 public class GlobImps implements INtsParser {
-    private IToken token;
+    private final IToken token;
     private INtsParser globImp;
     private INtsParser repCommaGlobImp;
-    private String string;
+    private final String string;
 
     public GlobImps() throws GrammarError {
         token = Parser.consume(IDENT, CHANGEMODE, FLOWMODE);
-        globImp = null;
-        repCommaGlobImp = null;
+        globImp = new GlobImp();
+        repCommaGlobImp = new RepCommaGlobImp();
         string = token.getTerminal().toString() + " " + globImp.toString() + " " + repCommaGlobImp.toString();
     }
 

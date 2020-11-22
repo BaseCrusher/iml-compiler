@@ -28,12 +28,12 @@ public class OptInitOrExprList implements INtsParser {
     private final IToken token;
     private INtsParser exprList;
     private INtsParser epsilon;
-    private String string;
+    private final String string;
 
     public OptInitOrExprList() throws GrammarError {
         token = Parser.consume(INIT, LPAREN, COMMA, RPAREN, DO, THEN, ENDWHILE, ENDIF, ELSE, ENDPROC, ENDFUN, ENDPROGRAM, SEMICOLON, BECOMES, BOOLOPR, RELOPR, ADDOPR, MULTOPR);
         if (token.hasTerminal(LPAREN)) {
-            exprList = null;
+            exprList = new ExprList();
             string = exprList.toString();
         } else {
             epsilon = new Epsilon();

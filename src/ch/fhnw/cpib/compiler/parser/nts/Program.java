@@ -8,7 +8,7 @@ import ch.fhnw.cpib.compiler.tokens.enums.AttributeTerminals;
 import ch.fhnw.cpib.compiler.tokens.enums.KeywordTerminals;
 
 public class Program implements INtsParser {
-    private IToken identifier;
+    private final IToken identifier;
     private INtsParser programParamList;
     private INtsParser optGlobalCpsDecl;
     private IToken _do;
@@ -18,10 +18,10 @@ public class Program implements INtsParser {
     public Program() throws GrammarError {
         Parser.consume(KeywordTerminals.PROGRAM);
         identifier = Parser.consume(AttributeTerminals.IDENT);
-        programParamList = null;
-        optGlobalCpsDecl = null;
+        programParamList = new ProgParamList();
+        optGlobalCpsDecl = new OptGlobalCpsDecl();
         _do = Parser.consume(KeywordTerminals.DO);
-        cpsCmd = null;
+        cpsCmd = new CpsCmd();
         endProgram = Parser.consume(KeywordTerminals.ENDPROGRAM);
     }
 
@@ -34,47 +34,23 @@ public class Program implements INtsParser {
         return identifier;
     }
 
-    public void setIdentifier(IToken identifier) {
-        this.identifier = identifier;
-    }
-
     public INtsParser getProgramParamList() {
         return programParamList;
-    }
-
-    public void setProgramParamList(INtsParser programParamList) {
-        this.programParamList = programParamList;
     }
 
     public INtsParser getOptGlobalCpsDecl() {
         return optGlobalCpsDecl;
     }
 
-    public void setOptGlobalCpsDecl(INtsParser optGlobalCpsDecl) {
-        this.optGlobalCpsDecl = optGlobalCpsDecl;
-    }
-
     public IToken get_do() {
         return _do;
-    }
-
-    public void set_do(IToken _do) {
-        this._do = _do;
     }
 
     public INtsParser getCpsCmd() {
         return cpsCmd;
     }
 
-    public void setCpsCmd(INtsParser cpsCmd) {
-        this.cpsCmd = cpsCmd;
-    }
-
     public IToken getEndProgram() {
         return endProgram;
-    }
-
-    public void setEndProgram(IToken endProgram) {
-        this.endProgram = endProgram;
     }
 }

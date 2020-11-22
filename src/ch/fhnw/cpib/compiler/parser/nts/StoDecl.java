@@ -5,19 +5,20 @@ import ch.fhnw.cpib.compiler.parser.INtsParser;
 import ch.fhnw.cpib.compiler.parser.Parser;
 import ch.fhnw.cpib.compiler.tokens.IToken;
 
-import static ch.fhnw.cpib.compiler.tokens.enums.AttributeTerminals.*;
+import static ch.fhnw.cpib.compiler.tokens.enums.AttributeTerminals.CHANGEMODE;
+import static ch.fhnw.cpib.compiler.tokens.enums.AttributeTerminals.IDENT;
 
 
 public class StoDecl implements INtsParser {
-    private IToken token;
+    private final IToken token;
     private INtsParser optChangemode;
     private INtsParser typedIdent;
-    private String string;
+    private final String string;
 
     public StoDecl() throws GrammarError {
         token = Parser.consume(IDENT, CHANGEMODE);
-        optChangemode = null;
-        typedIdent = null;
+        optChangemode = new OptChangemode();
+        typedIdent = new TypedIdent();
         string = token.getTerminal().toString() + " " + optChangemode.toString() + " " + typedIdent.toString();
     }
 
@@ -30,23 +31,11 @@ public class StoDecl implements INtsParser {
         return token;
     }
 
-    public void setToken(IToken token) {
-        this.token = token;
-    }
-
     public INtsParser getOptChangemode() {
         return optChangemode;
     }
 
-    public void setOptChangemode(INtsParser optChangemode) {
-        this.optChangemode = optChangemode;
-    }
-
     public INtsParser getTypedIdent() {
         return typedIdent;
-    }
-
-    public void setTypedIdent(INtsParser typedIdent) {
-        this.typedIdent = typedIdent;
     }
 }

@@ -5,23 +5,25 @@ import ch.fhnw.cpib.compiler.parser.INtsParser;
 import ch.fhnw.cpib.compiler.parser.Parser;
 import ch.fhnw.cpib.compiler.tokens.IToken;
 
-import static ch.fhnw.cpib.compiler.tokens.enums.AttributeTerminals.*;
-import static ch.fhnw.cpib.compiler.tokens.enums.KeywordTerminals.*;
+import static ch.fhnw.cpib.compiler.tokens.enums.AttributeTerminals.CHANGEMODE;
+import static ch.fhnw.cpib.compiler.tokens.enums.AttributeTerminals.FLOWMODE;
+import static ch.fhnw.cpib.compiler.tokens.enums.AttributeTerminals.IDENT;
+import static ch.fhnw.cpib.compiler.tokens.enums.KeywordTerminals.RPAREN;
 
 public class OptProgParamRepCommaProgParam implements INtsParser {
-    private IToken token;
+    private final IToken token;
     private INtsParser progParam;
     private INtsParser repCommaProgParam;
     private INtsParser epsilon;
-    private String string;
+    private final String string;
 
     public OptProgParamRepCommaProgParam() throws GrammarError {
         token = Parser.consume(IDENT, CHANGEMODE, FLOWMODE, RPAREN);
         if (token.hasTerminal(IDENT)
             || token.hasTerminal(CHANGEMODE)
             || token.hasTerminal(FLOWMODE)) {
-            progParam = null;
-            repCommaProgParam = null;
+            progParam = new ProgParam();
+            repCommaProgParam = new RepCommaProgParam();
             string = token.getTerminal().toString() + " " +  progParam.toString() + " " + repCommaProgParam.toString();
         }
         else {
@@ -39,24 +41,12 @@ public class OptProgParamRepCommaProgParam implements INtsParser {
         return token;
     }
 
-    public void setToken(IToken token) {
-        this.token = token;
-    }
-
     public INtsParser getProgParam() {
         return progParam;
     }
 
-    public void setProgParam(INtsParser progParam) {
-        this.progParam = progParam;
-    }
-
     public INtsParser getRepCommaProgParam() {
         return repCommaProgParam;
-    }
-
-    public void setRepCommaProgParam(INtsParser repCommaProgParam) {
-        this.repCommaProgParam = repCommaProgParam;
     }
 
     public INtsParser getEpsilon() {
