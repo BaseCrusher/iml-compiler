@@ -23,8 +23,8 @@ public class Parser implements IParser {
         throw new GrammarError(
                 "terminal expected: " + Arrays.toString(expectedTerminals) +
                         ", terminal found: " + terminal.toString() +
-                        "at line: " +token.getLine() +
-                        "and column: " + token.getColumn());
+                        " at line: " +token.getLine() +
+                        " and column: " + token.getColumn());
     }
 
 

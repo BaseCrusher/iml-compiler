@@ -240,6 +240,7 @@ public class Scanner {
             }
             if (AddOperators.contains(symbol)) {
                 list.add(new AttributeToken<IAddOperator>(AttributeTerminals.ADDOPR, AddOperators.valueOf(symbol.name()), line, column));
+                return;
             }
 
             IMultOperator multOperator = MultOperators.contains(symbol);

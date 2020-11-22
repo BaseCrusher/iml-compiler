@@ -1,7 +1,10 @@
 package ch.fhnw.cpib;
 
 import ch.fhnw.cpib.compiler.Scanner;
+import ch.fhnw.cpib.compiler.error.GrammarError;
 import ch.fhnw.cpib.compiler.error.LexicalError;
+import ch.fhnw.cpib.compiler.parser.IConcreteTree;
+import ch.fhnw.cpib.compiler.parser.Parser;
 import ch.fhnw.cpib.compiler.tokens.ITokenList;
 
 public class Main {
@@ -68,8 +71,12 @@ public class Main {
                     "endprogram\n");
 
             System.out.println(bla);
+
+            Parser parser = new Parser(bla);
+            IConcreteTree concreteTree = parser.parse();
+            System.out.println(concreteTree);
         }
-        catch (LexicalError ex){
+        catch (LexicalError | GrammarError ex){
             System.out.println(ex);
         }
     }
