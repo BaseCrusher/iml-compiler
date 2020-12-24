@@ -19,7 +19,7 @@ public class GlobImp implements INtsParser {
     public GlobImp() throws GrammarError {
         token = Parser.consume(IDENT, CHANGEMODE, FLOWMODE);
         optFlowmode = new OptFlowmode(token);
-        optChangemode = new OptChangemode();
+        optChangemode = new OptChangemode(this.token);
         identifier = Parser.consume(IDENT);
         string = token.getTerminal().toString() + " " + optFlowmode.toString() + " " + optChangemode.toString() + " " + identifier.getTerminal().toString();
     }

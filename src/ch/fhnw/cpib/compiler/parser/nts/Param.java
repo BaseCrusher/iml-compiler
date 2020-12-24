@@ -22,8 +22,8 @@ public class Param implements INtsParser {
         token = Parser.consume(IDENT, CHANGEMODE, MECHMODE, FLOWMODE);
         optFlowmode = new OptFlowmode(token);
         optMechmode = new OptMechmode();
-        optChangemode = new OptChangemode();
-        typedIdent = new TypedIdent();
+        optChangemode = new OptChangemode(this.token);
+        typedIdent = new TypedIdent(this.token);
 
         string = token.getTerminal().toString() + " " + optFlowmode.toString() + " " + optMechmode.toString() + " " + optChangemode.toString() + " " + typedIdent.toString();
     }

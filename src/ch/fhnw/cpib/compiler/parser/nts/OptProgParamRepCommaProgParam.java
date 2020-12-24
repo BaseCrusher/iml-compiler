@@ -22,7 +22,7 @@ public class OptProgParamRepCommaProgParam implements INtsParser {
         if (token.hasTerminal(IDENT)
             || token.hasTerminal(CHANGEMODE)
             || token.hasTerminal(FLOWMODE)) {
-            progParam = new ProgParam();
+            progParam = new ProgParam(token);
             repCommaProgParam = new RepCommaProgParam();
             string = token.getTerminal().toString() + " " +  progParam.toString() + " " + repCommaProgParam.toString();
         }

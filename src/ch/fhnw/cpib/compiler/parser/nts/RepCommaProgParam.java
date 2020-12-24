@@ -18,7 +18,7 @@ public class RepCommaProgParam implements INtsParser {
     public RepCommaProgParam() throws GrammarError {
         token = Parser.consume(COMMA, RPAREN);
         if (token.hasTerminal(COMMA)) {
-            progParam = new ProgParam();
+            progParam = new ProgParam(token);
             repCommaProgParam = new RepCommaProgParam();
             string = token.getTerminal().toString() + " " + progParam.toString() + " " + repCommaProgParam.toString();
         }

@@ -17,8 +17,8 @@ public class StoDecl implements INtsParser {
 
     public StoDecl() throws GrammarError {
         token = Parser.consume(IDENT, CHANGEMODE);
-        optChangemode = new OptChangemode();
-        typedIdent = new TypedIdent();
+        optChangemode = new OptChangemode(this.token);
+        typedIdent = new TypedIdent(this.token);
         string = token.getTerminal().toString() + " " + optChangemode.toString() + " " + typedIdent.toString();
     }
 
