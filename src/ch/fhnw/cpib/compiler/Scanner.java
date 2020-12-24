@@ -133,7 +133,7 @@ public class Scanner {
         }
         IMechMode mMode = MechModes.getByName(name);
         if (mMode != null){
-            list.add(new AttributeToken<>(AttributeTerminals.MENCHMODE, mMode, line, column));
+            list.add(new AttributeToken<>(AttributeTerminals.MECHMODE, mMode, line, column));
             return;
         }
 

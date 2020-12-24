@@ -22,5 +22,5 @@ public enum AttributeTerminals implements ITerminal {
     // Modes
     CHANGEMODE,
     FLOWMODE,
-    MENCHMODE
+    MECHMODE
 }

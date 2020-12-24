@@ -27,7 +27,6 @@ public class Parser implements IParser {
                         " and column: " + token.getColumn());
     }
 
-
     private IConcreteTree concreteTree;
 
     public Parser(ITokenList tokenList) throws GrammarError {
@@ -37,8 +36,6 @@ public class Parser implements IParser {
         Parser.tokenList = tokenList;
         concreteTree = new ConcreteTree();
     }
-
-
 
     @Override
     public IConcreteTree parse() throws GrammarError {

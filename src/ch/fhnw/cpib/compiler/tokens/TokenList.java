@@ -10,6 +10,7 @@ public class TokenList implements ITokenList {
 
     private final List<IToken> list = new LinkedList<>();
     private Iterator<IToken> listIterator;
+    private IToken currentToken;
 
     @Override
     public void add(IToken token) {
@@ -28,7 +29,8 @@ public class TokenList implements ITokenList {
         if (listIterator == null) {
             listIterator = list.iterator();
         }
-        return listIterator.next();
+        currentToken = listIterator.next();
+        return currentToken;
     }
 
     @Override
@@ -45,5 +47,10 @@ public class TokenList implements ITokenList {
     @Override
     public boolean hasSentinel() {
         return list.get(list.size()-1).getTerminal() == KeywordTerminals.SENTINEL;
+    }
+
+    @Override
+    public IToken currentToken() {
+        return currentToken;
     }
 }

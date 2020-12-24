@@ -8,7 +8,7 @@ import ch.fhnw.cpib.compiler.tokens.IToken;
 import static ch.fhnw.cpib.compiler.tokens.enums.AttributeTerminals.CHANGEMODE;
 import static ch.fhnw.cpib.compiler.tokens.enums.AttributeTerminals.FLOWMODE;
 import static ch.fhnw.cpib.compiler.tokens.enums.AttributeTerminals.IDENT;
-import static ch.fhnw.cpib.compiler.tokens.enums.AttributeTerminals.MENCHMODE;
+import static ch.fhnw.cpib.compiler.tokens.enums.AttributeTerminals.MECHMODE;
 import static ch.fhnw.cpib.compiler.tokens.enums.KeywordTerminals.RPAREN;
 
 public class OptParamRepCommaParam implements INtsParser {
@@ -19,7 +19,7 @@ public class OptParamRepCommaParam implements INtsParser {
     private final String string;
 
     public OptParamRepCommaParam() throws GrammarError {
-        token = Parser.consume(IDENT, CHANGEMODE, MENCHMODE, FLOWMODE, RPAREN);
+        token = Parser.consume(IDENT, CHANGEMODE, MECHMODE, FLOWMODE, RPAREN);
         if (token.hasTerminal(RPAREN)) {
             epsilon = new Epsilon();
             string = epsilon.toString();

@@ -14,16 +14,18 @@ public class ProgParam implements INtsParser {
     private INtsParser optFlowmode;
     private INtsParser optChangemode;
     private INtsParser typedIdent;
+    private INtsParser epsilon;
+    private String string;
 
     public ProgParam() throws GrammarError {
         token = Parser.consume(IDENT, CHANGEMODE, FLOWMODE);
-        optFlowmode = new OptFlowmode();
+        optFlowmode = new OptFlowmode(token);
         optChangemode = new OptChangemode();
         typedIdent = new TypedIdent();
     }
 
     public String toString() {
-        return token.getTerminal().toString() + " " + optFlowmode.toString() + " " + optChangemode.toString() + " " + typedIdent.toString();
+        return string;
     }
 
     public IToken getToken() {

@@ -10,4 +10,6 @@ public interface ITokenList {
     String toString();
 
     boolean hasSentinel();
+
+    IToken currentToken();
 }
