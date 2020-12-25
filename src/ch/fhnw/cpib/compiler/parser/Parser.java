@@ -1,19 +1,17 @@
  package ch.fhnw.cpib.compiler.parser;
 
-import ch.fhnw.cpib.compiler.error.GrammarError;
-import ch.fhnw.cpib.compiler.parser.nts.Program;
-import ch.fhnw.cpib.compiler.tokens.IToken;
-import ch.fhnw.cpib.compiler.tokens.ITokenList;
-import ch.fhnw.cpib.compiler.tokens.enums.ITerminal;
+ import ch.fhnw.cpib.compiler.error.GrammarError;
+ import ch.fhnw.cpib.compiler.parser.nts.Program;
+ import ch.fhnw.cpib.compiler.tokens.IToken;
+ import ch.fhnw.cpib.compiler.tokens.ITokenList;
+ import ch.fhnw.cpib.compiler.tokens.enums.ITerminal;
 
-import java.util.Arrays;
-
-public class Parser implements IParser {
+ public class Parser implements IParser {
 
     private static ITokenList tokenList;
     private static IToken currentToken;
     public static IToken consume(ITerminal... expectedTerminals) throws GrammarError {
-        
+
         ITerminal terminal = currentToken.getTerminal();
 
         for(ITerminal expectedTerminal : expectedTerminals) {
@@ -23,8 +21,8 @@ public class Parser implements IParser {
                 return consumedToken;
             }
         }
-        
-        throw new Error("Error wrong consume.");
+
+        throw new GrammarError(currentToken);
     }
 
     private IConcreteTree concreteTree;
@@ -40,14 +38,14 @@ public class Parser implements IParser {
     @Override
     public IConcreteTree parse() throws GrammarError {
         currentToken = tokenList.nextToken();
-        
+
         Program program = new Program();
 
         concreteTree.setProgram(program);
 
         return concreteTree;
     }
-    
+
     public static IToken getCurrentToken() {
         return currentToken;
     }
