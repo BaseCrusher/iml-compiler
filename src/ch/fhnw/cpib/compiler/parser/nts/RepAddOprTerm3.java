@@ -37,7 +37,7 @@ public class RepAddOprTerm3 implements INtsParser {
             string = token.toString() + " " + term3.toString() + " " + repAddOprTerm3.toString();
         } else if (token.hasTerminal(COMMA, RPAREN, DO, THEN, ENDWHILE, ENDIF, ELSE, ENDPROC, ENDFUN, ENDPROGRAM, SEMICOLON, BECOMES, BOOLOPR, RELOPR)) {
             epsilon = new Epsilon();
-            string = token.getTerminal().toString() + " " + epsilon.toString();
+            string = epsilon.toString();
         }
         else {
             throw new GrammarError(token);

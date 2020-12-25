@@ -27,8 +27,8 @@ public class OptExprRepCommaExpr implements INtsParser {
         }
         else if (token.hasTerminal(RPAREN)) {
             epsilon = new Epsilon();
-            string = token.getTerminal().toString() + " " + epsilon.toString();
-        } 
+            string = epsilon.toString();
+        }
         else {
             throw new GrammarError(token);
         }

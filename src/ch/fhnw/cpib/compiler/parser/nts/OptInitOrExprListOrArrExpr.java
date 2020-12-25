@@ -48,7 +48,7 @@ public class OptInitOrExprListOrArrExpr implements INtsParser {
         }
         else if (token.hasTerminal(COMMA, RBRACK, RPAREN, DO, THEN, ENDWHILE, ENDIF, ELSE, ENDPROC, ENDFUN, ENDPROGRAM, SEMICOLON, BECOMES, BOOLOPR, RELOPR, ADDOPR, MULTOPR, DIVOPR)) {
             epsilon = new Epsilon();
-            string = token.getTerminal().toString() + " " + epsilon.toString();
+            string = epsilon.toString();
         }
         else {
             throw new GrammarError(token);

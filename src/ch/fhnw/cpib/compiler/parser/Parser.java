@@ -24,11 +24,7 @@ public class Parser implements IParser {
             }
         }
         
-        throw new GrammarError(
-                "terminal expected: " + Arrays.toString(expectedTerminals) +
-                        ", terminal found: " + terminal.toString() +
-                        " at line: " + currentToken.getLine() +
-                        " and column: " + currentToken.getColumn());
+        throw new Error("Error wrong consume.");
     }
 
     private IConcreteTree concreteTree;

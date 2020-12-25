@@ -44,7 +44,7 @@ public class Cmd implements INtsParser {
             expr1 = new Expr();
             Parser.consume(BECOMES);
             expr2 = new Expr();
-            string = expr1.toString() + ":=" + expr2;
+            string = expr1.toString() + " := " + expr2;
         }
         else if (token.hasTerminal(IF)) {
             Parser.consume(IF);

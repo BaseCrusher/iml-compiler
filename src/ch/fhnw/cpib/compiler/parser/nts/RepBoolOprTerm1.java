@@ -36,7 +36,7 @@ public class RepBoolOprTerm1 implements INtsParser {
         }
         else if (token.hasTerminal(COMMA, RPAREN, DO, THEN, ENDWHILE, ENDIF, ENDIF, ELSE, ENDPROC, ENDFUN, ENDPROGRAM, SEMICOLON, BECOMES)) {
             epsilon = new Epsilon();
-            string = token.getTerminal().toString() + " " + epsilon.toString();
+            string = epsilon.toString();
         }
         else {
             throw new GrammarError(token);

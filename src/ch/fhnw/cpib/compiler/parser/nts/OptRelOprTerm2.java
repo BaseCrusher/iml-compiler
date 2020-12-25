@@ -35,7 +35,7 @@ public class OptRelOprTerm2 implements INtsParser {
             string = token.toString() + " " + term2.toString();
         } else if (token.hasTerminal(COMMA, RPAREN, DO, THEN, ENDWHILE, ENDIF, ELSE, ENDPROC, ENDFUN, ENDPROGRAM, SEMICOLON, BECOMES, BOOLOPR)) {
             epsilon = new Epsilon();
-            string = token.getTerminal().toString() + " " + epsilon.toString();
+            string = epsilon.toString();
         }
         else {
             throw new GrammarError(token);

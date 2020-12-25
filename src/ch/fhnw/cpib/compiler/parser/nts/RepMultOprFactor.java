@@ -35,7 +35,7 @@ public class RepMultOprFactor implements INtsParser {
             string = token.toString() + " " + factor.toString() + " " + repMultOprFactor.toString();
         } else if (token.hasTerminal(COMMA, RPAREN, DO, THEN, ENDWHILE, ENDIF, ELSE, ENDPROC, ENDFUN, ENDPROGRAM, SEMICOLON, BECOMES, BOOLOPR, RELOPR, ADDOPR)) {
             epsilon = new Epsilon();
-            string = token.getTerminal().toString() + " " + epsilon.toString();
+            string = epsilon.toString();
         }
         else {
             throw new GrammarError(token);
