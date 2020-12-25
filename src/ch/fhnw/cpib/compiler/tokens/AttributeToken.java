@@ -41,6 +41,11 @@ public class AttributeToken<T> implements IToken {
     }
 
     @Override
+    public String getValue() {
+        return _value.toString();
+    }
+
+    @Override
     public boolean hasTerminal(ITerminal... terminals) {
         for (ITerminal terminal : terminals){
             if (this._terminal == terminal) {

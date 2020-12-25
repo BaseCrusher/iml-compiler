@@ -28,6 +28,11 @@ public class Term3 implements INtsParser {
     }
 
     @Override
+    public IAbstractNode toAbsSyn() {
+        return repMultOprFactor.toAbsSyn()
+    }
+
+    @Override
     public String toString() {
         return factor.toString() + " " + repMultOprFactor.toString();
     }

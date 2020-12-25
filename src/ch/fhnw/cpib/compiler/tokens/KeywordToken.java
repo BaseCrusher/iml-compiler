@@ -35,6 +35,11 @@ public class KeywordToken implements IToken {
     }
 
     @Override
+    public String getValue() {
+        return this.toString();
+    }
+
+    @Override
     public boolean hasTerminal(ITerminal... terminals) {
         for (ITerminal terminal : terminals){
             if (this.terminal == terminal) {

@@ -10,6 +10,7 @@ import static ch.fhnw.cpib.compiler.tokens.enums.AttributeTerminals.TYPE;
 import static ch.fhnw.cpib.compiler.tokens.enums.KeywordTerminals.COLON;
 
 public class TypedIdent implements INtsParser {
+
     private IToken identifier;
     private IToken type;
     private INtsParser optArrDecl;
@@ -27,6 +28,11 @@ public class TypedIdent implements INtsParser {
             throw new GrammarError(identifier);
         }
 
+    }
+
+    @Override
+    public IAbstractNode toAbsSyn() {
+        return new AbsTypedIdent(identifier.getValue(), type.getValue(), optArrDecl.toAbsSyn());
     }
 
     @Override

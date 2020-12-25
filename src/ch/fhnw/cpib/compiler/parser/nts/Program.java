@@ -1,8 +1,11 @@
 package ch.fhnw.cpib.compiler.parser.nts;
 
 import ch.fhnw.cpib.compiler.error.GrammarError;
+import ch.fhnw.cpib.compiler.parser.IAbstractNode;
 import ch.fhnw.cpib.compiler.parser.INtsParser;
 import ch.fhnw.cpib.compiler.parser.Parser;
+import ch.fhnw.cpib.compiler.parser.abstracts.AbsProgram;
+import ch.fhnw.cpib.compiler.tokens.AttributeToken;
 import ch.fhnw.cpib.compiler.tokens.IToken;
 import ch.fhnw.cpib.compiler.tokens.enums.AttributeTerminals;
 import ch.fhnw.cpib.compiler.tokens.enums.KeywordTerminals;
@@ -30,6 +33,11 @@ public class Program implements INtsParser {
     @Override
     public String toString() {
         return "PROGRAM " + identifier + " " + programParamList.toString() + "\n" + optGlobalCpsDecl.toString() + "\nDO\n" + cpsCmd.toString() + "\nENDPROGRAM";
+    }
+
+    @Override
+    public IAbstractNode toAbsSyn() {
+        return new AbsProgram(identifier.getValue(), programParamList.toAbsSyn(), optGlobalCpsDecl.toAbsSyn(), cpsCmd.toAbsSyn());
     }
 
     public IToken getIdentifier() {

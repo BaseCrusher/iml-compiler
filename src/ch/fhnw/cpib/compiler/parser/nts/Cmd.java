@@ -1,8 +1,10 @@
 package ch.fhnw.cpib.compiler.parser.nts;
 
 import ch.fhnw.cpib.compiler.error.GrammarError;
+import ch.fhnw.cpib.compiler.parser.IAbstractNode;
 import ch.fhnw.cpib.compiler.parser.INtsParser;
 import ch.fhnw.cpib.compiler.parser.Parser;
+import ch.fhnw.cpib.compiler.parser.abstracts.*;
 import ch.fhnw.cpib.compiler.tokens.IToken;
 
 import static ch.fhnw.cpib.compiler.tokens.enums.AttributeTerminals.IDENT;
@@ -88,6 +90,31 @@ public class Cmd implements INtsParser {
     @Override
     public String toString() {
         return string;
+    }
+
+    @Override
+    public IAbstractNode toAbsSyn() {
+        if (token.hasTerminal(SKIP)) {
+            return new AbsSkipCommand();
+        }
+        else if (token.hasTerminal(ARRLEN, LPAREN, MONOPR, IDENT, LITERAL)) {
+            return new AbsAssignmentCommand();
+        }
+        else if (token.hasTerminal(IF)) {
+            return new AbsConditionalCommand();
+        }
+        else if (token.hasTerminal(WHILE)) {
+            return new AbsWhileCommand();
+        }
+        else if (token.hasTerminal(CALL)) {
+            return new AbsCallCommand();
+        }
+        else if (token.hasTerminal(DEBUGIN)) {
+            return new AbsInputCommand();
+        }
+        else (token.hasTerminal(DEBUGOUT)) {
+            return new AbsOutputCommand();
+        }
     }
 
     public IToken getToken() {
