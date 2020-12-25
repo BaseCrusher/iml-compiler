@@ -14,7 +14,7 @@ import static ch.fhnw.cpib.compiler.tokens.enums.KeywordTerminals.RPAREN;
 public class OptExprRepCommaExpr implements INtsParser {
     private final IToken token;
     private INtsParser expr;
-    private INtsParser repCommaExpr;
+    private INtsParser optRepCommaExpr;
     private INtsParser epsilon;
     private final String string;
 
@@ -22,8 +22,8 @@ public class OptExprRepCommaExpr implements INtsParser {
         token = Parser.getCurrentToken();
         if (token.hasTerminal(LPAREN, MONOPR, IDENT, LITERAL)) {
             expr = new Expr();
-            repCommaExpr = new RepCommaExpr();
-            string = expr.toString() + " " + repCommaExpr.toString();
+            optRepCommaExpr = new OptRepCommaExpr();
+            string = expr.toString() + " " + optRepCommaExpr.toString();
         }
         else if (token.hasTerminal(RPAREN)) {
             epsilon = new Epsilon();
@@ -47,8 +47,8 @@ public class OptExprRepCommaExpr implements INtsParser {
         return expr;
     }
 
-    public INtsParser getRepCommaExpr() {
-        return repCommaExpr;
+    public INtsParser getOptRepCommaExpr() {
+        return optRepCommaExpr;
     }
 
     public INtsParser getEpsilon() {

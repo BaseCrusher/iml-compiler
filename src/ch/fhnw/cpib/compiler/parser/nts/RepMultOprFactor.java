@@ -5,10 +5,7 @@ import ch.fhnw.cpib.compiler.parser.INtsParser;
 import ch.fhnw.cpib.compiler.parser.Parser;
 import ch.fhnw.cpib.compiler.tokens.IToken;
 
-import static ch.fhnw.cpib.compiler.tokens.enums.AttributeTerminals.ADDOPR;
-import static ch.fhnw.cpib.compiler.tokens.enums.AttributeTerminals.BOOLOPR;
-import static ch.fhnw.cpib.compiler.tokens.enums.AttributeTerminals.MULTOPR;
-import static ch.fhnw.cpib.compiler.tokens.enums.AttributeTerminals.RELOPR;
+import static ch.fhnw.cpib.compiler.tokens.enums.AttributeTerminals.*;
 import static ch.fhnw.cpib.compiler.tokens.enums.KeywordTerminals.BECOMES;
 import static ch.fhnw.cpib.compiler.tokens.enums.KeywordTerminals.COMMA;
 import static ch.fhnw.cpib.compiler.tokens.enums.KeywordTerminals.DO;
@@ -31,8 +28,8 @@ public class RepMultOprFactor implements INtsParser {
 
     public RepMultOprFactor() throws GrammarError {
         token = Parser.getCurrentToken();
-        if (token.hasTerminal(MULTOPR)) {
-            Parser.consume(MULTOPR);
+        if (token.hasTerminal(MULTOPR, DIVOPR)) {
+            Parser.consume(MULTOPR, DIVOPR);
             factor = new Factor();
             repMultOprFactor = new RepMultOprFactor();
             string = token.getTerminal().toString() + " " + factor.toString() + " " + repMultOprFactor.toString();

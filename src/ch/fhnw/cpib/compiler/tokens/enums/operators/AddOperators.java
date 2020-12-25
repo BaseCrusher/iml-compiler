@@ -4,7 +4,7 @@ import java.util.Arrays;
 
 import ch.fhnw.cpib.compiler.tokens.enums.dictionary.Symbols;
 
-public enum AddOperators implements IAddOperator {
+public enum AddOperators implements IAddOperator, IMonoOperator {
     PLUS,
     MINUS;
 

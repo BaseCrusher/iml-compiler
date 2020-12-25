@@ -8,19 +8,20 @@ import ch.fhnw.cpib.compiler.tokens.IToken;
 import static ch.fhnw.cpib.compiler.tokens.enums.KeywordTerminals.COMMA;
 import static ch.fhnw.cpib.compiler.tokens.enums.KeywordTerminals.RPAREN;
 
-public class RepCommaExpr implements INtsParser {
+public class OptRepCommaExpr implements INtsParser {
     private final IToken token;
     private INtsParser expr;
-    private INtsParser repCommaExpr;
+    private INtsParser optRepCommaExpr;
     private INtsParser epsilon;
     private final String string;
 
-    public RepCommaExpr() throws GrammarError {
+    public OptRepCommaExpr() throws GrammarError {
         token = Parser.getCurrentToken();
         if (token.hasTerminal(COMMA)) {
+            Parser.consume(COMMA);
             expr = new Expr();
-            repCommaExpr = new RepCommaExpr();
-            string = token.getTerminal().toString() + " " + expr.toString() + " " + repCommaExpr.toString();
+            optRepCommaExpr = new OptRepCommaExpr();
+            string = token.getTerminal().toString() + " " + expr.toString() + " " + optRepCommaExpr.toString();
         } else if (token.hasTerminal(RPAREN)) {
             epsilon = new Epsilon();
             string = token.getTerminal().toString() + " " + epsilon.toString();
@@ -43,8 +44,8 @@ public class RepCommaExpr implements INtsParser {
         return expr;
     }
 
-    public INtsParser getRepCommaExpr() {
-        return repCommaExpr;
+    public INtsParser getOptRepCommaExpr() {
+        return optRepCommaExpr;
     }
 
     public INtsParser getEpsilon() {

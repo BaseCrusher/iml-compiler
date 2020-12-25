@@ -151,6 +151,12 @@ public class Scanner {
             return;
         }
 
+        IMultOperator divOperator = DivOperators.getByName(name);
+        if (divOperator != null) {
+            list.add(new AttributeToken<>(AttributeTerminals.DIVOPR, divOperator, line, column));
+            return;
+        }
+
         // check if it is "true"
         if (name.toLowerCase().equals("true")) {
             list.add(new AttributeToken<>(AttributeTerminals.LITERAL, true, line, column));
@@ -246,12 +252,6 @@ public class Scanner {
             IMultOperator multOperator = MultOperators.contains(symbol);
             if (multOperator != null) {
                 list.add(new AttributeToken<>(AttributeTerminals.MULTOPR, multOperator, line, column));
-                return;
-            }
-
-            IDivOperator divOperator = DivOperators.contains(symbol);
-            if (divOperator != null) {
-                list.add(new AttributeToken<>(AttributeTerminals.DIVOPR, divOperator, line, column));
                 return;
             }
 

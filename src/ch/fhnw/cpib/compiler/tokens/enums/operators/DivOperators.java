@@ -4,7 +4,7 @@ import java.util.Arrays;
 
 import ch.fhnw.cpib.compiler.tokens.enums.dictionary.Symbols;
 
-public enum DivOperators implements IDivOperator {
+public enum DivOperators implements IDivOperator, IMultOperator {
     DIV_E("divE"),
     MOD_E("modE"),
     DIV_F("divF"),

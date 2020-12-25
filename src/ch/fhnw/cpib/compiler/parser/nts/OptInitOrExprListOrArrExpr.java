@@ -5,10 +5,7 @@ import ch.fhnw.cpib.compiler.parser.INtsParser;
 import ch.fhnw.cpib.compiler.parser.Parser;
 import ch.fhnw.cpib.compiler.tokens.IToken;
 
-import static ch.fhnw.cpib.compiler.tokens.enums.AttributeTerminals.ADDOPR;
-import static ch.fhnw.cpib.compiler.tokens.enums.AttributeTerminals.BOOLOPR;
-import static ch.fhnw.cpib.compiler.tokens.enums.AttributeTerminals.MULTOPR;
-import static ch.fhnw.cpib.compiler.tokens.enums.AttributeTerminals.RELOPR;
+import static ch.fhnw.cpib.compiler.tokens.enums.AttributeTerminals.*;
 import static ch.fhnw.cpib.compiler.tokens.enums.KeywordTerminals.BECOMES;
 import static ch.fhnw.cpib.compiler.tokens.enums.KeywordTerminals.COMMA;
 import static ch.fhnw.cpib.compiler.tokens.enums.KeywordTerminals.DO;
@@ -49,7 +46,7 @@ public class OptInitOrExprListOrArrExpr implements INtsParser {
             Parser.consume(RBRACK);
             string = token.getTerminal().toString() + " " + expr.toString()  + " RBRACK";
         }
-        else if (token.hasTerminal(COMMA, RBRACK, RPAREN, DO, THEN, ENDWHILE, ENDIF, ELSE, ENDPROC, ENDFUN, ENDPROGRAM, SEMICOLON, BECOMES, BOOLOPR, RELOPR, ADDOPR, MULTOPR)) {
+        else if (token.hasTerminal(COMMA, RBRACK, RPAREN, DO, THEN, ENDWHILE, ENDIF, ELSE, ENDPROC, ENDFUN, ENDPROGRAM, SEMICOLON, BECOMES, BOOLOPR, RELOPR, ADDOPR, MULTOPR, DIVOPR)) {
             epsilon = new Epsilon();
             string = token.getTerminal().toString() + " " + epsilon.toString();
         }
