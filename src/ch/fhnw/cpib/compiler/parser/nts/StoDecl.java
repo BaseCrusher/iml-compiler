@@ -1,8 +1,10 @@
 package ch.fhnw.cpib.compiler.parser.nts;
 
 import ch.fhnw.cpib.compiler.error.GrammarError;
+import ch.fhnw.cpib.compiler.parser.IAbstractNode;
 import ch.fhnw.cpib.compiler.parser.INtsParser;
 import ch.fhnw.cpib.compiler.parser.Parser;
+import ch.fhnw.cpib.compiler.parser.abstracts.AbsStoDecl;
 import ch.fhnw.cpib.compiler.tokens.IToken;
 
 import static ch.fhnw.cpib.compiler.tokens.enums.AttributeTerminals.CHANGEMODE;
@@ -28,6 +30,11 @@ public class StoDecl implements INtsParser {
     @Override
     public String toString() {
         return optChangemode.toString() + " " + typedIdent.toString();
+    }
+
+    @Override
+    public IAbstractNode toAbsSyn() {
+        return new AbsStoDecl(optChangemode.toAbsSyn(), typedIdent.toAbsSyn());
     }
 
     public IToken getToken() {
