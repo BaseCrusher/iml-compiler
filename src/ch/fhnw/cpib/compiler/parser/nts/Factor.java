@@ -22,20 +22,21 @@ public class Factor implements INtsParser {
         token = Parser.getCurrentToken();
         if (token.hasTerminal(LITERAL)) {
             Parser.consume(LITERAL);
+            string = token.toString();
         }
         else if (token.hasTerminal(IDENT)) {
             Parser.consume(IDENT);
             optInitOrExprList = new OptInitOrExprListOrArrExpr();
-            string = token.getTerminal().toString() + " " + optInitOrExprList.toString();
+            string = token.toString() + " " + optInitOrExprList.toString();
         } else if (token.hasTerminal(MONOPR)) {
             Parser.consume(MONOPR);
             factor = new Factor();
-            string = token.getTerminal().toString() + " " + factor.toString();
+            string = token.toString() + " " + factor.toString();
         } else if (token.hasTerminal(LPAREN)) {
             Parser.consume(LPAREN);
             expr = new Expr();
             Parser.consume(RPAREN);
-            string = token.getTerminal().toString() + " " + expr.toString() + " RPAREN";
+            string = "(" + expr.toString() + ")";
         }
         else {
             throw new GrammarError(token);

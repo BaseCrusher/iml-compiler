@@ -39,12 +39,12 @@ public class OptInitOrExprListOrArrExpr implements INtsParser {
         else if (token.hasTerminal(LPAREN)) {
             exprList = new ExprList();
             string = exprList.toString();
-        } 
+        }
         else if (token.hasTerminal(LBRACK)) {
             Parser.consume(LBRACK);
-            expr = new Expr();  
+            expr = new Expr();
             Parser.consume(RBRACK);
-            string = token.getTerminal().toString() + " " + expr.toString()  + " RBRACK";
+            string = "(" + expr.toString()  + ")";
         }
         else if (token.hasTerminal(COMMA, RBRACK, RPAREN, DO, THEN, ENDWHILE, ENDIF, ELSE, ENDPROC, ENDFUN, ENDPROGRAM, SEMICOLON, BECOMES, BOOLOPR, RELOPR, ADDOPR, MULTOPR, DIVOPR)) {
             epsilon = new Epsilon();

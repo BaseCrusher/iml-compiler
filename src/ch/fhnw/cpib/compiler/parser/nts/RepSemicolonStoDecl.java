@@ -19,7 +19,7 @@ public class RepSemicolonStoDecl implements INtsParser {
         if (token.hasTerminal(SEMICOLON)) {
             Parser.consume(SEMICOLON);
             stoDecl = new StoDecl();
-            string = token.getTerminal().toString() + " " + stoDecl.toString();
+            string = "; \n " + stoDecl.toString();
         }
         else if (token.hasTerminal(DO)) {
             epsilon = new Epsilon();
@@ -42,7 +42,7 @@ public class RepSemicolonStoDecl implements INtsParser {
     public INtsParser getStoDecl() {
         return stoDecl;
     }
-    
+
     public INtsParser getEpsilon() {
         return epsilon;
     }

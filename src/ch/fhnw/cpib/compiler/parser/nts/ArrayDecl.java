@@ -18,7 +18,7 @@ public class ArrayDecl implements INtsParser {
             Parser.consume(PIPE);
             optLit = new OptLit();
             Parser.consume(PIPE);
-            string = token.getTerminal().toString() + " : " + optLit.toString() + " : " + PIPE.toString();
+            string = "|" + optLit.toString() + "|";
         } else {
             throw new GrammarError(token);
         }

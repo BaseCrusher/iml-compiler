@@ -38,13 +38,13 @@ public class Cmd implements INtsParser {
         token = Parser.getCurrentToken();
         if (token.hasTerminal(SKIP)) {
             Parser.consume(SKIP);
-            string = token.getTerminal().toString();
+            string = token.toString();
         }
         else if (token.hasTerminal(LPAREN, MONOPR, IDENT, LITERAL)) {
             expr1 = new Expr();
             Parser.consume(BECOMES);
             expr2 = new Expr();
-            string = expr1.toString() + " BECOMES " + expr2;
+            string = expr1.toString() + ":=" + expr2;
         }
         else if (token.hasTerminal(IF)) {
             Parser.consume(IF);
@@ -53,7 +53,7 @@ public class Cmd implements INtsParser {
             cpsCmd = new CpsCmd();
             optElseCpsCmd = new OptElseCpsCmd();
             Parser.consume(ENDIF);
-            string = token.getTerminal().toString() + " " + expr1.toString() + " THEN " + cpsCmd.toString() + " " + optElseCpsCmd.toString() + " ENDIF";
+            string = "IF" + expr1.toString() + " THEN\n" + cpsCmd.toString() + "\n" + optElseCpsCmd.toString() + "\nENDIF";
         }
         else if (token.hasTerminal(WHILE)) {
             Parser.consume(WHILE);
@@ -61,31 +61,31 @@ public class Cmd implements INtsParser {
             Parser.consume(DO);
             cpsCmd = new CpsCmd();
             Parser.consume(ENDWHILE);
-            string = token.getTerminal().toString() + " " + expr1.toString() + " DO " + cpsCmd.toString() + " ENDWHILE";
+            string = "WHILE " + expr1.toString() + " DO\n" + cpsCmd.toString() + "\nENDWHILE";
         }
         else if (token.hasTerminal(CALL)) {
             Parser.consume(CALL);
             identifier = Parser.consume(IDENT);
             exprList = new ExprList();
             optGlobInits = new OptGlobInits();
-            string = token.getTerminal().toString() + " " + identifier.getTerminal().toString() + " " + exprList.toString() + " " + optGlobInits.toString();
+            string = "CALL " + identifier.toString() + exprList.toString() + "\n" + optGlobInits.toString();
         }
         else if (token.hasTerminal(DEBUGIN)) {
             Parser.consume(DEBUGIN);
             expr1 = new Expr();
-            string = token.getTerminal().toString() + " " + expr1.toString();
+            string = "DEBUGIN " + expr1.toString();
         }
         else if (token.hasTerminal(DEBUGOUT)) {
             Parser.consume(DEBUGOUT);
             expr1 = new Expr();
-            string = token.getTerminal().toString() + " " + expr1.toString();
+            string = "DEBUGOUT " + expr1.toString();
         }
         else if (token.hasTerminal(ARRLEN)) {
             Parser.consume(ARRLEN);
             Parser.consume(LPAREN);
             identifier = Parser.consume(IDENT);
             Parser.consume(RPAREN);
-            string = token.getTerminal().toString() + " " + identifier.getTerminal().toString();
+            string = "ARRLEN(" + identifier.toString() + ")";
         }
         else {
             throw new GrammarError(token);

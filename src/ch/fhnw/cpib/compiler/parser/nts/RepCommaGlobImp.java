@@ -20,7 +20,7 @@ public class RepCommaGlobImp implements INtsParser {
         if (token.hasTerminal(COMMA)) {
             Parser.consume(COMMA);
             globImps = new GlobImps();
-            string = token.getTerminal().toString() + " " + globImps.toString();
+            string = ", " + globImps.toString();
         }
         else if (token.hasTerminal(DO, LOCAL)) {
             epsilon = new Epsilon();

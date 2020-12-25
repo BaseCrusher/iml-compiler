@@ -19,9 +19,7 @@ public class OptProgParamRepCommaProgParam implements INtsParser {
 
     public OptProgParamRepCommaProgParam() throws GrammarError {
         token = Parser.getCurrentToken();
-        if (token.hasTerminal(IDENT)
-            || token.hasTerminal(CHANGEMODE)
-            || token.hasTerminal(FLOWMODE)) {
+        if (token.hasTerminal(IDENT, CHANGEMODE, FLOWMODE)) {
             progParam = new ProgParam();
             repCommaProgParam = new RepCommaProgParam();
             string = progParam.toString() + repCommaProgParam.toString();

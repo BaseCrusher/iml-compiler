@@ -32,7 +32,7 @@ public class RepMultOprFactor implements INtsParser {
             Parser.consume(MULTOPR, DIVOPR);
             factor = new Factor();
             repMultOprFactor = new RepMultOprFactor();
-            string = token.getTerminal().toString() + " " + factor.toString() + " " + repMultOprFactor.toString();
+            string = token.toString() + " " + factor.toString() + " " + repMultOprFactor.toString();
         } else if (token.hasTerminal(COMMA, RPAREN, DO, THEN, ENDWHILE, ENDIF, ELSE, ENDPROC, ENDFUN, ENDPROGRAM, SEMICOLON, BECOMES, BOOLOPR, RELOPR, ADDOPR)) {
             epsilon = new Epsilon();
             string = token.getTerminal().toString() + " " + epsilon.toString();

@@ -22,7 +22,7 @@ public class OptArrDecl implements INtsParser {
         token = Parser.getCurrentToken();
         if (token.hasTerminal(PIPE)) {
             arrayDecl = new ArrayDecl();
-            string = token.getTerminal().toString() + " : " + arrayDecl.toString();
+            string = arrayDecl.toString();
         } else if (token.hasTerminal(PIPE, LOCAL, GLOBAL, DO, SEMICOLON, RPAREN, COMMA)){
             Epsilon epsilon = new Epsilon();
             string = epsilon.toString();

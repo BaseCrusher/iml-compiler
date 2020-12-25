@@ -32,7 +32,7 @@ public class RepBoolOprTerm1 implements INtsParser {
             Parser.consume(BOOLOPR);
             term1 = new Term1();
             repBoolOprTerm1 = new RepBoolOprTerm1();
-            string = token.getTerminal().toString() + " " + term1.toString() + " " + repBoolOprTerm1.toString();
+            string = token.toString() + " " + term1.toString() + " " + repBoolOprTerm1.toString();
         }
         else if (token.hasTerminal(COMMA, RPAREN, DO, THEN, ENDWHILE, ENDIF, ENDIF, ELSE, ENDPROC, ENDFUN, ENDPROGRAM, SEMICOLON, BECOMES)) {
             epsilon = new Epsilon();

@@ -32,7 +32,7 @@ public class OptRelOprTerm2 implements INtsParser {
         if (token.hasTerminal(RELOPR)) {
             Parser.consume(RELOPR);
             term2 = new Term2();
-            string = token.getTerminal().toString() + " " + term2.toString();
+            string = token.toString() + " " + term2.toString();
         } else if (token.hasTerminal(COMMA, RPAREN, DO, THEN, ENDWHILE, ENDIF, ELSE, ENDPROC, ENDFUN, ENDPROGRAM, SEMICOLON, BECOMES, BOOLOPR)) {
             epsilon = new Epsilon();
             string = token.getTerminal().toString() + " " + epsilon.toString();

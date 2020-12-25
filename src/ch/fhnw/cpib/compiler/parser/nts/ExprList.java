@@ -26,7 +26,7 @@ public class ExprList implements INtsParser {
 
     @Override
     public String toString() {
-        return token.getTerminal().toString() + " " + optExprRepCommaExpr.toString() + " RPAREN";
+        return "(" + optExprRepCommaExpr.toString() + ")";
     }
 
     public IToken getToken() {

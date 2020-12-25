@@ -13,23 +13,21 @@ public class StoDecl implements INtsParser {
     private final IToken token;
     private INtsParser optChangemode;
     private INtsParser typedIdent;
-    private final String string;
 
     public StoDecl() throws GrammarError {
         token = Parser.getCurrentToken();
         if (token.hasTerminal(IDENT, CHANGEMODE)) {
             optChangemode = new OptChangemode();
             typedIdent = new TypedIdent();
-            string = optChangemode.toString() + " " + typedIdent.toString();
         } else {
             throw new GrammarError(token);
         }
-        
+
     }
 
     @Override
     public String toString() {
-        return string;
+        return optChangemode.toString() + " " + typedIdent.toString();
     }
 
     public IToken getToken() {

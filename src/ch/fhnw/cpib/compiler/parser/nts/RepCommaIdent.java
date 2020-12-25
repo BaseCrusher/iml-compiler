@@ -28,7 +28,7 @@ public class RepCommaIdent implements INtsParser {
             Parser.consume(COMMA);
             identifier = Parser.consume(AttributeTerminals.IDENT);
             repCommaIdent = new RepCommaIdent();
-            string = token.getTerminal().toString() + " " + identifier + " " + repCommaIdent.toString();
+            string = ", " + identifier.toString() + " " + repCommaIdent.toString();
         } else if (token.hasTerminal(ENDWHILE, ENDIF, ELSE, ENDPROC, ENDFUN, ENDPROGRAM, SEMICOLON)) {
             epsilon = new Epsilon();
             string = token.getTerminal().toString() + " " + epsilon.toString();

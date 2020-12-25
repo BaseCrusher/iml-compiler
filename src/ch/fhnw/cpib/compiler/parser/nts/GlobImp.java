@@ -22,7 +22,7 @@ public class GlobImp implements INtsParser {
             optFlowmode = new OptFlowmode();
             optChangemode = new OptChangemode();
             identifier = Parser.consume(IDENT);
-            string = token.getTerminal().toString() + " " + optFlowmode.toString() + " " + optChangemode.toString() + " " + identifier.getTerminal().toString();
+            string = optFlowmode.toString() + " " + optChangemode.toString() + " " + identifier.getTerminal().toString();
         } else {
             throw new GrammarError(token);
         }

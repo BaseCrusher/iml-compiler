@@ -20,7 +20,7 @@ public class GlobImps implements INtsParser {
         if (token.hasTerminal(IDENT, CHANGEMODE, FLOWMODE)) {
             globImp = new GlobImp();
             repCommaGlobImp = new RepCommaGlobImp();
-            string = token.getTerminal().toString() + " " + globImp.toString() + " " + repCommaGlobImp.toString();
+            string = globImp.toString() + " " + repCommaGlobImp.toString();
         } else {
             throw new GrammarError(token);
         }

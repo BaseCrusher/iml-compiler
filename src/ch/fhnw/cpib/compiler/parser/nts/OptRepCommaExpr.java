@@ -21,7 +21,7 @@ public class OptRepCommaExpr implements INtsParser {
             Parser.consume(COMMA);
             expr = new Expr();
             optRepCommaExpr = new OptRepCommaExpr();
-            string = token.getTerminal().toString() + " " + expr.toString() + " " + optRepCommaExpr.toString();
+            string = ", " + expr.toString() + " " + optRepCommaExpr.toString();
         } else if (token.hasTerminal(RPAREN)) {
             epsilon = new Epsilon();
             string = token.getTerminal().toString() + " " + epsilon.toString();

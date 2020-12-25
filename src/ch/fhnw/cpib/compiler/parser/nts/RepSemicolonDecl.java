@@ -21,7 +21,7 @@ public class RepSemicolonDecl implements INtsParser {
             Parser.consume(SEMICOLON);
             decl = new Decl();
             repSemicolonDecl = new RepSemicolonDecl();
-            string = token.getTerminal().toString() + " " + decl.toString() + " " + repSemicolonDecl.toString();
+            string = "; \n " + decl.toString() + " " + repSemicolonDecl.toString();
         }
         else if (token.hasTerminal(DO)) {
             epsilon = new Epsilon();

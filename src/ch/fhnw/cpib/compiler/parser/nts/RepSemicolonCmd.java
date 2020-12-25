@@ -26,7 +26,7 @@ public class RepSemicolonCmd implements INtsParser {
             Parser.consume(SEMICOLON);
             cmd = new Cmd();
             repSemicolonCmd = new RepSemicolonCmd();
-            string = token.getTerminal().toString() + " " + cmd.toString() + " " + repSemicolonCmd.toString();
+            string = "; \n " + cmd.toString() + " " + repSemicolonCmd.toString();
         }
         else if (token.hasTerminal(ENDWHILE, ENDIF, ELSE, ENDPROC, ENDFUN, ENDPROGRAM)) {
             epsilon = new Epsilon();
