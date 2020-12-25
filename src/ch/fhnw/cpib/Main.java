@@ -13,7 +13,7 @@ import java.nio.file.Path;
 public class Main {
 
     public static void main(String[] args) throws IOException {
-        Path p = Path.of("example_programs/GcdDef.iml");
+        Path p = Path.of("example_programs/ArraySumExample.iml");
         StringBuilder sb = new StringBuilder();
         Files.lines(p).forEach((String s) -> { sb.append(s).append("\n"); } );
         String content = sb.toString();

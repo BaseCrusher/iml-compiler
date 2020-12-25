@@ -40,7 +40,7 @@ public class Cmd implements INtsParser {
             Parser.consume(SKIP);
             string = token.toString();
         }
-        else if (token.hasTerminal(LPAREN, MONOPR, IDENT, LITERAL)) {
+        else if (token.hasTerminal(ARRLEN, LPAREN, MONOPR, IDENT, LITERAL)) {
             expr1 = new Expr();
             Parser.consume(BECOMES);
             expr2 = new Expr();
@@ -79,13 +79,6 @@ public class Cmd implements INtsParser {
             Parser.consume(DEBUGOUT);
             expr1 = new Expr();
             string = "DEBUGOUT " + expr1.toString();
-        }
-        else if (token.hasTerminal(ARRLEN)) {
-            Parser.consume(ARRLEN);
-            Parser.consume(LPAREN);
-            identifier = Parser.consume(IDENT);
-            Parser.consume(RPAREN);
-            string = "ARRLEN(" + identifier.toString() + ")";
         }
         else {
             throw new GrammarError(token);

@@ -8,6 +8,7 @@ import ch.fhnw.cpib.compiler.tokens.IToken;
 import static ch.fhnw.cpib.compiler.tokens.enums.AttributeTerminals.IDENT;
 import static ch.fhnw.cpib.compiler.tokens.enums.AttributeTerminals.LITERAL;
 import static ch.fhnw.cpib.compiler.tokens.enums.AttributeTerminals.MONOPR;
+import static ch.fhnw.cpib.compiler.tokens.enums.KeywordTerminals.ARRLEN;
 import static ch.fhnw.cpib.compiler.tokens.enums.KeywordTerminals.LPAREN;
 import static ch.fhnw.cpib.compiler.tokens.enums.KeywordTerminals.RPAREN;
 
@@ -20,7 +21,7 @@ public class OptExprRepCommaExpr implements INtsParser {
 
     public OptExprRepCommaExpr() throws GrammarError {
         token = Parser.getCurrentToken();
-        if (token.hasTerminal(LPAREN, MONOPR, IDENT, LITERAL)) {
+        if (token.hasTerminal(ARRLEN, LPAREN, MONOPR, IDENT, LITERAL)) {
             expr = new Expr();
             optRepCommaExpr = new OptRepCommaExpr();
             string = expr.toString() + " " + optRepCommaExpr.toString();

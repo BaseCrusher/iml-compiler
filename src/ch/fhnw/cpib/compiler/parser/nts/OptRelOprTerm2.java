@@ -17,6 +17,7 @@ import static ch.fhnw.cpib.compiler.tokens.enums.KeywordTerminals.ENDIF;
 import static ch.fhnw.cpib.compiler.tokens.enums.KeywordTerminals.ENDPROC;
 import static ch.fhnw.cpib.compiler.tokens.enums.KeywordTerminals.ENDPROGRAM;
 import static ch.fhnw.cpib.compiler.tokens.enums.KeywordTerminals.ENDWHILE;
+import static ch.fhnw.cpib.compiler.tokens.enums.KeywordTerminals.RBRACK;
 import static ch.fhnw.cpib.compiler.tokens.enums.KeywordTerminals.RPAREN;
 import static ch.fhnw.cpib.compiler.tokens.enums.KeywordTerminals.SEMICOLON;
 import static ch.fhnw.cpib.compiler.tokens.enums.KeywordTerminals.THEN;
@@ -33,7 +34,7 @@ public class OptRelOprTerm2 implements INtsParser {
             Parser.consume(RELOPR);
             term2 = new Term2();
             string = token.toString() + " " + term2.toString();
-        } else if (token.hasTerminal(COMMA, RPAREN, DO, THEN, ENDWHILE, ENDIF, ELSE, ENDPROC, ENDFUN, ENDPROGRAM, SEMICOLON, BECOMES, BOOLOPR)) {
+        } else if (token.hasTerminal(COMMA, RBRACK, RPAREN, DO, THEN, ENDWHILE, ENDIF, ELSE, ENDPROC, ENDFUN, ENDPROGRAM, SEMICOLON, BECOMES, BOOLOPR)) {
             epsilon = new Epsilon();
             string = epsilon.toString();
         }

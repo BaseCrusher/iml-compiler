@@ -15,6 +15,7 @@ import static ch.fhnw.cpib.compiler.tokens.enums.KeywordTerminals.ENDIF;
 import static ch.fhnw.cpib.compiler.tokens.enums.KeywordTerminals.ENDPROC;
 import static ch.fhnw.cpib.compiler.tokens.enums.KeywordTerminals.ENDPROGRAM;
 import static ch.fhnw.cpib.compiler.tokens.enums.KeywordTerminals.ENDWHILE;
+import static ch.fhnw.cpib.compiler.tokens.enums.KeywordTerminals.RBRACK;
 import static ch.fhnw.cpib.compiler.tokens.enums.KeywordTerminals.RPAREN;
 import static ch.fhnw.cpib.compiler.tokens.enums.KeywordTerminals.SEMICOLON;
 import static ch.fhnw.cpib.compiler.tokens.enums.KeywordTerminals.THEN;
@@ -33,7 +34,7 @@ public class RepMultOprFactor implements INtsParser {
             factor = new Factor();
             repMultOprFactor = new RepMultOprFactor();
             string = token.toString() + " " + factor.toString() + " " + repMultOprFactor.toString();
-        } else if (token.hasTerminal(COMMA, RPAREN, DO, THEN, ENDWHILE, ENDIF, ELSE, ENDPROC, ENDFUN, ENDPROGRAM, SEMICOLON, BECOMES, BOOLOPR, RELOPR, ADDOPR)) {
+        } else if (token.hasTerminal(COMMA, RBRACK, RPAREN, DO, THEN, ENDWHILE, ENDIF, ELSE, ENDPROC, ENDFUN, ENDPROGRAM, SEMICOLON, BECOMES, BOOLOPR, RELOPR, ADDOPR)) {
             epsilon = new Epsilon();
             string = epsilon.toString();
         }

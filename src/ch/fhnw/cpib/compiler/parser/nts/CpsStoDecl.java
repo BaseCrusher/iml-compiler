@@ -18,7 +18,7 @@ public class CpsStoDecl implements INtsParser {
         token = Parser.getCurrentToken();
         if (token.hasTerminal(IDENT, CHANGEMODE)) {
             stoDecl = new StoDecl();
-            repSemicolonStoDecl = new RepSemicolonStoDecl();
+            repSemicolonStoDecl = new RepSemicolonDecl();
             string = stoDecl.toString() + " " + repSemicolonStoDecl.toString();
         }
         else {

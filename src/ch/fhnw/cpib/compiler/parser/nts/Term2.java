@@ -8,6 +8,7 @@ import ch.fhnw.cpib.compiler.tokens.IToken;
 import static ch.fhnw.cpib.compiler.tokens.enums.AttributeTerminals.IDENT;
 import static ch.fhnw.cpib.compiler.tokens.enums.AttributeTerminals.LITERAL;
 import static ch.fhnw.cpib.compiler.tokens.enums.AttributeTerminals.MONOPR;
+import static ch.fhnw.cpib.compiler.tokens.enums.KeywordTerminals.ARRLEN;
 import static ch.fhnw.cpib.compiler.tokens.enums.KeywordTerminals.LPAREN;
 
 public class Term2 implements INtsParser {
@@ -17,7 +18,7 @@ public class Term2 implements INtsParser {
 
     public Term2() throws GrammarError {
         token = Parser.getCurrentToken();
-        if (token.hasTerminal(LPAREN, MONOPR, IDENT, LITERAL)) {
+        if (token.hasTerminal(ARRLEN, LPAREN, MONOPR, IDENT, LITERAL)) {
             term3 = new Term3();
             repAddOprTerm3 = new RepAddOprTerm3();
         }

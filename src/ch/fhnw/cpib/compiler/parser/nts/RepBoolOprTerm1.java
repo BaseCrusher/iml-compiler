@@ -15,6 +15,7 @@ import static ch.fhnw.cpib.compiler.tokens.enums.KeywordTerminals.ENDIF;
 import static ch.fhnw.cpib.compiler.tokens.enums.KeywordTerminals.ENDPROC;
 import static ch.fhnw.cpib.compiler.tokens.enums.KeywordTerminals.ENDPROGRAM;
 import static ch.fhnw.cpib.compiler.tokens.enums.KeywordTerminals.ENDWHILE;
+import static ch.fhnw.cpib.compiler.tokens.enums.KeywordTerminals.RBRACK;
 import static ch.fhnw.cpib.compiler.tokens.enums.KeywordTerminals.RPAREN;
 import static ch.fhnw.cpib.compiler.tokens.enums.KeywordTerminals.SEMICOLON;
 import static ch.fhnw.cpib.compiler.tokens.enums.KeywordTerminals.THEN;
@@ -34,7 +35,7 @@ public class RepBoolOprTerm1 implements INtsParser {
             repBoolOprTerm1 = new RepBoolOprTerm1();
             string = token.toString() + " " + term1.toString() + " " + repBoolOprTerm1.toString();
         }
-        else if (token.hasTerminal(COMMA, RPAREN, DO, THEN, ENDWHILE, ENDIF, ENDIF, ELSE, ENDPROC, ENDFUN, ENDPROGRAM, SEMICOLON, BECOMES)) {
+        else if (token.hasTerminal(COMMA, RBRACK, RPAREN, DO, THEN, ENDWHILE, ENDIF, ENDIF, ELSE, ENDPROC, ENDFUN, ENDPROGRAM, SEMICOLON, BECOMES)) {
             epsilon = new Epsilon();
             string = epsilon.toString();
         }

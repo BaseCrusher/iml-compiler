@@ -8,11 +8,13 @@ import ch.fhnw.cpib.compiler.tokens.IToken;
 import static ch.fhnw.cpib.compiler.tokens.enums.AttributeTerminals.IDENT;
 import static ch.fhnw.cpib.compiler.tokens.enums.AttributeTerminals.LITERAL;
 import static ch.fhnw.cpib.compiler.tokens.enums.AttributeTerminals.MONOPR;
+import static ch.fhnw.cpib.compiler.tokens.enums.KeywordTerminals.ARRLEN;
 import static ch.fhnw.cpib.compiler.tokens.enums.KeywordTerminals.LPAREN;
 import static ch.fhnw.cpib.compiler.tokens.enums.KeywordTerminals.RPAREN;
 
 public class Factor implements INtsParser {
     private final IToken token;
+    private IToken identifier;
     private INtsParser optInitOrExprList;
     private INtsParser factor;
     private INtsParser expr;
@@ -38,6 +40,13 @@ public class Factor implements INtsParser {
             Parser.consume(RPAREN);
             string = "(" + expr.toString() + ")";
         }
+        else if (token.hasTerminal(ARRLEN)) {
+            Parser.consume(ARRLEN);
+            Parser.consume(LPAREN);
+            identifier = Parser.consume(IDENT);
+            Parser.consume(RPAREN);
+            string = "ARRLEN(" + identifier.toString() + ")";
+        }
         else {
             throw new GrammarError(token);
         }
@@ -49,6 +58,10 @@ public class Factor implements INtsParser {
             return token.getTerminal().toString();
         }
         return string;
+    }
+
+    public IToken getIdentifier() {
+        return identifier;
     }
 
     public IToken getToken() {
