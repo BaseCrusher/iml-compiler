@@ -26,17 +26,21 @@ public class RepAddOprTerm3 implements INtsParser {
     private INtsParser term3;
     private INtsParser repAddOprTerm3;
     private INtsParser epsilon;
-    private final String string;
+    private String string;
 
     public RepAddOprTerm3() throws GrammarError {
-        token = Parser.consume(ADDOPR, COMMA, RPAREN, DO, THEN, ENDWHILE, ENDIF, ELSE, ENDPROC, ENDFUN, ENDPROGRAM, SEMICOLON, BECOMES, BOOLOPR, RELOPR);
+        token = Parser.getCurrentToken();
         if (token.hasTerminal(ADDOPR)) {
+            Parser.consume(ADDOPR);
             term3 = new Term3();
             repAddOprTerm3 = new RepAddOprTerm3();
             string = token.getTerminal().toString() + " " + term3.toString() + " " + repAddOprTerm3.toString();
-        } else {
+        } else if (token.hasTerminal(COMMA, RPAREN, DO, THEN, ENDWHILE, ENDIF, ELSE, ENDPROC, ENDFUN, ENDPROGRAM, SEMICOLON, BECOMES, BOOLOPR, RELOPR)) {
             epsilon = new Epsilon();
             string = token.getTerminal().toString() + " " + epsilon.toString();
+        }
+        else {
+            throw new GrammarError(token);
         }
     }
 

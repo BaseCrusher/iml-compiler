@@ -18,19 +18,24 @@ import static ch.fhnw.cpib.compiler.tokens.enums.KeywordTerminals.SEMICOLON;
 public class OptGlobInits implements INtsParser {
     private final IToken token;
     private INtsParser repCommaIdent;
+    private INtsParser ident;
     private INtsParser epsilon;
     private final String string;
 
     public OptGlobInits() throws GrammarError {
-        token = Parser.consume(INIT, ENDWHILE, ENDIF, ELSE, ENDPROC, ENDFUN, ENDPROGRAM, SEMICOLON);
+        token = Parser.getCurrentToken();
         if (token.hasTerminal(INIT)) {
-            Parser.consume(IDENT);
+            Parser.consume(INIT);
+            ident = Parser.consume(IDENT);
             repCommaIdent = new RepCommaIdent();
-            string = token.getTerminal().toString() + " IDENT " + repCommaIdent.toString();
+            string = token.getTerminal().toString() + ident.toString() + repCommaIdent.toString();
         }
-        else {
+        else if (token.hasTerminal(ENDWHILE, ENDIF, ELSE, ENDPROC, ENDFUN, ENDPROGRAM, SEMICOLON)) {
             epsilon = new Epsilon();
             string = epsilon.toString();
+        }
+        else {
+            throw new GrammarError(token);
         }
     }
 

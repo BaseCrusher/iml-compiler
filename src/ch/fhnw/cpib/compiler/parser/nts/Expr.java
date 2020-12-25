@@ -11,23 +11,23 @@ import static ch.fhnw.cpib.compiler.tokens.enums.AttributeTerminals.MONOPR;
 import static ch.fhnw.cpib.compiler.tokens.enums.KeywordTerminals.LPAREN;
 
 public class Expr implements INtsParser {
-    private final IToken token;
     private INtsParser term1;
     private INtsParser repBoolOprTerm1;
 
     public Expr() throws GrammarError {
-        token = Parser.consume(LPAREN, MONOPR, IDENT, LITERAL);
-        term1 = new Term1();
-        repBoolOprTerm1 = new RepBoolOprTerm1();
+        IToken token = Parser.getCurrentToken();
+        if (token.hasTerminal(LPAREN, MONOPR, IDENT, LITERAL) {
+            term1 = new Term1();
+            repBoolOprTerm1 = new RepBoolOprTerm1();
+        } 
+        else {
+            throw new GrammarError(token);
+        }
     }
 
     @Override
     public String toString() {
         return term1.toString() + " " + repBoolOprTerm1.toString();
-    }
-
-    public IToken getToken() {
-        return token;
     }
 
     public INtsParser getTerm1() {

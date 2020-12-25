@@ -19,15 +19,18 @@ public class OptParamRepCommaParam implements INtsParser {
     private final String string;
 
     public OptParamRepCommaParam() throws GrammarError {
-        token = Parser.consume(IDENT, CHANGEMODE, MECHMODE, FLOWMODE, RPAREN);
-        if (token.hasTerminal(RPAREN)) {
+        token = Parser.getCurrentToken();
+        if (token.hasTerminal(IDENT, CHANGEMODE, MECHMODE, FLOWMODE)) {
+            param = new Param();
+            repCommaParam = new RepCommaParam();
+            string = token.getTerminal().toString() + " " + param.toString() + " " + repCommaParam.toString();
+        }
+        else if (token.hasTerminal(RPAREN)) {
             epsilon = new Epsilon();
             string = epsilon.toString();
         }
         else {
-            param = new Param();
-            repCommaParam = new RepCommaParam();
-            string = token.getTerminal().toString() + " " + param.toString() + " " + repCommaParam.toString();
+            throw new GrammarError(token);
         }
     }
 

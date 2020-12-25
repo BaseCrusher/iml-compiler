@@ -19,13 +19,15 @@ public class OptArrDecl implements INtsParser {
     private String string;
 
     public OptArrDecl() throws GrammarError {
-        this.token = Parser.consume(PIPE, LOCAL, GLOBAL, DO, SEMICOLON, RPAREN, COMMA);
+        token = Parser.getCurrentToken();
         if (token.hasTerminal(PIPE)) {
-            arrayDecl = new ArrayDecl(token);
+            arrayDecl = new ArrayDecl();
             string = token.getTerminal().toString() + " : " + arrayDecl.toString();
-        } else {
+        } else if (token.hasTerminal(PIPE, LOCAL, GLOBAL, DO, SEMICOLON, RPAREN, COMMA)){
             Epsilon epsilon = new Epsilon();
             string = epsilon.toString();
+        } else {
+            throw new GrammarError(token);
         }
     }
 

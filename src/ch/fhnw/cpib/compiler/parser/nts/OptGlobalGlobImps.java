@@ -16,14 +16,18 @@ public class OptGlobalGlobImps implements INtsParser {
     private final String string;
 
     public OptGlobalGlobImps() throws GrammarError {
-        token = Parser.consume(GLOBAL, DO, LOCAL);
+        token = Parser.getCurrentToken();
         if (token.hasTerminal(GLOBAL)) {
+            Parser.consume(GLOBAL);
             globImps = new GlobImps();
             string = token.getTerminal().toString() + " " + globImps.toString();
         }
-        else {
+        else if (token.hasTerminal(DO, LOCAL)) {
             epsilon = new Epsilon();
             string = epsilon.toString();
+        }
+        else {
+            throw new GrammarError(token);
         }
     }
 

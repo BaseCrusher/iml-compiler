@@ -14,13 +14,15 @@ public class OptLit implements INtsParser {
     private String string;
 
     public OptLit() throws GrammarError {
-        this.token = Parser.consume(LITERAL, PIPE);
+        this.token = Parser.getCurrentToken();
         if (token.hasTerminal(LITERAL)) {
             this.literal = Parser.consume(LITERAL);
             string = token.getTerminal().toString() + " : " + literal.getTerminal().toString();
-        } else {
+        } else if(token.hasTerminal(PIPE)) {
             Epsilon epsilon = new Epsilon();
             string = epsilon.toString();
+        } else {
+            throw new GrammarError(token);
         }
     }
 

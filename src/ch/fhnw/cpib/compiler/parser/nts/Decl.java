@@ -18,9 +18,8 @@ public class Decl implements INtsParser {
     private final String string;
 
     public Decl() throws GrammarError {
-        token = Parser.consume(IDENT, CHANGEMODE, FUN, PROC);
-        if (token.hasTerminal(IDENT)
-            || token.hasTerminal(CHANGEMODE)) {
+        token = Parser.getCurrentToken();
+        if (token.hasTerminal(IDENT, CHANGEMODE)) {
             stoDecl = new StoDecl();
             string = token.getTerminal().toString() + " " + stoDecl.toString();
         }
@@ -28,9 +27,12 @@ public class Decl implements INtsParser {
             funDecl = new FunDecl();
             string = token.getTerminal().toString() + " " + funDecl.toString();
         }
-        else {
+        else if (token.hasTerminal(PROC)) {
             procDecl = new ProcDecl();
             string = token.getTerminal().toString() + " " + procDecl.toString();
+        }
+        else {
+            throw new GrammarError(token);
         }
     }
 

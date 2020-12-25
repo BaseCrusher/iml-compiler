@@ -11,15 +11,20 @@ import static ch.fhnw.cpib.compiler.tokens.enums.AttributeTerminals.IDENT;
 
 public class GlobImps implements INtsParser {
     private final IToken token;
-    private INtsParser globImp;
-    private INtsParser repCommaGlobImp;
+    private final INtsParser globImp;
+    private final INtsParser repCommaGlobImp;
     private final String string;
 
     public GlobImps() throws GrammarError {
-        token = Parser.consume(IDENT, CHANGEMODE, FLOWMODE);
-        globImp = new GlobImp();
-        repCommaGlobImp = new RepCommaGlobImp();
-        string = token.getTerminal().toString() + " " + globImp.toString() + " " + repCommaGlobImp.toString();
+        token = Parser.getCurrentToken();
+        if (token.hasTerminal(IDENT, CHANGEMODE, FLOWMODE)) {
+            globImp = new GlobImp();
+            repCommaGlobImp = new RepCommaGlobImp();
+            string = token.getTerminal().toString() + " " + globImp.toString() + " " + repCommaGlobImp.toString();
+        } else {
+            throw new GrammarError(token);
+        }
+
     }
 
     @Override

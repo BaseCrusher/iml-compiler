@@ -16,14 +16,18 @@ public class RepCommaGlobImp implements INtsParser {
     private final String string;
 
     public RepCommaGlobImp() throws GrammarError {
-        token = Parser.consume(COMMA, DO, LOCAL);
+        token = Parser.getCurrentToken();
         if (token.hasTerminal(COMMA)) {
+            Parser.consume(COMMA);
             globImps = new GlobImps();
             string = token.getTerminal().toString() + " " + globImps.toString();
         }
-        else {
+        else if (token.hasTerminal(DO, LOCAL)) {
             epsilon = new Epsilon();
             string = epsilon.toString();
+        }
+        else {
+            throw new GrammarError(token);
         }
     }
 

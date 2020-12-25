@@ -13,9 +13,15 @@ public class ExprList implements INtsParser {
     private INtsParser optExprRepCommaExpr;
 
     public ExprList() throws GrammarError {
-        token = Parser.consume(LPAREN);
-        optExprRepCommaExpr = new OptExprRepCommaExpr();
-        Parser.consume(RPAREN);
+        token = Parser.getCurrentToken();
+        if (token.hasTerminal(LPAREN)) {
+            Parser.consume(LPAREN);
+            optExprRepCommaExpr = new OptExprRepCommaExpr();
+            Parser.consume(RPAREN);
+        }
+        else {
+            throw new GrammarError(token);
+        }
     }
 
     @Override

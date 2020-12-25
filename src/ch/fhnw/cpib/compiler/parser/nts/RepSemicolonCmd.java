@@ -21,15 +21,19 @@ public class RepSemicolonCmd implements INtsParser {
     private final String string;
 
     public RepSemicolonCmd() throws GrammarError {
-        token = Parser.consume(SEMICOLON, ENDWHILE, ENDIF, ELSE, ENDPROC, ENDFUN, ENDPROGRAM);
+        token = Parser.getCurrentToken();
         if (token.hasTerminal(SEMICOLON)) {
+            Parser.consume(SEMICOLON);
             cmd = new Cmd();
             repSemicolonCmd = new RepSemicolonCmd();
             string = token.getTerminal().toString() + " " + cmd.toString() + " " + repSemicolonCmd.toString();
         }
-        else {
+        else if (token.hasTerminal(ENDWHILE, ENDIF, ELSE, ENDPROC, ENDFUN, ENDPROGRAM)) {
             epsilon = new Epsilon();
             string = epsilon.toString();
+        }
+        else {
+            throw new GrammarError(token);
         }
     }
 

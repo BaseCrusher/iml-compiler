@@ -2,21 +2,31 @@ package ch.fhnw.cpib.compiler.parser.nts;
 
 import ch.fhnw.cpib.compiler.error.GrammarError;
 import ch.fhnw.cpib.compiler.parser.INtsParser;
+import ch.fhnw.cpib.compiler.parser.Parser;
 import ch.fhnw.cpib.compiler.tokens.IToken;
+
+import static ch.fhnw.cpib.compiler.tokens.enums.AttributeTerminals.CHANGEMODE;
+import static ch.fhnw.cpib.compiler.tokens.enums.AttributeTerminals.FLOWMODE;
+import static ch.fhnw.cpib.compiler.tokens.enums.AttributeTerminals.IDENT;
 
 public class ProgParam implements INtsParser {
     private final IToken token;
-    private INtsParser optFlowmode;
-    private INtsParser optChangemode;
-    private INtsParser typedIdent;
-    private INtsParser epsilon;
-    private String string;
+    private final INtsParser optFlowmode;
+    private final INtsParser optChangemode;
+    private final INtsParser typedIdent;
+    private final String string;
 
-    public ProgParam(IToken token) throws GrammarError {
-        this.token = token;
-        optFlowmode = new OptFlowmode(this.token);
-        optChangemode = new OptChangemode(this.token);
-        typedIdent = new TypedIdent(this.token);
+    public ProgParam() throws GrammarError {
+        token = Parser.getCurrentToken();
+        if (token.hasTerminal(IDENT, CHANGEMODE, FLOWMODE)) {
+            optFlowmode = new OptFlowmode();
+            optChangemode = new OptChangemode();
+            typedIdent = new TypedIdent();
+            string = optFlowmode.toString() + " : " + optChangemode.toString() + " : " + typedIdent.toString();
+        }
+        else {
+            throw new GrammarError(token);
+        }
     }
 
     public String toString() {

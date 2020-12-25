@@ -23,14 +23,17 @@ public class RepCommaIdent implements INtsParser {
     private final String string;
 
     public RepCommaIdent() throws GrammarError {
-        token = Parser.consume(COMMA, ENDWHILE, ENDIF, ELSE, ENDPROC, ENDFUN, ENDPROGRAM, SEMICOLON);
+        token = Parser.getCurrentToken();
         if (token.hasTerminal(COMMA)) {
+            Parser.consume(COMMA);
             identifier = Parser.consume(AttributeTerminals.IDENT);
             repCommaIdent = new RepCommaIdent();
             string = token.getTerminal().toString() + " " + identifier + " " + repCommaIdent.toString();
-        } else  {
+        } else if (token.hasTerminal(ENDWHILE, ENDIF, ELSE, ENDPROC, ENDFUN, ENDPROGRAM, SEMICOLON)) {
             epsilon = new Epsilon();
             string = token.getTerminal().toString() + " " + epsilon.toString();
+        } else {
+            throw new GrammarError(token);
         }
     }
 

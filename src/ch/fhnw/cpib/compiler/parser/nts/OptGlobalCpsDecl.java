@@ -15,14 +15,18 @@ public class OptGlobalCpsDecl implements INtsParser {
     private final String string;
 
     public OptGlobalCpsDecl() throws GrammarError {
-        token = Parser.consume(GLOBAL, DO);
+        token = Parser.getCurrentToken();
         if (token.hasTerminal(GLOBAL)) {
+            Parser.consume(GLOBAL);
             cpsDecl = new CpsDecl();
             string = token.getTerminal().toString() + " " + cpsDecl.toString();
         }
-        else {
+        else if(token.hasTerminal(DO)) {
             epsilon = new Epsilon();
             string = epsilon.toString();
+        }
+        else {
+            throw new GrammarError(token);
         }
     }
 

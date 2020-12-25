@@ -13,27 +13,32 @@ import static ch.fhnw.cpib.compiler.tokens.enums.KeywordTerminals.RETURNS;
 
 public class FunDecl implements INtsParser {
     private final IToken token;
-    private IToken identifier;
-    private INtsParser paramList;
-    private INtsParser stoDecl;
-    private INtsParser optGlobalGlobImps;
-    private INtsParser optLocalCpsStoDecl;
-    private INtsParser cpsCmd;
-    private String string;
+    private final IToken identifier;
+    private final INtsParser paramList;
+    private final INtsParser stoDecl;
+    private final INtsParser optGlobalGlobImps;
+    private final INtsParser optLocalCpsStoDecl;
+    private final INtsParser cpsCmd;
+    private final String string;
 
     public FunDecl() throws GrammarError {
-        token = Parser.consume(FUN);
-        identifier = Parser.consume(IDENT);
-        paramList = new ParamList();
-        Parser.consume(RETURNS);
-        stoDecl = new StoDecl();
-        optGlobalGlobImps = new OptGlobalGlobImps();
-        optLocalCpsStoDecl = new OptLocalCpsStoDecl();
-        Parser.consume(DO);
-        cpsCmd = new CpsCmd();
-        Parser.consume(ENDFUN);
-        string = token.getTerminal().toString() + " " + identifier.getTerminal().toString() + " " + paramList.toString() + " RETURNS " + stoDecl.toString() +
-                " " + optGlobalGlobImps.toString() + " " + optLocalCpsStoDecl.toString() + " DO " + cpsCmd.toString() + " ENDFUN";
+        token = Parser.getCurrentToken();
+        if (token.hasTerminal(FUN)) {
+            Parser.consume(FUN);
+            identifier = Parser.consume(IDENT);
+            paramList = new ParamList();
+            Parser.consume(RETURNS);
+            stoDecl = new StoDecl();
+            optGlobalGlobImps = new OptGlobalGlobImps();
+            optLocalCpsStoDecl = new OptLocalCpsStoDecl();
+            Parser.consume(DO);
+            cpsCmd = new CpsCmd();
+            Parser.consume(ENDFUN);
+            string = token.getTerminal().toString() + " " + identifier.getTerminal().toString() + " " + paramList.toString() + " RETURNS " + stoDecl.toString() +
+                    " " + optGlobalGlobImps.toString() + " " + optLocalCpsStoDecl.toString() + " DO " + cpsCmd.toString() + " ENDFUN";
+        } else {
+            throw new GrammarError(token);
+        }
     }
 
     @Override

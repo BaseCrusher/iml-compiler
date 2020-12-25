@@ -15,14 +15,18 @@ public class OptElseCpsCmd implements INtsParser {
     private final String string;
 
     public OptElseCpsCmd() throws GrammarError {
-        token = Parser.consume(ELSE, ENDIF);
+        token = Parser.getCurrentToken();
         if (token.hasTerminal(ELSE)) {
+            Parser.consume(ELSE);
             cpsCmd = new CpsCmd();
             string = token.getTerminal().toString() + " " + cpsCmd.toString();
         }
-        else {
+        else if (token.hasTerminal(ENDIF)) {
             epsilon = new Epsilon();
             string = epsilon.toString();
+        }
+        else {
+            throw new GrammarError(token);
         }
     }
 

@@ -16,10 +16,15 @@ public class StoDecl implements INtsParser {
     private final String string;
 
     public StoDecl() throws GrammarError {
-        token = Parser.consume(IDENT, CHANGEMODE);
-        optChangemode = new OptChangemode(this.token);
-        typedIdent = new TypedIdent(this.token);
-        string = token.getTerminal().toString() + " " + optChangemode.toString() + " " + typedIdent.toString();
+        token = Parser.getCurrentToken();
+        if (token.hasTerminal(IDENT, CHANGEMODE)) {
+            optChangemode = new OptChangemode();
+            typedIdent = new TypedIdent();
+            string = token.getTerminal().toString() + " " + optChangemode.toString() + " " + typedIdent.toString();
+        } else {
+            throw new GrammarError(token);
+        }
+        
     }
 
     @Override

@@ -16,9 +16,14 @@ public class Term2 implements INtsParser {
     private INtsParser repAddOprTerm3;
 
     public Term2() throws GrammarError {
-        token = Parser.consume(LPAREN, MONOPR, IDENT, LITERAL);
-        term3 = new Term3();
-        repAddOprTerm3 = new RepAddOprTerm3();
+        token = Parser.getCurrentToken();
+        if (token.hasTerminal(LPAREN, MONOPR, IDENT, LITERAL)) {
+            term3 = new Term3();
+            repAddOprTerm3 = new RepAddOprTerm3();
+        }
+        else {
+            throw new GrammarError(token);
+        }
     }
 
     @Override

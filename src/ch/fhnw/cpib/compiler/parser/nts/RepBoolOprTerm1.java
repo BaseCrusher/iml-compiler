@@ -27,15 +27,19 @@ public class RepBoolOprTerm1 implements INtsParser {
     private final String string;
 
     public RepBoolOprTerm1() throws GrammarError {
-        token = Parser.consume(BOOLOPR, COMMA, RPAREN, DO, THEN, ENDWHILE, ENDIF, ENDIF, ELSE, ENDPROC, ENDFUN, ENDPROGRAM, SEMICOLON, BECOMES);
+        token = Parser.getCurrentToken();
         if (token.hasTerminal(BOOLOPR)) {
+            Parser.consume(BOOLOPR)
             term1 = new Term1();
             repBoolOprTerm1 = new RepBoolOprTerm1();
             string = token.getTerminal().toString() + " " + term1.toString() + " " + repBoolOprTerm1.toString();
         }
-        else {
+        else if (token.hasTerminal(COMMA, RPAREN, DO, THEN, ENDWHILE, ENDIF, ENDIF, ELSE, ENDPROC, ENDFUN, ENDPROGRAM, SEMICOLON, BECOMES)) {
             epsilon = new Epsilon();
             string = token.getTerminal().toString() + " " + epsilon.toString();
+        }
+        else {
+            throw new GrammarError(token);
         }
     }
 

@@ -11,20 +11,22 @@ import static ch.fhnw.cpib.compiler.tokens.enums.KeywordTerminals.SEMICOLON;
 public class RepSemicolonStoDecl implements INtsParser {
     private final IToken token;
     private INtsParser stoDecl;
-    private INtsParser repSemicolonStoDecl;
     private INtsParser epsilon;
     private final String string;
 
     public RepSemicolonStoDecl() throws GrammarError {
-        token = Parser.consume(SEMICOLON, DO);
+        token = Parser.getCurrentToken();
         if (token.hasTerminal(SEMICOLON)) {
+            Parser.consume(SEMICOLON);
             stoDecl = new StoDecl();
-            repSemicolonStoDecl = new RepSemicolonStoDecl();
-            string = token.getTerminal().toString() + " " + stoDecl.toString() + " " + repSemicolonStoDecl.toString();
+            string = token.getTerminal().toString() + " " + stoDecl.toString();
         }
-        else {
+        else if (token.hasTerminal(DO)) {
             epsilon = new Epsilon();
             string = epsilon.toString();
+        }
+        else {
+            throw new GrammarError(token);
         }
     }
 
@@ -40,11 +42,7 @@ public class RepSemicolonStoDecl implements INtsParser {
     public INtsParser getStoDecl() {
         return stoDecl;
     }
-
-    public INtsParser getRepSemicolonStoDecl() {
-        return repSemicolonStoDecl;
-    }
-
+    
     public INtsParser getEpsilon() {
         return epsilon;
     }

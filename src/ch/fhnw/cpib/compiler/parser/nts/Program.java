@@ -7,8 +7,10 @@ import ch.fhnw.cpib.compiler.tokens.IToken;
 import ch.fhnw.cpib.compiler.tokens.enums.AttributeTerminals;
 import ch.fhnw.cpib.compiler.tokens.enums.KeywordTerminals;
 
+import static ch.fhnw.cpib.compiler.tokens.enums.KeywordTerminals.PROGRAM;
+
 public class Program implements INtsParser {
-    private final IToken identifier;
+    private IToken identifier;
     private INtsParser programParamList;
     private INtsParser optGlobalCpsDecl;
     private IToken _do;
@@ -16,7 +18,7 @@ public class Program implements INtsParser {
     private IToken endProgram;
 
     public Program() throws GrammarError {
-        Parser.consume(KeywordTerminals.PROGRAM);
+        Parser.consume(PROGRAM);
         identifier = Parser.consume(AttributeTerminals.IDENT);
         programParamList = new ProgParamList();
         optGlobalCpsDecl = new OptGlobalCpsDecl();

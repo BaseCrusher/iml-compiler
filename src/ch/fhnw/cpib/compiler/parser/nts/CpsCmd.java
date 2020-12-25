@@ -23,10 +23,14 @@ public class CpsCmd implements INtsParser {
     private final String string;
 
     public CpsCmd() throws GrammarError {
-        token = Parser.consume(DEBUGOUT, DEBUGIN, CALL, WHILE, IF, LPAREN, MONOPR, IDENT, LITERAL, SKIP);
-        cmd = new Cmd();
-        repSemicolonCmd = new RepSemicolonCmd();
-        string = cmd.toString() + repSemicolonCmd.toString();
+        if (token.hasTerminal(ARRLEN, DEBUGOUT, DEBUGIN, CALL, WHILE, IF, LPAREN, MONOPR, IDENT, LITERAL, SKIP)) {
+            cmd = new Cmd();
+            repSemicolonCmd = new RepSemicolonCmd();
+            string = cmd.toString() + repSemicolonCmd.toString();
+        }
+        else {
+            throw new GrammarError(token);
+        }
     }
 
     @Override

@@ -1,4 +1,4 @@
-package ch.fhnw.cpib.compiler.parser;
+ package ch.fhnw.cpib.compiler.parser;
 
 import ch.fhnw.cpib.compiler.error.GrammarError;
 import ch.fhnw.cpib.compiler.parser.nts.Program;
@@ -11,20 +11,24 @@ import java.util.Arrays;
 public class Parser implements IParser {
 
     private static ITokenList tokenList;
+    private static IToken currentToken;
     public static IToken consume(ITerminal... expectedTerminals) throws GrammarError {
-        IToken token = tokenList.nextToken();
-        ITerminal terminal = token.getTerminal();
+        
+        ITerminal terminal = currentToken.getTerminal();
 
         for(ITerminal expectedTerminal : expectedTerminals) {
             if (terminal == expectedTerminal) {
-                return token;
+                IToken consumedToken = currentToken;
+                currentToken = tokenList.nextToken();
+                return consumedToken;
             }
         }
+        
         throw new GrammarError(
                 "terminal expected: " + Arrays.toString(expectedTerminals) +
                         ", terminal found: " + terminal.toString() +
-                        " at line: " +token.getLine() +
-                        " and column: " + token.getColumn());
+                        " at line: " + currentToken.getLine() +
+                        " and column: " + currentToken.getColumn());
     }
 
     private IConcreteTree concreteTree;
@@ -39,11 +43,17 @@ public class Parser implements IParser {
 
     @Override
     public IConcreteTree parse() throws GrammarError {
+        currentToken = tokenList.nextToken();
+        
         Program program = new Program();
 
         concreteTree.setProgram(program);
 
         return concreteTree;
+    }
+    
+    public static IToken getCurrentToken() {
+        return currentToken;
     }
 
 }

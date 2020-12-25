@@ -16,15 +16,19 @@ public class RepSemicolonDecl implements INtsParser {
     private final String string;
 
     public RepSemicolonDecl() throws GrammarError {
-        token = Parser.consume(SEMICOLON, DO);
+        token = Parser.getCurrentToken();
         if (token.hasTerminal(SEMICOLON)) {
+            Parser.consume(SEMICOLON);
             decl = new Decl();
             repSemicolonDecl = new RepSemicolonDecl();
             string = token.getTerminal().toString() + " " + decl.toString() + " " + repSemicolonDecl.toString();
         }
-        else {
+        else if (token.hasTerminal(DO)) {
             epsilon = new Epsilon();
             string = epsilon.toString();
+        }
+        else {
+            throw new GrammarError(token);
         }
     }
 

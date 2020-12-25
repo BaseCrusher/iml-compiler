@@ -19,14 +19,18 @@ public class OptExprRepCommaExpr implements INtsParser {
     private final String string;
 
     public OptExprRepCommaExpr() throws GrammarError {
-        token = Parser.consume(LPAREN, MONOPR, IDENT, LITERAL, RPAREN);
-        if (token.hasTerminal(RPAREN)) {
-            epsilon = new Epsilon();
-            string = token.getTerminal().toString() + " " + epsilon.toString();
-        } else {
+        token = Parser.getCurrentToken();
+        if (token.hasTerminal(LPAREN, MONOPR, IDENT, LITERAL)) {
             expr = new Expr();
             repCommaExpr = new RepCommaExpr();
             string = expr.toString() + " " + repCommaExpr.toString();
+        }
+        else if (token.hasTerminal(RPAREN)) {
+            epsilon = new Epsilon();
+            string = token.getTerminal().toString() + " " + epsilon.toString();
+        } 
+        else {
+            throw new GrammarError(token);
         }
     }
 

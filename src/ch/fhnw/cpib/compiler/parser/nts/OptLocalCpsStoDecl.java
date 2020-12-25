@@ -5,7 +5,6 @@ import ch.fhnw.cpib.compiler.parser.INtsParser;
 import ch.fhnw.cpib.compiler.parser.Parser;
 import ch.fhnw.cpib.compiler.tokens.IToken;
 
-import static ch.fhnw.cpib.compiler.tokens.enums.AttributeTerminals.IDENT;
 import static ch.fhnw.cpib.compiler.tokens.enums.KeywordTerminals.DO;
 import static ch.fhnw.cpib.compiler.tokens.enums.KeywordTerminals.LOCAL;
 
@@ -16,14 +15,18 @@ public class OptLocalCpsStoDecl implements INtsParser {
     private final String string;
 
     public OptLocalCpsStoDecl() throws GrammarError {
-        token = Parser.consume(LOCAL, DO);
-        if(token.hasTerminal(IDENT)) {
+        token = Parser.getCurrentToken();
+        if(token.hasTerminal(LOCAL)) {
+            Parser.consume(LOCAL);
             cpsStoDecl = new CpsStoDecl();
             string = token.getTerminal().toString() + " " + cpsStoDecl.toString();
         }
-        else {
+        else if (token.hasTerminal(DO)) {
             epsilon = new Epsilon();
             string = epsilon.toString();
+        }
+        else {
+            throw new GrammarError(token);
         }
     }
 

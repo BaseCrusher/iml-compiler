@@ -35,7 +35,8 @@ public enum KeywordTerminals implements ITerminal {
     PIPE,
     LBRACK,
     RBRACK,
-    SENTINEL;
+    SENTINEL,
+    ARRLEN;
 
     public static KeywordTerminals getByName(String name){
         String uppercaseName = name.toUpperCase();

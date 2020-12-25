@@ -16,9 +16,11 @@ public class Term3 implements INtsParser {
     private final INtsParser repMultOprFactor;
 
     public Term3() throws GrammarError {
-        token = Parser.consume(LPAREN, MONOPR, IDENT, LITERAL);
-        factor = new Factor();
-        repMultOprFactor = new RepMultOprFactor();
+        token = Parser.getCurrentToken();
+        if (token.hasTerminal(LPAREN, MONOPR, IDENT, LITERAL)) {
+            factor = new Factor();
+            repMultOprFactor = new RepMultOprFactor();
+        }
     }
 
     @Override

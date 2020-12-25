@@ -1,3 +1,4 @@
+
 package ch.fhnw.cpib.compiler.parser.nts;
 
 import ch.fhnw.cpib.compiler.error.GrammarError;
@@ -27,13 +28,17 @@ public class OptRelOprTerm2 implements INtsParser {
     private final String string;
 
     public OptRelOprTerm2() throws GrammarError {
-        token = Parser.consume(RELOPR, COMMA, RPAREN, DO, THEN, ENDWHILE, ENDIF, ELSE, ENDPROC, ENDFUN, ENDPROGRAM, SEMICOLON, BECOMES, BOOLOPR);
+        token = Parser.getCurrentToken();
         if (token.hasTerminal(RELOPR)) {
+            Parser.consume(RELOPR);
             term2 = new Term2();
             string = token.getTerminal().toString() + " " + term2.toString();
-        } else {
+        } else if (token.hasTerminal(COMMA, RPAREN, DO, THEN, ENDWHILE, ENDIF, ELSE, ENDPROC, ENDFUN, ENDPROGRAM, SEMICOLON, BECOMES, BOOLOPR)) {
             epsilon = new Epsilon();
             string = token.getTerminal().toString() + " " + epsilon.toString();
+        }
+        else {
+            throw new GrammarError(token);
         }
     }
 

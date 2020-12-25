@@ -24,20 +24,34 @@ import static ch.fhnw.cpib.compiler.tokens.enums.KeywordTerminals.RPAREN;
 import static ch.fhnw.cpib.compiler.tokens.enums.KeywordTerminals.SEMICOLON;
 import static ch.fhnw.cpib.compiler.tokens.enums.KeywordTerminals.THEN;
 
-public class OptInitOrExprList implements INtsParser {
+public class OptInitOrExprListOrArrExpr implements INtsParser {
     private final IToken token;
     private INtsParser exprList;
+    private INtsParser expr;
     private INtsParser epsilon;
     private final String string;
 
-    public OptInitOrExprList() throws GrammarError {
-        token = Parser.consume(INIT, LPAREN, COMMA, RPAREN, DO, THEN, ENDWHILE, ENDIF, ELSE, ENDPROC, ENDFUN, ENDPROGRAM, SEMICOLON, BECOMES, BOOLOPR, RELOPR, ADDOPR, MULTOPR);
-        if (token.hasTerminal(LPAREN)) {
+    public OptInitOrExprListOrArrExpr() throws GrammarError {
+        token = Parser.getCurrentToken();
+        if (token.hasTerminal(INIT)) {
+            Parser.consume(INIT);
+        }
+        else if (token.hasTerminal(LPAREN)) {
             exprList = new ExprList();
             string = exprList.toString();
-        } else {
+        } 
+        else if (token.hasTerminal(LBRACK)) {
+            Parser.consume(LBRACK);
+            expr = new Expr();  
+            Parser.consume(RBRACK);
+            string = token.getTerminal().toString() + " " + expr.toString()  + " RBRACK";
+        }
+        else if (token.hasTerminal(COMMA, RBRACK, RPAREN, DO, THEN, ENDWHILE, ENDIF, ELSE, ENDPROC, ENDFUN, ENDPROGRAM, SEMICOLON, BECOMES, BOOLOPR, RELOPR, ADDOPR, MULTOPR)) {
             epsilon = new Epsilon();
             string = token.getTerminal().toString() + " " + epsilon.toString();
+        }
+        else {
+            throw new GrammarError(token);
         }
     }
 

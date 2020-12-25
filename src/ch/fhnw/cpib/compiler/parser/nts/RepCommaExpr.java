@@ -16,14 +16,17 @@ public class RepCommaExpr implements INtsParser {
     private final String string;
 
     public RepCommaExpr() throws GrammarError {
-        token = Parser.consume(COMMA, RPAREN);
+        token = Parser.getCurrentToken();
         if (token.hasTerminal(COMMA)) {
             expr = new Expr();
             repCommaExpr = new RepCommaExpr();
             string = token.getTerminal().toString() + " " + expr.toString() + " " + repCommaExpr.toString();
-        } else {
+        } else if (token.hasTerminal(RPAREN)) {
             epsilon = new Epsilon();
             string = token.getTerminal().toString() + " " + epsilon.toString();
+        }
+        else {
+            throw new GrammarError(token);
         }
     }
 

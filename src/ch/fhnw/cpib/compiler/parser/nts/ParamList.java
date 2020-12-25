@@ -10,14 +10,19 @@ import static ch.fhnw.cpib.compiler.tokens.enums.KeywordTerminals.RPAREN;
 
 public class ParamList implements INtsParser {
     private final IToken token;
-    private INtsParser optParamRepCommaParam;
+    private final INtsParser optParamRepCommaParam;
     private final String string;
 
     public ParamList() throws GrammarError {
-        token = Parser.consume(LPAREN);
-        optParamRepCommaParam = new OptParamRepCommaParam();
-        Parser.consume(RPAREN);
-        string = "( " + optParamRepCommaParam.toString() + " )";
+        token = Parser.getCurrentToken();
+        if (token.hasTerminal(LPAREN)) {
+            Parser.consume(LPAREN);
+            optParamRepCommaParam = new OptParamRepCommaParam();
+            Parser.consume(RPAREN);
+            string = "( " + optParamRepCommaParam.toString() + " )";
+        } else {
+            throw new GrammarError(token);
+        }
     }
 
     @Override

@@ -12,15 +12,20 @@ import static ch.fhnw.cpib.compiler.tokens.enums.KeywordTerminals.PROC;
 
 public class CpsDecl implements INtsParser {
     private final IToken token;
-    private INtsParser decl;
-    private INtsParser repSemicolonDecl;
+    private final INtsParser decl;
+    private final INtsParser repSemicolonDecl;
     private final String string;
 
     public CpsDecl() throws GrammarError {
-        token = Parser.consume(PROC, FUN, IDENT, CHANGEMODE);
-        decl = new Decl();
-        repSemicolonDecl = new Decl();
-        string = token.getTerminal().toString() + " " + decl.toString() + " " + repSemicolonDecl.toString();
+        token = Parser.getCurrentToken();
+        if (token.hasTerminal(PROC, FUN, IDENT, CHANGEMODE)) {
+            decl = new Decl();
+            repSemicolonDecl = new RepSemicolonDecl();
+            string = token.getTerminal().toString() + " " + decl.toString() + " " + repSemicolonDecl.toString();
+        } else {
+            throw new GrammarError(token);
+        }
+
     }
 
     @Override

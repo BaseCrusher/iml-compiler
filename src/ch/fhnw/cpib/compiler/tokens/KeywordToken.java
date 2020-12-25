@@ -35,7 +35,12 @@ public class KeywordToken implements IToken {
     }
 
     @Override
-    public boolean hasTerminal(ITerminal terminal) {
-        return this.terminal == terminal;
+    public boolean hasTerminal(ITerminal... terminals) {
+        for (ITerminal terminal : terminals){
+            if (this.terminal == terminal) {
+                return true;
+            }
+        }
+        return false;
     }
 }

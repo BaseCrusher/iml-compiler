@@ -2,23 +2,28 @@ package ch.fhnw.cpib.compiler.parser.nts;
 
 import ch.fhnw.cpib.compiler.error.GrammarError;
 import ch.fhnw.cpib.compiler.parser.INtsParser;
+import ch.fhnw.cpib.compiler.parser.Parser;
 import ch.fhnw.cpib.compiler.tokens.IToken;
 
 import static ch.fhnw.cpib.compiler.tokens.enums.AttributeTerminals.CHANGEMODE;
+import static ch.fhnw.cpib.compiler.tokens.enums.AttributeTerminals.IDENT;
 
 public class OptChangemode implements INtsParser {
     private final IToken token;
     private INtsParser epsilon;
     private final String string;
 
-    public OptChangemode(IToken token) {
-        this.token = token;
-        if (this.token.hasTerminal(CHANGEMODE)) {
+    public OptChangemode() throws GrammarError {
+        token = Parser.getCurrentToken();
+        if (token.hasTerminal(CHANGEMODE)) {
+            Parser.consume(CHANGEMODE);
             string = this.token.getTerminal().toString();
         }
-        else {
+        else if (token.hasTerminal(IDENT)) {
             epsilon = new Epsilon();
             string = epsilon.toString();
+        } else {
+            throw new GrammarError(token);
         }
     }
 

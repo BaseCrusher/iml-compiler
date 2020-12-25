@@ -5,8 +5,6 @@ import ch.fhnw.cpib.compiler.parser.INtsParser;
 import ch.fhnw.cpib.compiler.parser.Parser;
 import ch.fhnw.cpib.compiler.tokens.IToken;
 
-import static ch.fhnw.cpib.compiler.tokens.enums.AttributeTerminals.CHANGEMODE;
-import static ch.fhnw.cpib.compiler.tokens.enums.AttributeTerminals.IDENT;
 import static ch.fhnw.cpib.compiler.tokens.enums.AttributeTerminals.MECHMODE;
 
 public class OptMechmode implements INtsParser {
@@ -15,8 +13,9 @@ public class OptMechmode implements INtsParser {
     private final String string;
 
     public OptMechmode() throws GrammarError {
-        token = Parser.consume(MECHMODE, IDENT, CHANGEMODE);
+        token = Parser.getCurrentToken();
         if (token.hasTerminal(MECHMODE)) {
+            Parser.consume(MECHMODE);
             string = token.getTerminal().toString();
         }
         else {

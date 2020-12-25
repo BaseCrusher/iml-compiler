@@ -7,5 +7,5 @@ public interface IToken {
     String toString();
     int getLine();
     int getColumn();
-    boolean hasTerminal(ITerminal terminal);
+    boolean hasTerminal(ITerminal... terminals);
 }

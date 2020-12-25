@@ -16,15 +16,19 @@ public class RepCommaProgParam implements INtsParser {
     private final String string;
 
     public RepCommaProgParam() throws GrammarError {
-        token = Parser.consume(COMMA, RPAREN);
+        token = Parser.getCurrentToken();
         if (token.hasTerminal(COMMA)) {
-            progParam = new ProgParam(token);
+            Parser.consume(COMMA);
+            progParam = new ProgParam();
             repCommaProgParam = new RepCommaProgParam();
             string = token.getTerminal().toString() + " " + progParam.toString() + " " + repCommaProgParam.toString();
         }
-        else {
+        else if (token.hasTerminal(RPAREN)) {
             epsilon = new Epsilon();
             string = epsilon.toString();
+        }
+        else {
+            throw new GrammarError(token);
         }
     }
 

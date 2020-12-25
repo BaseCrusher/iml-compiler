@@ -12,20 +12,25 @@ import static ch.fhnw.cpib.compiler.tokens.enums.AttributeTerminals.MECHMODE;
 
 public class Param implements INtsParser {
     private final IToken token;
-    private INtsParser optFlowmode;
-    private INtsParser optMechmode;
-    private INtsParser optChangemode;
-    private INtsParser typedIdent;
+    private final INtsParser optFlowmode;
+    private final INtsParser optMechmode;
+    private final INtsParser optChangemode;
+    private final INtsParser typedIdent;
     private final String string;
 
     public Param() throws GrammarError {
-        token = Parser.consume(IDENT, CHANGEMODE, MECHMODE, FLOWMODE);
-        optFlowmode = new OptFlowmode(token);
-        optMechmode = new OptMechmode();
-        optChangemode = new OptChangemode(this.token);
-        typedIdent = new TypedIdent(this.token);
+        token = Parser.getCurrentToken();
+        if (token.hasTerminal(IDENT, CHANGEMODE, MECHMODE, FLOWMODE)) {
+            optFlowmode = new OptFlowmode();
+            optMechmode = new OptMechmode();
+            optChangemode = new OptChangemode();
+            typedIdent = new TypedIdent();
 
-        string = token.getTerminal().toString() + " " + optFlowmode.toString() + " " + optMechmode.toString() + " " + optChangemode.toString() + " " + typedIdent.toString();
+            string = token.getTerminal().toString() + " " + optFlowmode.toString() + " " + optMechmode.toString() + " " + optChangemode.toString() + " " + typedIdent.toString();
+        } else {
+            throw new GrammarError(token);
+        }
+
     }
 
     @Override

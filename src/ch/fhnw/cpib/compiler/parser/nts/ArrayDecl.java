@@ -12,15 +12,15 @@ public class ArrayDecl implements INtsParser {
     private INtsParser optLit;
     private String string;
 
-    public ArrayDecl(IToken token) throws GrammarError {
-        this.token = token;
+    public ArrayDecl() throws GrammarError {
+        this.token = Parser.getCurrentToken();
         if (token.hasTerminal(PIPE)) {
+            Parser.consume(PIPE);
             optLit = new OptLit();
             Parser.consume(PIPE);
             string = token.getTerminal().toString() + " : " + optLit.toString() + " : " + PIPE.toString();
         } else {
-            Epsilon epsilon = new Epsilon();
-            string = epsilon.toString();
+            throw new GrammarError(token);
         }
     }
 

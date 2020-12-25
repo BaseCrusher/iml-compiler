@@ -11,14 +11,19 @@ import static ch.fhnw.cpib.compiler.tokens.enums.AttributeTerminals.MONOPR;
 import static ch.fhnw.cpib.compiler.tokens.enums.KeywordTerminals.LPAREN;
 
 public class Term1 implements INtsParser {
-    private final IToken token;
+    private IToken token;
     private INtsParser term2;
     private INtsParser optRelOprTerm2;
 
     public Term1() throws GrammarError {
-        token = Parser.consume(LPAREN, MONOPR, IDENT, LITERAL);
-        term2 = new Term2();
-        optRelOprTerm2 = new OptRelOprTerm2();
+        token = Parser.getCurrentToken();
+        if (token.hasTerminal(LPAREN, MONOPR, IDENT, LITERAL)) {
+            term2 = new Term2();
+            optRelOprTerm2 = new OptRelOprTerm2();
+        }
+        else {
+            throw new GrammarError(token);
+        }
     }
 
     @Override

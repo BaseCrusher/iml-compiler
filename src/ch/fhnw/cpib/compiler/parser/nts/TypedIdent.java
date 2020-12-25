@@ -15,16 +15,16 @@ public class TypedIdent implements INtsParser {
     private INtsParser optArrDecl;
     private final String string;
 
-    public TypedIdent(IToken token) throws GrammarError {
-        identifier = token;
+    public TypedIdent() throws GrammarError {
+        identifier = Parser.getCurrentToken();
         if (identifier.hasTerminal(IDENT)) {
+            Parser.consume(IDENT);
             Parser.consume(COLON);
             type = Parser.consume(TYPE);
             optArrDecl = new OptArrDecl();
             string = identifier.getTerminal().toString() + " : " + type.getTerminal().toString() + " : " + optArrDecl.toString();
         } else {
-            Epsilon epsilon = new Epsilon();
-            string = epsilon.toString();
+            throw new GrammarError(identifier);
         }
 
     }

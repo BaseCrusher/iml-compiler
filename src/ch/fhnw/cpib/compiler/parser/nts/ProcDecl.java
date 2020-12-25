@@ -12,24 +12,30 @@ import static ch.fhnw.cpib.compiler.tokens.enums.KeywordTerminals.PROC;
 
 public class ProcDecl implements INtsParser {
     private final IToken token;
-    private IToken identifier;
-    private INtsParser paramList;
-    private INtsParser optGlobalGlobImps;
-    private INtsParser optLocalCpsStoDecl;
-    private INtsParser cpsCmd;
+    private final IToken identifier;
+    private final INtsParser paramList;
+    private final INtsParser optGlobalGlobImps;
+    private final INtsParser optLocalCpsStoDecl;
+    private final INtsParser cpsCmd;
     private final String string;
 
     public ProcDecl() throws GrammarError {
-        token = Parser.consume(PROC);
-        identifier = Parser.consume(IDENT);
-        paramList = new ParamList();
-        optGlobalGlobImps = new OptGlobalGlobImps();
-        optLocalCpsStoDecl = new OptLocalCpsStoDecl();
-        Parser.consume(DO);
-        cpsCmd = new CpsCmd();
-        Parser.consume(ENDPROC);
-        string = token.getTerminal().toString() + " " + identifier.getTerminal().toString() + " " + paramList.toString() + " " + optGlobalGlobImps.toString() +
-                " " + optLocalCpsStoDecl.toString() + " DO " + cpsCmd.toString() + " ENDPROC";
+        token = Parser.getCurrentToken();
+        if (token.hasTerminal(PROC)) {
+            Parser.consume(PROC);
+            identifier = Parser.consume(IDENT);
+            paramList = new ParamList();
+            optGlobalGlobImps = new OptGlobalGlobImps();
+            optLocalCpsStoDecl = new OptLocalCpsStoDecl();
+            Parser.consume(DO);
+            cpsCmd = new CpsCmd();
+            Parser.consume(ENDPROC);
+            string = token.getTerminal().toString() + " " + identifier.getTerminal().toString() + " " + paramList.toString() + " " + optGlobalGlobImps.toString() +
+                    " " + optLocalCpsStoDecl.toString() + " DO " + cpsCmd.toString() + " ENDPROC";
+        } else {
+            throw new GrammarError(token);
+        }
+
     }
 
     @Override

@@ -10,15 +10,21 @@ import static ch.fhnw.cpib.compiler.tokens.enums.AttributeTerminals.IDENT;
 
 public class CpsStoDecl implements INtsParser {
     private final IToken token;
-    private INtsParser stoDecl;
-    private INtsParser repSemicolonStoDecl;
+    private final INtsParser stoDecl;
+    private final INtsParser repSemicolonStoDecl;
     private final String string;
 
     public CpsStoDecl() throws GrammarError {
-        token = Parser.consume(IDENT, CHANGEMODE);
-        stoDecl = new StoDecl();
-        repSemicolonStoDecl = new RepSemicolonDecl();
-        string = token.getTerminal().toString() + " " + stoDecl.toString() + " " + repSemicolonStoDecl.toString();
+        token = Parser.getCurrentToken();
+        if (token.hasTerminal(IDENT, CHANGEMODE)) {
+            stoDecl = new StoDecl();
+            repSemicolonStoDecl = new RepSemicolonStoDecl();
+            string = token.getTerminal().toString() + " " + stoDecl.toString() + " " + repSemicolonStoDecl.toString();
+        }
+        else {
+            throw new GrammarError(token);
+        }
+
     }
 
     @Override

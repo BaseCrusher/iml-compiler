@@ -30,14 +30,18 @@ public class RepMultOprFactor implements INtsParser {
     private final String string;
 
     public RepMultOprFactor() throws GrammarError {
-        token = Parser.consume(MULTOPR, COMMA, RPAREN, DO, THEN, ENDWHILE, ENDIF, ELSE, ENDPROC, ENDFUN, ENDPROGRAM, SEMICOLON, BECOMES, BOOLOPR, RELOPR, ADDOPR);
+        token = Parser.getCurrentToken();
         if (token.hasTerminal(MULTOPR)) {
+            Parser.consume(MULTOPR);
             factor = new Factor();
             repMultOprFactor = new RepMultOprFactor();
             string = token.getTerminal().toString() + " " + factor.toString() + " " + repMultOprFactor.toString();
-        } else {
+        } else if (token.hasTerminal(COMMA, RPAREN, DO, THEN, ENDWHILE, ENDIF, ELSE, ENDPROC, ENDFUN, ENDPROGRAM, SEMICOLON, BECOMES, BOOLOPR, RELOPR, ADDOPR)) {
             epsilon = new Epsilon();
             string = token.getTerminal().toString() + " " + epsilon.toString();
+        }
+        else {
+            throw new GrammarError(token);
         }
     }
 

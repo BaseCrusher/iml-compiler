@@ -18,17 +18,20 @@ public class OptProgParamRepCommaProgParam implements INtsParser {
     private final String string;
 
     public OptProgParamRepCommaProgParam() throws GrammarError {
-        token = Parser.consume(IDENT, CHANGEMODE, FLOWMODE, RPAREN);
+        token = Parser.getCurrentToken();
         if (token.hasTerminal(IDENT)
             || token.hasTerminal(CHANGEMODE)
             || token.hasTerminal(FLOWMODE)) {
-            progParam = new ProgParam(token);
+            progParam = new ProgParam();
             repCommaProgParam = new RepCommaProgParam();
             string = token.getTerminal().toString() + " " +  progParam.toString() + " " + repCommaProgParam.toString();
         }
-        else {
+        else if (token.hasTerminal(RPAREN)) {
             epsilon = new Epsilon();
             string = epsilon.toString();
+        }
+        else {
+            throw new GrammarError(token);
         }
     }
 
