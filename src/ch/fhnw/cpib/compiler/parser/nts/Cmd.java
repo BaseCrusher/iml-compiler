@@ -98,22 +98,22 @@ public class Cmd implements INtsParser {
             return new AbsSkipCommand();
         }
         else if (token.hasTerminal(ARRLEN, LPAREN, MONOPR, IDENT, LITERAL)) {
-            return new AbsAssignmentCommand();
+            return new AbsAssignmentCommand(expr1.toAbsSyn(), expr2.toAbsSyn());
         }
         else if (token.hasTerminal(IF)) {
-            return new AbsConditionalCommand();
+            return new AbsConditionalCommand(expr1.toAbsSyn(), cpsCmd.toAbsSyn(), optElseCpsCmd.toAbsSyn());
         }
         else if (token.hasTerminal(WHILE)) {
-            return new AbsWhileCommand();
+            return new AbsWhileCommand(expr1.toAbsSyn(), cpsCmd.toAbsSyn());
         }
         else if (token.hasTerminal(CALL)) {
-            return new AbsCallCommand();
+            return new AbsCallCommand(identifier.getValue(), exprList.toAbsSyn(), optGlobInits.toAbsSyn());
         }
         else if (token.hasTerminal(DEBUGIN)) {
-            return new AbsInputCommand();
+            return new AbsInputCommand(expr1.toAbsSyn());
         }
-        else (token.hasTerminal(DEBUGOUT)) {
-            return new AbsOutputCommand();
+        else {
+            return new AbsOutputCommand(expr1.toAbsSyn());
         }
     }
 
