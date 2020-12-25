@@ -21,6 +21,9 @@ public class Term3 implements INtsParser {
             factor = new Factor();
             repMultOprFactor = new RepMultOprFactor();
         }
+        else {
+            throw new GrammarError(token);
+        }
     }
 
     @Override

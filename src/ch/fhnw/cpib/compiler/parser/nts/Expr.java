@@ -16,7 +16,7 @@ public class Expr implements INtsParser {
 
     public Expr() throws GrammarError {
         IToken token = Parser.getCurrentToken();
-        if (token.hasTerminal(LPAREN, MONOPR, IDENT, LITERAL) {
+        if (token.hasTerminal(LPAREN, MONOPR, IDENT, LITERAL)) {
             term1 = new Term1();
             repBoolOprTerm1 = new RepBoolOprTerm1();
         } 

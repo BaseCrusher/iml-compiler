@@ -18,7 +18,7 @@ import static ch.fhnw.cpib.compiler.tokens.enums.KeywordTerminals.SEMICOLON;
 public class OptGlobInits implements INtsParser {
     private final IToken token;
     private INtsParser repCommaIdent;
-    private INtsParser ident;
+    private IToken ident;
     private INtsParser epsilon;
     private final String string;
 

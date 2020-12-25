@@ -8,6 +8,7 @@ import ch.fhnw.cpib.compiler.tokens.IToken;
 import static ch.fhnw.cpib.compiler.tokens.enums.AttributeTerminals.IDENT;
 import static ch.fhnw.cpib.compiler.tokens.enums.AttributeTerminals.LITERAL;
 import static ch.fhnw.cpib.compiler.tokens.enums.AttributeTerminals.MONOPR;
+import static ch.fhnw.cpib.compiler.tokens.enums.KeywordTerminals.ARRLEN;
 import static ch.fhnw.cpib.compiler.tokens.enums.KeywordTerminals.CALL;
 import static ch.fhnw.cpib.compiler.tokens.enums.KeywordTerminals.DEBUGIN;
 import static ch.fhnw.cpib.compiler.tokens.enums.KeywordTerminals.DEBUGOUT;
@@ -23,6 +24,7 @@ public class CpsCmd implements INtsParser {
     private final String string;
 
     public CpsCmd() throws GrammarError {
+        token = Parser.getCurrentToken();
         if (token.hasTerminal(ARRLEN, DEBUGOUT, DEBUGIN, CALL, WHILE, IF, LPAREN, MONOPR, IDENT, LITERAL, SKIP)) {
             cmd = new Cmd();
             repSemicolonCmd = new RepSemicolonCmd();

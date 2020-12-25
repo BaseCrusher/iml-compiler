@@ -19,7 +19,9 @@ import static ch.fhnw.cpib.compiler.tokens.enums.KeywordTerminals.ENDPROC;
 import static ch.fhnw.cpib.compiler.tokens.enums.KeywordTerminals.ENDPROGRAM;
 import static ch.fhnw.cpib.compiler.tokens.enums.KeywordTerminals.ENDWHILE;
 import static ch.fhnw.cpib.compiler.tokens.enums.KeywordTerminals.INIT;
+import static ch.fhnw.cpib.compiler.tokens.enums.KeywordTerminals.LBRACK;
 import static ch.fhnw.cpib.compiler.tokens.enums.KeywordTerminals.LPAREN;
+import static ch.fhnw.cpib.compiler.tokens.enums.KeywordTerminals.RBRACK;
 import static ch.fhnw.cpib.compiler.tokens.enums.KeywordTerminals.RPAREN;
 import static ch.fhnw.cpib.compiler.tokens.enums.KeywordTerminals.SEMICOLON;
 import static ch.fhnw.cpib.compiler.tokens.enums.KeywordTerminals.THEN;
@@ -35,6 +37,7 @@ public class OptInitOrExprListOrArrExpr implements INtsParser {
         token = Parser.getCurrentToken();
         if (token.hasTerminal(INIT)) {
             Parser.consume(INIT);
+            string = token.getTerminal().toString();
         }
         else if (token.hasTerminal(LPAREN)) {
             exprList = new ExprList();

@@ -29,7 +29,7 @@ public class RepBoolOprTerm1 implements INtsParser {
     public RepBoolOprTerm1() throws GrammarError {
         token = Parser.getCurrentToken();
         if (token.hasTerminal(BOOLOPR)) {
-            Parser.consume(BOOLOPR)
+            Parser.consume(BOOLOPR);
             term1 = new Term1();
             repBoolOprTerm1 = new RepBoolOprTerm1();
             string = token.getTerminal().toString() + " " + term1.toString() + " " + repBoolOprTerm1.toString();

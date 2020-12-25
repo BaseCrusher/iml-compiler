@@ -43,7 +43,7 @@ public class AttributeToken<T> implements IToken {
     @Override
     public boolean hasTerminal(ITerminal... terminals) {
         for (ITerminal terminal : terminals){
-            if (this.terminal == terminal) {
+            if (this._terminal == terminal) {
                 return true;
             }
         }
