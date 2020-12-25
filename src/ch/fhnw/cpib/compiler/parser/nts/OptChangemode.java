@@ -17,7 +17,7 @@ public class OptChangemode implements INtsParser {
         token = Parser.getCurrentToken();
         if (token.hasTerminal(CHANGEMODE)) {
             Parser.consume(CHANGEMODE);
-            string = this.token.getTerminal().toString();
+            string = token.toString();
         }
         else if (token.hasTerminal(IDENT)) {
             epsilon = new Epsilon();

@@ -30,8 +30,8 @@ public class ProcDecl implements INtsParser {
             Parser.consume(DO);
             cpsCmd = new CpsCmd();
             Parser.consume(ENDPROC);
-            string = token.getTerminal().toString() + " " + identifier.getTerminal().toString() + " " + paramList.toString() + " " + optGlobalGlobImps.toString() +
-                    " " + optLocalCpsStoDecl.toString() + " DO " + cpsCmd.toString() + " ENDPROC";
+            string = token.toString() + " " + identifier.toString() + " " + paramList.toString() + "\n" + optGlobalGlobImps.toString() +
+                    "\n" + optLocalCpsStoDecl.toString() + "\nDO\n" + cpsCmd.toString() + "\nENDPROC";
         } else {
             throw new GrammarError(token);
         }

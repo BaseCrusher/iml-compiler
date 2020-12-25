@@ -23,7 +23,7 @@ public class OptParamRepCommaParam implements INtsParser {
         if (token.hasTerminal(IDENT, CHANGEMODE, MECHMODE, FLOWMODE)) {
             param = new Param();
             repCommaParam = new RepCommaParam();
-            string = token.getTerminal().toString() + " " + param.toString() + " " + repCommaParam.toString();
+            string = param.toString() + repCommaParam.toString();
         }
         else if (token.hasTerminal(RPAREN)) {
             epsilon = new Epsilon();

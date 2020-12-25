@@ -6,16 +6,9 @@ import ch.fhnw.cpib.compiler.error.LexicalError;
 import ch.fhnw.cpib.compiler.parser.IConcreteTree;
 import ch.fhnw.cpib.compiler.parser.Parser;
 import ch.fhnw.cpib.compiler.tokens.ITokenList;
-
-
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.stream.Collectors;
 
 public class Main {
 
@@ -29,7 +22,7 @@ public class Main {
         try {
             ITokenList bla = s.scan(content);
 
-            System.out.println(bla);
+            //System.out.println(bla);
 
             Parser parser = new Parser(bla);
             IConcreteTree concreteTree = parser.parse();

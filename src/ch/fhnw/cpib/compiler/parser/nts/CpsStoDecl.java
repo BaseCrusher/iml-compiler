@@ -19,7 +19,7 @@ public class CpsStoDecl implements INtsParser {
         if (token.hasTerminal(IDENT, CHANGEMODE)) {
             stoDecl = new StoDecl();
             repSemicolonStoDecl = new RepSemicolonStoDecl();
-            string = token.getTerminal().toString() + " " + stoDecl.toString() + " " + repSemicolonStoDecl.toString();
+            string = token.toString() + " " + stoDecl.toString() + " " + repSemicolonStoDecl.toString();
         }
         else {
             throw new GrammarError(token);

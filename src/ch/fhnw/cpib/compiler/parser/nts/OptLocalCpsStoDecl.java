@@ -19,7 +19,7 @@ public class OptLocalCpsStoDecl implements INtsParser {
         if(token.hasTerminal(LOCAL)) {
             Parser.consume(LOCAL);
             cpsStoDecl = new CpsStoDecl();
-            string = token.getTerminal().toString() + " " + cpsStoDecl.toString();
+            string = token.toString() + " " + cpsStoDecl.toString();
         }
         else if (token.hasTerminal(DO)) {
             epsilon = new Epsilon();

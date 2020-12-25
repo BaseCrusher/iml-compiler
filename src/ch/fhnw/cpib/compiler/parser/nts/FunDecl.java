@@ -34,7 +34,7 @@ public class FunDecl implements INtsParser {
             Parser.consume(DO);
             cpsCmd = new CpsCmd();
             Parser.consume(ENDFUN);
-            string = token.getTerminal().toString() + " " + identifier.getTerminal().toString() + " " + paramList.toString() + " RETURNS " + stoDecl.toString() +
+            string = token.getTerminal().toString() + " " + identifier.toString() + " " + paramList.toString() + " RETURNS " + stoDecl.toString() +
                     " " + optGlobalGlobImps.toString() + " " + optLocalCpsStoDecl.toString() + " DO " + cpsCmd.toString() + " ENDFUN";
         } else {
             throw new GrammarError(token);

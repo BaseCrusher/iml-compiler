@@ -19,7 +19,7 @@ public class OptFlowmode  implements INtsParser {
         token = Parser.getCurrentToken();
         if (token.hasTerminal(FLOWMODE)) {
             Parser.consume(FLOWMODE);
-            string = token.getTerminal().toString();
+            string = token.toString();
         }
         else if (token.hasTerminal(MECHMODE, IDENT, CHANGEMODE)) {
             epsilon = new Epsilon();

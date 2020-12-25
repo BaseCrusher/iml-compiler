@@ -16,7 +16,7 @@ public class OptMechmode implements INtsParser {
         token = Parser.getCurrentToken();
         if (token.hasTerminal(MECHMODE)) {
             Parser.consume(MECHMODE);
-            string = token.getTerminal().toString();
+            string = token.toString();
         }
         else {
             epsilon = new Epsilon();

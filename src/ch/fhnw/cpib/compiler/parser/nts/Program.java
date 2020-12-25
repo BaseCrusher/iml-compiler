@@ -29,7 +29,7 @@ public class Program implements INtsParser {
 
     @Override
     public String toString() {
-        return "PROGRAM " + identifier + " " + programParamList.toString() + " " + optGlobalCpsDecl.toString() + "\nDO\n" + cpsCmd.toString() + "\nENDPROGRAM";
+        return "PROGRAM " + identifier + " " + programParamList.toString() + "\n" + optGlobalCpsDecl.toString() + "\nDO\n" + cpsCmd.toString() + "\nENDPROGRAM";
     }
 
     public IToken getIdentifier() {

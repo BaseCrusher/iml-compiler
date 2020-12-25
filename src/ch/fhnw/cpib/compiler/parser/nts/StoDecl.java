@@ -20,7 +20,7 @@ public class StoDecl implements INtsParser {
         if (token.hasTerminal(IDENT, CHANGEMODE)) {
             optChangemode = new OptChangemode();
             typedIdent = new TypedIdent();
-            string = token.getTerminal().toString() + " " + optChangemode.toString() + " " + typedIdent.toString();
+            string = optChangemode.toString() + " " + typedIdent.toString();
         } else {
             throw new GrammarError(token);
         }

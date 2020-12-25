@@ -21,15 +21,15 @@ public class Decl implements INtsParser {
         token = Parser.getCurrentToken();
         if (token.hasTerminal(IDENT, CHANGEMODE)) {
             stoDecl = new StoDecl();
-            string = token.getTerminal().toString() + " " + stoDecl.toString();
+            string = stoDecl.toString();
         }
         else if (token.hasTerminal(FUN)) {
             funDecl = new FunDecl();
-            string = token.getTerminal().toString() + " " + funDecl.toString();
+            string = funDecl.toString();
         }
         else if (token.hasTerminal(PROC)) {
             procDecl = new ProcDecl();
-            string = token.getTerminal().toString() + " " + procDecl.toString();
+            string = procDecl.toString();
         }
         else {
             throw new GrammarError(token);

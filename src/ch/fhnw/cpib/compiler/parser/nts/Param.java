@@ -26,7 +26,7 @@ public class Param implements INtsParser {
             optChangemode = new OptChangemode();
             typedIdent = new TypedIdent();
 
-            string = token.getTerminal().toString() + " " + optFlowmode.toString() + " " + optMechmode.toString() + " " + optChangemode.toString() + " " + typedIdent.toString();
+            string = optFlowmode.toString() + " " + optMechmode.toString() + " " + optChangemode.toString() + " " + typedIdent.toString();
         } else {
             throw new GrammarError(token);
         }

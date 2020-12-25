@@ -22,7 +22,7 @@ public class TypedIdent implements INtsParser {
             Parser.consume(COLON);
             type = Parser.consume(TYPE);
             optArrDecl = new OptArrDecl();
-            string = identifier.getTerminal().toString() + " : " + type.getTerminal().toString() + " : " + optArrDecl.toString();
+            string = identifier.toString() + " : " + type.toString() + " " + optArrDecl.toString();
         } else {
             throw new GrammarError(identifier);
         }

@@ -19,7 +19,7 @@ public class OptGlobalCpsDecl implements INtsParser {
         if (token.hasTerminal(GLOBAL)) {
             Parser.consume(GLOBAL);
             cpsDecl = new CpsDecl();
-            string = token.getTerminal().toString() + " " + cpsDecl.toString();
+            string = token.getTerminal().toString() + "\n" + cpsDecl.toString();
         }
         else if(token.hasTerminal(DO)) {
             epsilon = new Epsilon();

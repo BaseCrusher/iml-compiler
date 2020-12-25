@@ -21,7 +21,7 @@ public class CpsDecl implements INtsParser {
         if (token.hasTerminal(PROC, FUN, IDENT, CHANGEMODE)) {
             decl = new Decl();
             repSemicolonDecl = new RepSemicolonDecl();
-            string = token.getTerminal().toString() + " " + decl.toString() + " " + repSemicolonDecl.toString();
+            string = decl.toString() + " " + repSemicolonDecl.toString();
         } else {
             throw new GrammarError(token);
         }
