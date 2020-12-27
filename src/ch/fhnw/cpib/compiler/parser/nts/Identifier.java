@@ -13,4 +13,11 @@ public class Identifier implements INtsParser {
         this.environment = environment;
     }
 
+    public IToken getIdent() {
+        return ident;
+    }
+
+    public Environment getEnvironment() {
+        return environment;
+    }
 }

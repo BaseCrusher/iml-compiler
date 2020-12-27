@@ -8,8 +8,10 @@ import ch.fhnw.cpib.compiler.parser.IAbstractNode;
 import ch.fhnw.cpib.compiler.parser.INtsParser;
 import ch.fhnw.cpib.compiler.parser.IToAbsNode;
 import ch.fhnw.cpib.compiler.parser.Parser;
+import ch.fhnw.cpib.compiler.parser.abstracts.AbsArrLenExpr;
 import ch.fhnw.cpib.compiler.parser.abstracts.AbsBoolLiteralExpr;
 import ch.fhnw.cpib.compiler.parser.abstracts.AbsIntLiteralExpr;
+import ch.fhnw.cpib.compiler.parser.abstracts.AbsMonadicExpr;
 import ch.fhnw.cpib.compiler.tokens.AttributeToken;
 import ch.fhnw.cpib.compiler.tokens.IToken;
 
@@ -102,21 +104,12 @@ public class Factor implements INtsParser, IToAbsNode {
         else if (token.hasTerminal(IDENT)) {
             return optInitOrExprListOrArrExpr.toAbsSyn(token);
         } else if (token.hasTerminal(MONOPR)) {
-            Parser.consume(MONOPR);
-            factor = new Factor(environment);
-            string = token.toString() + " " + factor.toString();
+            return new AbsMonadicExpr(token.getValue(), factor.toAbsSyn());
         } else if (token.hasTerminal(LPAREN)) {
-            Parser.consume(LPAREN);
-            expr = new Expr(environment);
-            Parser.consume(RPAREN);
-            string = "(" + expr.toString() + ")";
+            return expr.toAbsSyn();
         }
         else if (token.hasTerminal(ARRLEN)) {
-            Parser.consume(ARRLEN);
-            Parser.consume(LPAREN);
-            identifier = Parser.consume(IDENT);
-            Parser.consume(RPAREN);
-            string = "ARRLEN(" + identifier.toString() + ")";
+            return new AbsArrLenExpr(identifier);
         }
         return null;
     }
