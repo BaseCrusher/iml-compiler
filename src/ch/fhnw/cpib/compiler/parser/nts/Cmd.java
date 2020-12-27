@@ -33,50 +33,50 @@ public class Cmd implements INtsParser, IToAbsNode {
     private OptElseCpsCmd optElseCpsCmd;
     private final String string;
 
-    public Cmd() throws GrammarError {
+    public Cmd(Environment environment) throws GrammarError {
         token = Parser.getCurrentToken();
         if (token.hasTerminal(SKIP)) {
             Parser.consume(SKIP);
             string = token.toString();
         }
         else if (token.hasTerminal(ARRLEN, LPAREN, MONOPR, IDENT, LITERAL)) {
-            expr1 = new Expr();
+            expr1 = new Expr(environment);
             Parser.consume(BECOMES);
-            expr2 = new Expr();
+            expr2 = new Expr(environment);
             string = expr1.toString() + " := " + expr2;
         }
         else if (token.hasTerminal(IF)) {
             Parser.consume(IF);
-            expr1 = new Expr();
+            expr1 = new Expr(environment);
             Parser.consume(THEN);
-            cpsCmd = new CpsCmd();
-            optElseCpsCmd = new OptElseCpsCmd();
+            cpsCmd = new CpsCmd(environment);
+            optElseCpsCmd = new OptElseCpsCmd(environment);
             Parser.consume(ENDIF);
             string = "IF" + expr1.toString() + " THEN\n" + cpsCmd.toString() + "\n" + optElseCpsCmd.toString() + "\nENDIF";
         }
         else if (token.hasTerminal(WHILE)) {
             Parser.consume(WHILE);
-            expr1 = new Expr();
+            expr1 = new Expr(environment);
             Parser.consume(DO);
-            cpsCmd = new CpsCmd();
+            cpsCmd = new CpsCmd(environment);
             Parser.consume(ENDWHILE);
             string = "WHILE " + expr1.toString() + " DO\n" + cpsCmd.toString() + "\nENDWHILE";
         }
         else if (token.hasTerminal(CALL)) {
             Parser.consume(CALL);
             identifier = Parser.consume(IDENT);
-            exprList = new ExprList();
+            exprList = new ExprList(environment);
             optGlobInits = new OptGlobInits();
             string = "CALL " + identifier.toString() + exprList.toString() + "\n" + optGlobInits.toString();
         }
         else if (token.hasTerminal(DEBUGIN)) {
             Parser.consume(DEBUGIN);
-            expr1 = new Expr();
+            expr1 = new Expr(environment);
             string = "DEBUGIN " + expr1.toString();
         }
         else if (token.hasTerminal(DEBUGOUT)) {
             Parser.consume(DEBUGOUT);
-            expr1 = new Expr();
+            expr1 = new Expr(environment);
             string = "DEBUGOUT " + expr1.toString();
         }
         else {

@@ -22,7 +22,7 @@ public class RepSemicolonStoDecl implements INtsParser, IToAbsNodeList {
         token = Parser.getCurrentToken();
         if (token.hasTerminal(SEMICOLON)) {
             Parser.consume(SEMICOLON);
-            stoDecl = new StoDecl();
+            stoDecl = new StoDecl(globalEnv);
             string = "; \n " + stoDecl.toString();
         }
         else if (token.hasTerminal(DO)) {

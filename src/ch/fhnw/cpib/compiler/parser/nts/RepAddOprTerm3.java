@@ -1,6 +1,7 @@
 package ch.fhnw.cpib.compiler.parser.nts;
 
 import ch.fhnw.cpib.compiler.error.GrammarError;
+import ch.fhnw.cpib.compiler.parser.Environment;
 import ch.fhnw.cpib.compiler.parser.IAbstractNode;
 import ch.fhnw.cpib.compiler.parser.INtsParser;
 import ch.fhnw.cpib.compiler.parser.IToAbsNode;
@@ -31,12 +32,12 @@ public class RepAddOprTerm3 implements INtsParser, IToAbsNode {
     private INtsParser epsilon;
     private String string;
 
-    public RepAddOprTerm3() throws GrammarError {
+    public RepAddOprTerm3(Environment environment) throws GrammarError {
         token = Parser.getCurrentToken();
         if (token.hasTerminal(ADDOPR)) {
             Parser.consume(ADDOPR);
-            term3 = new Term3();
-            repAddOprTerm3 = new RepAddOprTerm3();
+            term3 = new Term3(environment);
+            repAddOprTerm3 = new RepAddOprTerm3(environment);
             string = token.toString() + " " + term3.toString() + " " + repAddOprTerm3.toString();
         } else if (token.hasTerminal(COMMA, RBRACK, RPAREN, DO, THEN, ENDWHILE, ENDIF, ELSE, ENDPROC, ENDFUN, ENDPROGRAM, SEMICOLON, BECOMES, BOOLOPR, RELOPR)) {
             epsilon = new Epsilon();

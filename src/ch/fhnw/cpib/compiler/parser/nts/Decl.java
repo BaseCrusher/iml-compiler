@@ -1,6 +1,7 @@
 package ch.fhnw.cpib.compiler.parser.nts;
 
 import ch.fhnw.cpib.compiler.error.GrammarError;
+import ch.fhnw.cpib.compiler.parser.Environment;
 import ch.fhnw.cpib.compiler.parser.IAbstractNode;
 import ch.fhnw.cpib.compiler.parser.INtsParser;
 import ch.fhnw.cpib.compiler.parser.IToAbsNode;
@@ -19,18 +20,18 @@ public class Decl implements INtsParser, IToAbsNode {
     private ProcDecl procDecl;
     private final String string;
 
-    public Decl() throws GrammarError {
+    public Decl(Environment environment) throws GrammarError {
         token = Parser.getCurrentToken();
         if (token.hasTerminal(IDENT, CHANGEMODE)) {
-            stoDecl = new StoDecl();
+            stoDecl = new StoDecl(environment);
             string = stoDecl.toString();
         }
         else if (token.hasTerminal(FUN)) {
-            funDecl = new FunDecl();
+            funDecl = new FunDecl(environment);
             string = funDecl.toString();
         }
         else if (token.hasTerminal(PROC)) {
-            procDecl = new ProcDecl();
+            procDecl = new ProcDecl(environment);
             string = procDecl.toString();
         }
         else {

@@ -1,6 +1,7 @@
 package ch.fhnw.cpib.compiler.parser.nts;
 
 import ch.fhnw.cpib.compiler.error.GrammarError;
+import ch.fhnw.cpib.compiler.parser.Environment;
 import ch.fhnw.cpib.compiler.parser.IAbstractNode;
 import ch.fhnw.cpib.compiler.parser.INtsParser;
 import ch.fhnw.cpib.compiler.parser.IToAbsNodeList;
@@ -17,7 +18,7 @@ public class ExprList implements INtsParser, IToAbsNodeList {
     private final IToken token;
     private final OptExprRepCommaExpr optExprRepCommaExpr;
 
-    public ExprList() throws GrammarError {
+    public ExprList(Environment environment) throws GrammarError {
         token = Parser.getCurrentToken();
         if (token.hasTerminal(LPAREN)) {
             Parser.consume(LPAREN);

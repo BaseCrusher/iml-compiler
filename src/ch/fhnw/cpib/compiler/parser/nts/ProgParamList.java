@@ -1,6 +1,7 @@
 package ch.fhnw.cpib.compiler.parser.nts;
 
 import ch.fhnw.cpib.compiler.error.GrammarError;
+import ch.fhnw.cpib.compiler.parser.Environment;
 import ch.fhnw.cpib.compiler.parser.IAbstractNode;
 import ch.fhnw.cpib.compiler.parser.INtsParser;
 import ch.fhnw.cpib.compiler.parser.IToAbsNodeList;
@@ -13,9 +14,9 @@ public class ProgParamList implements INtsParser, IToAbsNodeList {
 
     private INtsParser optProgParamRepCommaProgParam;
 
-    public ProgParamList() throws GrammarError {
+    public ProgParamList(Environment globalEnv) throws GrammarError {
         Parser.consume(KeywordTerminals.LPAREN);
-        optProgParamRepCommaProgParam = new OptProgParamRepCommaProgParam();
+        optProgParamRepCommaProgParam = new OptProgParamRepCommaProgParam(globalEnv);
         Parser.consume(KeywordTerminals.RPAREN);
     }
 

@@ -1,6 +1,7 @@
 package ch.fhnw.cpib.compiler.parser.nts;
 
 import ch.fhnw.cpib.compiler.error.GrammarError;
+import ch.fhnw.cpib.compiler.parser.Environment;
 import ch.fhnw.cpib.compiler.parser.IAbstractNode;
 import ch.fhnw.cpib.compiler.parser.INtsParser;
 import ch.fhnw.cpib.compiler.parser.IToAbsNodeList;
@@ -36,19 +37,19 @@ public class OptInitOrExprListOrArrExpr implements INtsParser, IToAbsNodeList {
     private INtsParser epsilon;
     private final String string;
 
-    public OptInitOrExprListOrArrExpr() throws GrammarError {
+    public OptInitOrExprListOrArrExpr(Environment environment) throws GrammarError {
         token = Parser.getCurrentToken();
         if (token.hasTerminal(INIT)) {
             Parser.consume(INIT);
             string = token.getTerminal().toString();
         }
         else if (token.hasTerminal(LPAREN)) {
-            exprList = new ExprList();
+            exprList = new ExprList(environment);
             string = exprList.toString();
         }
         else if (token.hasTerminal(LBRACK)) {
             Parser.consume(LBRACK);
-            expr = new Expr();
+            expr = new Expr(environment);
             Parser.consume(RBRACK);
             optInit = new OptInit();
             string = "(" + expr.toString()  + ")";
@@ -92,12 +93,12 @@ public class OptInitOrExprListOrArrExpr implements INtsParser, IToAbsNodeList {
             return new AbsStoreExpr(token.getValue());
         }
         else if (token.hasTerminal(LPAREN)) {
-            exprList = new ExprList();
+            exprList = new ExprList(environment);
             string = exprList.toString();
         }
         else if (token.hasTerminal(LBRACK)) {
             Parser.consume(LBRACK);
-            expr = new Expr();
+            expr = new Expr(environment);
             Parser.consume(RBRACK);
             optInit = new OptInit();
             string = "(" + expr.toString()  + ")";

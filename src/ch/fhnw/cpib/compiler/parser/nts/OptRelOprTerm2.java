@@ -27,11 +27,11 @@ public class OptRelOprTerm2 implements INtsParser, IToAbsNode {
     private INtsParser epsilon;
     private final String string;
 
-    public OptRelOprTerm2() throws GrammarError {
+    public OptRelOprTerm2(Environment environment) throws GrammarError {
         token = Parser.getCurrentToken();
         if (token.hasTerminal(RELOPR)) {
             Parser.consume(RELOPR);
-            term2 = new Term2();
+            term2 = new Term2(environment);
             string = token.toString() + " " + term2.toString();
         } else if (token.hasTerminal(COMMA, RBRACK, RPAREN, DO, THEN, ENDWHILE, ENDIF, ELSE, ENDPROC, ENDFUN, ENDPROGRAM, SEMICOLON, BECOMES, BOOLOPR)) {
             epsilon = new Epsilon();

@@ -1,6 +1,7 @@
 package ch.fhnw.cpib.compiler.parser.nts;
 
 import ch.fhnw.cpib.compiler.error.GrammarError;
+import ch.fhnw.cpib.compiler.parser.Environment;
 import ch.fhnw.cpib.compiler.parser.IAbstractNode;
 import ch.fhnw.cpib.compiler.parser.INtsParser;
 import ch.fhnw.cpib.compiler.parser.IToAbsNode;
@@ -17,11 +18,11 @@ public class Expr implements INtsParser, IToAbsNode {
     private final Term1 term1;
     private final RepBoolOprTerm1 repBoolOprTerm1;
 
-    public Expr() throws GrammarError {
+    public Expr(Environment environment) throws GrammarError {
         IToken token = Parser.getCurrentToken();
         if (token.hasTerminal(ARRLEN, LPAREN, MONOPR, IDENT, LITERAL)) {
-            term1 = new Term1();
-            repBoolOprTerm1 = new RepBoolOprTerm1();
+            term1 = new Term1(environment);
+            repBoolOprTerm1 = new RepBoolOprTerm1(environment);
         }
         else {
             throw new GrammarError(token);

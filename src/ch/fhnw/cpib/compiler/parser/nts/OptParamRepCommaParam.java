@@ -1,6 +1,7 @@
 package ch.fhnw.cpib.compiler.parser.nts;
 
 import ch.fhnw.cpib.compiler.error.GrammarError;
+import ch.fhnw.cpib.compiler.parser.Environment;
 import ch.fhnw.cpib.compiler.parser.IAbstractNode;
 import ch.fhnw.cpib.compiler.parser.INtsParser;
 import ch.fhnw.cpib.compiler.parser.IToAbsNodeList;
@@ -22,11 +23,11 @@ public class OptParamRepCommaParam implements INtsParser, IToAbsNodeList {
     private INtsParser epsilon;
     private final String string;
 
-    public OptParamRepCommaParam() throws GrammarError {
+    public OptParamRepCommaParam(Environment environment) throws GrammarError {
         token = Parser.getCurrentToken();
         if (token.hasTerminal(IDENT, CHANGEMODE, MECHMODE, FLOWMODE)) {
-            param = new Param();
-            repCommaParam = new RepCommaParam();
+            param = new Param(environment);
+            repCommaParam = new RepCommaParam(environment);
             string = param.toString() + repCommaParam.toString();
         }
         else if (token.hasTerminal(RPAREN)) {

@@ -1,6 +1,7 @@
 package ch.fhnw.cpib.compiler.parser.nts;
 
 import ch.fhnw.cpib.compiler.error.GrammarError;
+import ch.fhnw.cpib.compiler.parser.Environment;
 import ch.fhnw.cpib.compiler.parser.IAbstractNode;
 import ch.fhnw.cpib.compiler.parser.INtsParser;
 import ch.fhnw.cpib.compiler.parser.IToAbsNodeList;
@@ -18,7 +19,7 @@ public class OptLocalCpsStoDecl implements INtsParser, IToAbsNodeList {
     private INtsParser epsilon;
     private final String string;
 
-    public OptLocalCpsStoDecl() throws GrammarError {
+    public OptLocalCpsStoDecl(Environment localEnv) throws GrammarError {
         token = Parser.getCurrentToken();
         if(token.hasTerminal(LOCAL)) {
             Parser.consume(LOCAL);

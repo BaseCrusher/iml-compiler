@@ -22,7 +22,7 @@ public class CpsStoDecl implements INtsParser, IToAbsNodeList {
     public CpsStoDecl() throws GrammarError {
         token = Parser.getCurrentToken();
         if (token.hasTerminal(IDENT, CHANGEMODE)) {
-            stoDecl = new StoDecl();
+            stoDecl = new StoDecl(globalEnv);
             repSemicolonStoDecl = new RepSemicolonStoDecl();
             string = stoDecl.toString() + " " + repSemicolonStoDecl.toString();
         }

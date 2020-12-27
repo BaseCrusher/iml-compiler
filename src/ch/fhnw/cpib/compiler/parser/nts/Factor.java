@@ -3,6 +3,7 @@ package ch.fhnw.cpib.compiler.parser.nts;
 import java.math.BigInteger;
 
 import ch.fhnw.cpib.compiler.error.GrammarError;
+import ch.fhnw.cpib.compiler.parser.Environment;
 import ch.fhnw.cpib.compiler.parser.IAbstractNode;
 import ch.fhnw.cpib.compiler.parser.INtsParser;
 import ch.fhnw.cpib.compiler.parser.IToAbsNode;
@@ -12,7 +13,6 @@ import ch.fhnw.cpib.compiler.parser.abstracts.AbsIntLiteralExpr;
 import ch.fhnw.cpib.compiler.tokens.AttributeToken;
 import ch.fhnw.cpib.compiler.tokens.IToken;
 
-import static ch.fhnw.cpib.compiler.tokens.enums.AttributeTerminals.BOOLOPR;
 import static ch.fhnw.cpib.compiler.tokens.enums.AttributeTerminals.IDENT;
 import static ch.fhnw.cpib.compiler.tokens.enums.AttributeTerminals.LITERAL;
 import static ch.fhnw.cpib.compiler.tokens.enums.AttributeTerminals.MONOPR;
@@ -22,13 +22,13 @@ import static ch.fhnw.cpib.compiler.tokens.enums.KeywordTerminals.RPAREN;
 
 public class Factor implements INtsParser, IToAbsNode {
     private final IToken token;
-    private IToken identifier;
+    private Identifier identifier;
     private OptInitOrExprListOrArrExpr optInitOrExprListOrArrExpr;
     private Factor factor;
     private Expr expr;
     private final String string;
 
-    public Factor() throws GrammarError {
+    public Factor(Environment environment) throws GrammarError {
         token = Parser.getCurrentToken();
         if (token.hasTerminal(LITERAL)) {
             Parser.consume(LITERAL);
@@ -36,22 +36,24 @@ public class Factor implements INtsParser, IToAbsNode {
         }
         else if (token.hasTerminal(IDENT)) {
             Parser.consume(IDENT);
-            optInitOrExprListOrArrExpr = new OptInitOrExprListOrArrExpr();
+            this.identifier = new Identifier(token, environment);
+            optInitOrExprListOrArrExpr = new OptInitOrExprListOrArrExpr(environment);
             string = token.toString() + " " + optInitOrExprListOrArrExpr.toString();
         } else if (token.hasTerminal(MONOPR)) {
             Parser.consume(MONOPR);
-            factor = new Factor();
+            factor = new Factor(environment);
             string = token.toString() + " " + factor.toString();
         } else if (token.hasTerminal(LPAREN)) {
             Parser.consume(LPAREN);
-            expr = new Expr();
+            expr = new Expr(environment);
             Parser.consume(RPAREN);
             string = "(" + expr.toString() + ")";
         }
         else if (token.hasTerminal(ARRLEN)) {
             Parser.consume(ARRLEN);
             Parser.consume(LPAREN);
-            identifier = Parser.consume(IDENT);
+            IToken identifier = Parser.consume(IDENT);
+            this.identifier = new Identifier(identifier, environment);
             Parser.consume(RPAREN);
             string = "ARRLEN(" + identifier.toString() + ")";
         }
@@ -101,11 +103,11 @@ public class Factor implements INtsParser, IToAbsNode {
             return optInitOrExprListOrArrExpr.toAbsSyn(token);
         } else if (token.hasTerminal(MONOPR)) {
             Parser.consume(MONOPR);
-            factor = new Factor();
+            factor = new Factor(environment);
             string = token.toString() + " " + factor.toString();
         } else if (token.hasTerminal(LPAREN)) {
             Parser.consume(LPAREN);
-            expr = new Expr();
+            expr = new Expr(environment);
             Parser.consume(RPAREN);
             string = "(" + expr.toString() + ")";
         }

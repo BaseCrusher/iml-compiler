@@ -1,6 +1,7 @@
 package ch.fhnw.cpib.compiler.parser.nts;
 
 import ch.fhnw.cpib.compiler.error.GrammarError;
+import ch.fhnw.cpib.compiler.parser.Environment;
 import ch.fhnw.cpib.compiler.parser.IAbstractNode;
 import ch.fhnw.cpib.compiler.parser.INtsParser;
 import ch.fhnw.cpib.compiler.parser.IToAbsNodeList;
@@ -17,11 +18,11 @@ public class ParamList implements INtsParser, IToAbsNodeList {
     private final INtsParser optParamRepCommaParam;
     private final String string;
 
-    public ParamList() throws GrammarError {
+    public ParamList(Environment environment) throws GrammarError {
         token = Parser.getCurrentToken();
         if (token.hasTerminal(LPAREN)) {
             Parser.consume(LPAREN);
-            optParamRepCommaParam = new OptParamRepCommaParam();
+            optParamRepCommaParam = new OptParamRepCommaParam(environment);
             Parser.consume(RPAREN);
             string = "( " + optParamRepCommaParam.toString() + " )";
         } else {

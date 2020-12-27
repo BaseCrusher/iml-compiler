@@ -1,6 +1,7 @@
 package ch.fhnw.cpib.compiler.parser.nts;
 
 import ch.fhnw.cpib.compiler.error.GrammarError;
+import ch.fhnw.cpib.compiler.parser.Environment;
 import ch.fhnw.cpib.compiler.parser.IAbstractNode;
 import ch.fhnw.cpib.compiler.parser.INtsParser;
 import ch.fhnw.cpib.compiler.parser.IToAbsNodeList;
@@ -21,11 +22,11 @@ public class CpsDecl implements INtsParser, IToAbsNodeList {
     private final RepSemicolonDecl repSemicolonDecl;
     private final String string;
 
-    public CpsDecl() throws GrammarError {
+    public CpsDecl(Environment globalEnv) throws GrammarError {
         token = Parser.getCurrentToken();
         if (token.hasTerminal(PROC, FUN, IDENT, CHANGEMODE)) {
-            decl = new Decl();
-            repSemicolonDecl = new RepSemicolonDecl();
+            decl = new Decl(globalEnv);
+            repSemicolonDecl = new RepSemicolonDecl(globalEnv);
             string = decl.toString() + " " + repSemicolonDecl.toString();
         } else {
             throw new GrammarError(token);

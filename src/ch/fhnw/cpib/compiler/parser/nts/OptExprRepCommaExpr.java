@@ -26,7 +26,7 @@ public class OptExprRepCommaExpr implements INtsParser, IToAbsNodeList {
     public OptExprRepCommaExpr() throws GrammarError {
         token = Parser.getCurrentToken();
         if (token.hasTerminal(ARRLEN, LPAREN, MONOPR, IDENT, LITERAL)) {
-            expr = new Expr();
+            expr = new Expr(environment);
             optRepCommaExpr = new OptRepCommaExpr();
             string = expr.toString() + " " + optRepCommaExpr.toString();
         }

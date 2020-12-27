@@ -15,11 +15,11 @@ public class OptElseCpsCmd implements INtsParser, IToAbsNodeList {
     private INtsParser epsilon;
     private final String string;
 
-    public OptElseCpsCmd() throws GrammarError {
+    public OptElseCpsCmd(Environment environment) throws GrammarError {
         token = Parser.getCurrentToken();
         if (token.hasTerminal(ELSE)) {
             Parser.consume(ELSE);
-            cpsCmd = new CpsCmd();
+            cpsCmd = new CpsCmd(globalEnv);
             string = token.getTerminal().toString() + " " + cpsCmd.toString();
         }
         else if (token.hasTerminal(ENDIF)) {

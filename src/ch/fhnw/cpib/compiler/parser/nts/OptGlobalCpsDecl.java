@@ -1,6 +1,7 @@
 package ch.fhnw.cpib.compiler.parser.nts;
 
 import ch.fhnw.cpib.compiler.error.GrammarError;
+import ch.fhnw.cpib.compiler.parser.Environment;
 import ch.fhnw.cpib.compiler.parser.IAbstractNode;
 import ch.fhnw.cpib.compiler.parser.INtsParser;
 import ch.fhnw.cpib.compiler.parser.IToAbsNodeList;
@@ -18,11 +19,11 @@ public class OptGlobalCpsDecl implements INtsParser, IToAbsNodeList {
     private INtsParser epsilon;
     private final String string;
 
-    public OptGlobalCpsDecl() throws GrammarError {
+    public OptGlobalCpsDecl(Environment globalEnv) throws GrammarError {
         token = Parser.getCurrentToken();
         if (token.hasTerminal(GLOBAL)) {
             Parser.consume(GLOBAL);
-            cpsDecl = new CpsDecl();
+            cpsDecl = new CpsDecl(globalEnv);
             string = token.getTerminal().toString() + "\n" + cpsDecl.toString();
         }
         else if(token.hasTerminal(DO)) {

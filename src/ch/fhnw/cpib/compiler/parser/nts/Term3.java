@@ -1,6 +1,7 @@
 package ch.fhnw.cpib.compiler.parser.nts;
 
 import ch.fhnw.cpib.compiler.error.GrammarError;
+import ch.fhnw.cpib.compiler.parser.Environment;
 import ch.fhnw.cpib.compiler.parser.IAbstractNode;
 import ch.fhnw.cpib.compiler.parser.INtsParser;
 import ch.fhnw.cpib.compiler.parser.IToAbsNode;
@@ -18,11 +19,11 @@ public class Term3 implements INtsParser, IToAbsNode {
     private final INtsParser factor;
     private final INtsParser repMultOprFactor;
 
-    public Term3() throws GrammarError {
+    public Term3(Environment environment) throws GrammarError {
         token = Parser.getCurrentToken();
         if (token.hasTerminal(ARRLEN, LPAREN, MONOPR, IDENT, LITERAL)) {
-            factor = new Factor();
-            repMultOprFactor = new RepMultOprFactor();
+            factor = new Factor(environment);
+            repMultOprFactor = new RepMultOprFactor(environment);
         }
         else {
             throw new GrammarError(token);

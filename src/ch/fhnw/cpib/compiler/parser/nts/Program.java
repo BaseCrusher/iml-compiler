@@ -1,5 +1,7 @@
 package ch.fhnw.cpib.compiler.parser.nts;
 
+import java.util.HashMap;
+
 import ch.fhnw.cpib.compiler.error.GrammarError;
 import ch.fhnw.cpib.compiler.parser.*;
 import ch.fhnw.cpib.compiler.parser.abstracts.AbsProgram;
@@ -10,20 +12,23 @@ import ch.fhnw.cpib.compiler.tokens.enums.KeywordTerminals;
 import static ch.fhnw.cpib.compiler.tokens.enums.KeywordTerminals.PROGRAM;
 
 public class Program implements INtsParser, IToAbsNode {
-    private IToken identifier;
+    private Identifier identifier;
     private INtsParser programParamList;
     private INtsParser optGlobalCpsDecl;
     private IToken _do;
     private INtsParser cpsCmd;
     private IToken endProgram;
+    private Environment globalEnv;
 
     public Program() throws GrammarError {
         Parser.consume(PROGRAM);
-        identifier = Parser.consume(AttributeTerminals.IDENT);
-        programParamList = new ProgParamList();
-        optGlobalCpsDecl = new OptGlobalCpsDecl();
+        globalEnv = new Environment(null, 0);
+        IToken identifier = Parser.consume(AttributeTerminals.IDENT);
+        this.identifier = new Identifier(identifier, globalEnv);
+        programParamList = new ProgParamList(globalEnv);
+        optGlobalCpsDecl = new OptGlobalCpsDecl(globalEnv);
         _do = Parser.consume(KeywordTerminals.DO);
-        cpsCmd = new CpsCmd();
+        cpsCmd = new CpsCmd(globalEnv);
         endProgram = Parser.consume(KeywordTerminals.ENDPROGRAM);
     }
 
@@ -34,11 +39,11 @@ public class Program implements INtsParser, IToAbsNode {
 
     @Override
     public IAbstractNode toAbsSyn() {
-        return new AbsProgram(identifier.getValue(), ((IToAbsNodeList)programParamList).toAbsSyn(), ((IToAbsNodeList)optGlobalCpsDecl).toAbsSyn(), ((IToAbsNodeList)cpsCmd).toAbsSyn());
+        return new AbsProgram(identifier.ident.getValue(), ((IToAbsNodeList)programParamList).toAbsSyn(), ((IToAbsNodeList)optGlobalCpsDecl).toAbsSyn(), ((IToAbsNodeList)cpsCmd).toAbsSyn());
     }
 
     public IToken getIdentifier() {
-        return identifier;
+        return identifier.ident;
     }
 
     public INtsParser getProgramParamList() {

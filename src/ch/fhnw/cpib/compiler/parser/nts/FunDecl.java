@@ -1,6 +1,9 @@
 package ch.fhnw.cpib.compiler.parser.nts;
 
+import java.util.HashMap;
+
 import ch.fhnw.cpib.compiler.error.GrammarError;
+import ch.fhnw.cpib.compiler.parser.Environment;
 import ch.fhnw.cpib.compiler.parser.IAbstractNode;
 import ch.fhnw.cpib.compiler.parser.INtsParser;
 import ch.fhnw.cpib.compiler.parser.IToAbsNode;
@@ -15,7 +18,7 @@ import static ch.fhnw.cpib.compiler.tokens.enums.KeywordTerminals.RETURNS;
 
 public class FunDecl implements INtsParser, IToAbsNode {
     private final IToken token;
-    private final IToken identifier;
+    private final Identifier identifier;
     private final INtsParser paramList;
     private final INtsParser stoDecl;
     private final INtsParser optGlobalGlobImps;
@@ -23,19 +26,21 @@ public class FunDecl implements INtsParser, IToAbsNode {
     private final INtsParser cpsCmd;
     private final String string;
 
-    public FunDecl() throws GrammarError {
+    public FunDecl(Environment globalEnv) throws GrammarError {
         token = Parser.getCurrentToken();
         if (token.hasTerminal(FUN)) {
             Parser.consume(FUN);
-            identifier = Parser.consume(IDENT);
-            paramList = new ParamList();
+            IToken identifier = Parser.consume(IDENT);
+            Environment localEnv = new Environment(globalEnv, globalEnv.getStartAddress() + globalEnv.getVars().size());
+            paramList = new ParamList(localEnv);
             Parser.consume(RETURNS);
-            stoDecl = new StoDecl();
+            stoDecl = new StoDecl(localEnv);
             optGlobalGlobImps = new OptGlobalGlobImps();
-            optLocalCpsStoDecl = new OptLocalCpsStoDecl();
+            optLocalCpsStoDecl = new OptLocalCpsStoDecl(localEnv);
             Parser.consume(DO);
-            cpsCmd = new CpsCmd();
+            cpsCmd = new CpsCmd(localEnv);
             Parser.consume(ENDFUN);
+            this.identifier = new Identifier(identifier, localEnv);
             string = token.getTerminal().toString() + " " + identifier.toString() + " " + paramList.toString() + " RETURNS " + stoDecl.toString() +
                     " " + optGlobalGlobImps.toString() + " " + optLocalCpsStoDecl.toString() + " DO " + cpsCmd.toString() + " ENDFUN";
         } else {
@@ -53,7 +58,7 @@ public class FunDecl implements INtsParser, IToAbsNode {
     }
 
     public IToken getIdentifier() {
-        return identifier;
+        return identifier.ident;
     }
 
     public INtsParser getParamList() {

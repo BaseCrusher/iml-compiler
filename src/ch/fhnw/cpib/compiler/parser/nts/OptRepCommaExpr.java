@@ -23,7 +23,7 @@ public class OptRepCommaExpr implements INtsParser, IToAbsNodeList {
         token = Parser.getCurrentToken();
         if (token.hasTerminal(COMMA)) {
             Parser.consume(COMMA);
-            expr = new Expr();
+            expr = new Expr(environment);
             optRepCommaExpr = new OptRepCommaExpr();
             string = ", " + expr.toString() + " " + optRepCommaExpr.toString();
         } else if (token.hasTerminal(RPAREN)) {

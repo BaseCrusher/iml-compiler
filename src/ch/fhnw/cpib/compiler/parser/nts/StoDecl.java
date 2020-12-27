@@ -1,10 +1,12 @@
 package ch.fhnw.cpib.compiler.parser.nts;
 
 import ch.fhnw.cpib.compiler.error.GrammarError;
+import ch.fhnw.cpib.compiler.parser.Environment;
 import ch.fhnw.cpib.compiler.parser.IAbstractNode;
 import ch.fhnw.cpib.compiler.parser.INtsParser;
 import ch.fhnw.cpib.compiler.parser.IToAbsNode;
 import ch.fhnw.cpib.compiler.parser.Parser;
+import ch.fhnw.cpib.compiler.parser.Variable;
 import ch.fhnw.cpib.compiler.parser.abstracts.AbsStoDecl;
 import ch.fhnw.cpib.compiler.tokens.IToken;
 
@@ -14,14 +16,16 @@ import static ch.fhnw.cpib.compiler.tokens.enums.AttributeTerminals.IDENT;
 
 public class StoDecl implements INtsParser, IToAbsNode {
     private final IToken token;
-    private INtsParser optChangemode;
-    private INtsParser typedIdent;
+    private OptChangemode optChangemode;
+    private TypedIdent typedIdent;
 
-    public StoDecl() throws GrammarError {
+    public StoDecl(Environment environment) throws GrammarError {
         token = Parser.getCurrentToken();
         if (token.hasTerminal(IDENT, CHANGEMODE)) {
             optChangemode = new OptChangemode();
             typedIdent = new TypedIdent();
+            Variable variable = new Variable(typedIdent.getIdentifier().getValue(), optChangemode.toAbsSyn(), typedIdent.getType(), environment.getStartAddress() + environment.getVars().size());
+            environment.putVariable(typedIdent.getIdentifier().getValue(), variable);
         } else {
             throw new GrammarError(token);
         }

@@ -1,6 +1,7 @@
 package ch.fhnw.cpib.compiler.parser.nts;
 
 import ch.fhnw.cpib.compiler.error.GrammarError;
+import ch.fhnw.cpib.compiler.parser.Environment;
 import ch.fhnw.cpib.compiler.parser.IAbstractNode;
 import ch.fhnw.cpib.compiler.parser.INtsParser;
 import ch.fhnw.cpib.compiler.parser.IToAbsNodeList;
@@ -19,12 +20,12 @@ public class RepSemicolonDecl implements INtsParser, IToAbsNodeList {
     private INtsParser epsilon;
     private final String string;
 
-    public RepSemicolonDecl() throws GrammarError {
+    public RepSemicolonDecl(Environment environment) throws GrammarError {
         token = Parser.getCurrentToken();
         if (token.hasTerminal(SEMICOLON)) {
             Parser.consume(SEMICOLON);
-            decl = new Decl();
-            repSemicolonDecl = new RepSemicolonDecl();
+            decl = new Decl(environment);
+            repSemicolonDecl = new RepSemicolonDecl(environment);
             string = "; \n " + decl.toString() + " " + repSemicolonDecl.toString();
         }
         else if (token.hasTerminal(DO)) {
