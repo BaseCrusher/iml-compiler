@@ -1,14 +1,15 @@
 package ch.fhnw.cpib.compiler.parser.nts;
 
 import ch.fhnw.cpib.compiler.error.GrammarError;
-import ch.fhnw.cpib.compiler.parser.INtsParser;
-import ch.fhnw.cpib.compiler.parser.Parser;
+import ch.fhnw.cpib.compiler.parser.*;
 import ch.fhnw.cpib.compiler.tokens.IToken;
+
+import java.util.List;
 
 import static ch.fhnw.cpib.compiler.tokens.enums.KeywordTerminals.ELSE;
 import static ch.fhnw.cpib.compiler.tokens.enums.KeywordTerminals.ENDIF;
 
-public class OptElseCpsCmd implements INtsParser {
+public class OptElseCpsCmd implements INtsParser, IToAbsNodeList {
     private final IToken token;
     private INtsParser cpsCmd;
     private INtsParser epsilon;
@@ -45,5 +46,10 @@ public class OptElseCpsCmd implements INtsParser {
 
     public INtsParser getEpsilon() {
         return epsilon;
+    }
+
+    @Override
+    public List<IAbstractNode> toAbsSyn() {
+        return null;
     }
 }

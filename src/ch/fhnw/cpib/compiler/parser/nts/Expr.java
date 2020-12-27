@@ -1,7 +1,9 @@
 package ch.fhnw.cpib.compiler.parser.nts;
 
 import ch.fhnw.cpib.compiler.error.GrammarError;
+import ch.fhnw.cpib.compiler.parser.IAbstractNode;
 import ch.fhnw.cpib.compiler.parser.INtsParser;
+import ch.fhnw.cpib.compiler.parser.IToAbsNode;
 import ch.fhnw.cpib.compiler.parser.Parser;
 import ch.fhnw.cpib.compiler.tokens.IToken;
 
@@ -11,7 +13,7 @@ import static ch.fhnw.cpib.compiler.tokens.enums.AttributeTerminals.MONOPR;
 import static ch.fhnw.cpib.compiler.tokens.enums.KeywordTerminals.ARRLEN;
 import static ch.fhnw.cpib.compiler.tokens.enums.KeywordTerminals.LPAREN;
 
-public class Expr implements INtsParser {
+public class Expr implements INtsParser, IToAbsNode {
     private INtsParser term1;
     private INtsParser repBoolOprTerm1;
 
@@ -29,6 +31,11 @@ public class Expr implements INtsParser {
     @Override
     public String toString() {
         return term1.toString() + " " + repBoolOprTerm1.toString();
+    }
+
+    @Override
+    public IAbstractNode toAbsSyn() {
+        return null;
     }
 
     public INtsParser getTerm1() {

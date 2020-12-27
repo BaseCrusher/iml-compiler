@@ -1,7 +1,9 @@
 package ch.fhnw.cpib.compiler.parser.nts;
 
 import ch.fhnw.cpib.compiler.error.GrammarError;
+import ch.fhnw.cpib.compiler.parser.IAbstractNode;
 import ch.fhnw.cpib.compiler.parser.INtsParser;
+import ch.fhnw.cpib.compiler.parser.IToAbsNode;
 import ch.fhnw.cpib.compiler.parser.Parser;
 import ch.fhnw.cpib.compiler.tokens.IToken;
 
@@ -10,7 +12,7 @@ import static ch.fhnw.cpib.compiler.tokens.enums.AttributeTerminals.IDENT;
 import static ch.fhnw.cpib.compiler.tokens.enums.KeywordTerminals.FUN;
 import static ch.fhnw.cpib.compiler.tokens.enums.KeywordTerminals.PROC;
 
-public class Decl implements INtsParser {
+public class Decl implements INtsParser, IToAbsNode {
     private final IToken token;
     private INtsParser stoDecl;
     private INtsParser funDecl;
@@ -39,6 +41,19 @@ public class Decl implements INtsParser {
     @Override
     public String toString() {
         return string;
+    }
+
+    @Override
+    public IAbstractNode toAbsSyn() {
+        if (token.hasTerminal(IDENT, CHANGEMODE)) {
+            return ((IToAbsNode)stoDecl).toAbsSyn();
+        }
+        else if (token.hasTerminal(FUN)) {
+            return ((IToAbsNode)funDecl).toAbsSyn();
+        }
+        else {
+            return ((IToAbsNode)procDecl).toAbsSyn();
+        }
     }
 
     public IToken getToken() {

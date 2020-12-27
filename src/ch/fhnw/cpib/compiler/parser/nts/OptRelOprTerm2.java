@@ -2,8 +2,7 @@
 package ch.fhnw.cpib.compiler.parser.nts;
 
 import ch.fhnw.cpib.compiler.error.GrammarError;
-import ch.fhnw.cpib.compiler.parser.INtsParser;
-import ch.fhnw.cpib.compiler.parser.Parser;
+import ch.fhnw.cpib.compiler.parser.*;
 import ch.fhnw.cpib.compiler.tokens.IToken;
 
 import static ch.fhnw.cpib.compiler.tokens.enums.AttributeTerminals.BOOLOPR;
@@ -22,7 +21,7 @@ import static ch.fhnw.cpib.compiler.tokens.enums.KeywordTerminals.RPAREN;
 import static ch.fhnw.cpib.compiler.tokens.enums.KeywordTerminals.SEMICOLON;
 import static ch.fhnw.cpib.compiler.tokens.enums.KeywordTerminals.THEN;
 
-public class OptRelOprTerm2 implements INtsParser {
+public class OptRelOprTerm2 implements INtsParser, IToAbsNode {
     private final IToken token;
     private INtsParser term2;
     private INtsParser epsilon;
@@ -58,5 +57,10 @@ public class OptRelOprTerm2 implements INtsParser {
 
     public INtsParser getEpsilon() {
         return epsilon;
+    }
+
+    @Override
+    public IAbstractNode toAbsSyn() {
+        return null;
     }
 }

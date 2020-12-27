@@ -1,16 +1,20 @@
 package ch.fhnw.cpib.compiler.parser.nts;
 
 import ch.fhnw.cpib.compiler.error.GrammarError;
+import ch.fhnw.cpib.compiler.parser.IAbstractNode;
 import ch.fhnw.cpib.compiler.parser.INtsParser;
+import ch.fhnw.cpib.compiler.parser.IToAbsNodeList;
 import ch.fhnw.cpib.compiler.parser.Parser;
 import ch.fhnw.cpib.compiler.tokens.IToken;
+
+import java.util.List;
 
 import static ch.fhnw.cpib.compiler.tokens.enums.AttributeTerminals.CHANGEMODE;
 import static ch.fhnw.cpib.compiler.tokens.enums.AttributeTerminals.IDENT;
 import static ch.fhnw.cpib.compiler.tokens.enums.KeywordTerminals.FUN;
 import static ch.fhnw.cpib.compiler.tokens.enums.KeywordTerminals.PROC;
 
-public class CpsDecl implements INtsParser {
+public class CpsDecl implements INtsParser, IToAbsNodeList {
     private final IToken token;
     private final INtsParser decl;
     private final INtsParser repSemicolonDecl;
@@ -43,5 +47,10 @@ public class CpsDecl implements INtsParser {
 
     public IToken getToken() {
         return token;
+    }
+
+    @Override
+    public List<IAbstractNode> toAbsSyn() {
+        return null;
     }
 }

@@ -1,14 +1,18 @@
 package ch.fhnw.cpib.compiler.parser.nts;
 
 import ch.fhnw.cpib.compiler.error.GrammarError;
+import ch.fhnw.cpib.compiler.parser.IAbstractNode;
 import ch.fhnw.cpib.compiler.parser.INtsParser;
+import ch.fhnw.cpib.compiler.parser.IToAbsNodeList;
 import ch.fhnw.cpib.compiler.parser.Parser;
 import ch.fhnw.cpib.compiler.tokens.IToken;
+
+import java.util.List;
 
 import static ch.fhnw.cpib.compiler.tokens.enums.KeywordTerminals.LPAREN;
 import static ch.fhnw.cpib.compiler.tokens.enums.KeywordTerminals.RPAREN;
 
-public class ExprList implements INtsParser {
+public class ExprList implements INtsParser, IToAbsNodeList {
     private final IToken token;
     private INtsParser optExprRepCommaExpr;
 
@@ -35,5 +39,10 @@ public class ExprList implements INtsParser {
 
     public INtsParser getOptExprRepCommaExpr() {
         return optExprRepCommaExpr;
+    }
+
+    @Override
+    public List<IAbstractNode> toAbsSyn() {
+        return null;
     }
 }

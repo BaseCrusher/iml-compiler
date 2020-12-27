@@ -3,6 +3,7 @@ package ch.fhnw.cpib.compiler.parser.nts;
 import ch.fhnw.cpib.compiler.error.GrammarError;
 import ch.fhnw.cpib.compiler.parser.IAbstractNode;
 import ch.fhnw.cpib.compiler.parser.INtsParser;
+import ch.fhnw.cpib.compiler.parser.IToAbsNode;
 import ch.fhnw.cpib.compiler.parser.Parser;
 import ch.fhnw.cpib.compiler.parser.abstracts.AbsStoDecl;
 import ch.fhnw.cpib.compiler.tokens.IToken;
@@ -11,7 +12,7 @@ import static ch.fhnw.cpib.compiler.tokens.enums.AttributeTerminals.CHANGEMODE;
 import static ch.fhnw.cpib.compiler.tokens.enums.AttributeTerminals.IDENT;
 
 
-public class StoDecl implements INtsParser {
+public class StoDecl implements INtsParser, IToAbsNode {
     private final IToken token;
     private INtsParser optChangemode;
     private INtsParser typedIdent;
@@ -34,7 +35,7 @@ public class StoDecl implements INtsParser {
 
     @Override
     public IAbstractNode toAbsSyn() {
-        return new AbsStoDecl(optChangemode.toAbsSyn(), typedIdent.toAbsSyn());
+        return new AbsStoDecl(((IToAbsNode)optChangemode).toAbsSyn(), ((IToAbsNode)typedIdent).toAbsSyn());
     }
 
     public IToken getToken() {

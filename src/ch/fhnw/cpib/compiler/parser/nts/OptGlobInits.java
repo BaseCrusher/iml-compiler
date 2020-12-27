@@ -1,9 +1,13 @@
 package ch.fhnw.cpib.compiler.parser.nts;
 
 import ch.fhnw.cpib.compiler.error.GrammarError;
+import ch.fhnw.cpib.compiler.parser.IAbstractNode;
 import ch.fhnw.cpib.compiler.parser.INtsParser;
+import ch.fhnw.cpib.compiler.parser.IToAbsNodeList;
 import ch.fhnw.cpib.compiler.parser.Parser;
 import ch.fhnw.cpib.compiler.tokens.IToken;
+
+import java.util.List;
 
 import static ch.fhnw.cpib.compiler.tokens.enums.AttributeTerminals.IDENT;
 import static ch.fhnw.cpib.compiler.tokens.enums.KeywordTerminals.ELSE;
@@ -15,7 +19,7 @@ import static ch.fhnw.cpib.compiler.tokens.enums.KeywordTerminals.ENDWHILE;
 import static ch.fhnw.cpib.compiler.tokens.enums.KeywordTerminals.INIT;
 import static ch.fhnw.cpib.compiler.tokens.enums.KeywordTerminals.SEMICOLON;
 
-public class OptGlobInits implements INtsParser {
+public class OptGlobInits implements INtsParser, IToAbsNodeList {
     private final IToken token;
     private INtsParser repCommaIdent;
     private IToken ident;
@@ -54,5 +58,10 @@ public class OptGlobInits implements INtsParser {
 
     public INtsParser getEpsilon() {
         return epsilon;
+    }
+
+    @Override
+    public List<IAbstractNode> toAbsSyn() {
+        return null;
     }
 }

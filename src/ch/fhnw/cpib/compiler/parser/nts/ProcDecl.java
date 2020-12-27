@@ -1,7 +1,9 @@
 package ch.fhnw.cpib.compiler.parser.nts;
 
 import ch.fhnw.cpib.compiler.error.GrammarError;
+import ch.fhnw.cpib.compiler.parser.IAbstractNode;
 import ch.fhnw.cpib.compiler.parser.INtsParser;
+import ch.fhnw.cpib.compiler.parser.IToAbsNode;
 import ch.fhnw.cpib.compiler.parser.Parser;
 import ch.fhnw.cpib.compiler.tokens.IToken;
 
@@ -10,7 +12,7 @@ import static ch.fhnw.cpib.compiler.tokens.enums.KeywordTerminals.DO;
 import static ch.fhnw.cpib.compiler.tokens.enums.KeywordTerminals.ENDPROC;
 import static ch.fhnw.cpib.compiler.tokens.enums.KeywordTerminals.PROC;
 
-public class ProcDecl implements INtsParser {
+public class ProcDecl implements INtsParser, IToAbsNode {
     private final IToken token;
     private final IToken identifier;
     private final INtsParser paramList;
@@ -65,5 +67,10 @@ public class ProcDecl implements INtsParser {
 
     public INtsParser getCpsCmd() {
         return cpsCmd;
+    }
+
+    @Override
+    public IAbstractNode toAbsSyn() {
+        return null;
     }
 }

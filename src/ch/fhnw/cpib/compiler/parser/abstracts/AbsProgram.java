@@ -2,6 +2,8 @@ package ch.fhnw.cpib.compiler.parser.abstracts;
 
 import ch.fhnw.cpib.compiler.parser.IAbstractNode;
 
+import java.util.List;
+
 public class AbsProgram implements IAbstractNode {
 
     private final String value;
@@ -9,7 +11,7 @@ public class AbsProgram implements IAbstractNode {
     private final IAbstractNode absOptGlobalCpsDecl;
     private final IAbstractNode absCpsCmd;
 
-    public AbsProgram(String value, IAbstractNode absProgramParamList, IAbstractNode absOptGlobalCpsDecl, IAbstractNode absCpsCmd) {
+    public AbsProgram(String value, List<IAbstractNode> absProgramParamList, List<IAbstractNode> absOptGlobalCpsDecl, List<IAbstractNode> absCpsCmd) {
         this.value = value;
         this.absProgramParamList = absProgramParamList;
         this.absOptGlobalCpsDecl = absOptGlobalCpsDecl;

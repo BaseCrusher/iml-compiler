@@ -1,9 +1,7 @@
 package ch.fhnw.cpib.compiler.parser.nts;
 
 import ch.fhnw.cpib.compiler.error.GrammarError;
-import ch.fhnw.cpib.compiler.parser.IAbstractNode;
-import ch.fhnw.cpib.compiler.parser.INtsParser;
-import ch.fhnw.cpib.compiler.parser.Parser;
+import ch.fhnw.cpib.compiler.parser.*;
 import ch.fhnw.cpib.compiler.parser.abstracts.*;
 import ch.fhnw.cpib.compiler.tokens.IToken;
 
@@ -20,12 +18,11 @@ import static ch.fhnw.cpib.compiler.tokens.enums.KeywordTerminals.ENDIF;
 import static ch.fhnw.cpib.compiler.tokens.enums.KeywordTerminals.ENDWHILE;
 import static ch.fhnw.cpib.compiler.tokens.enums.KeywordTerminals.IF;
 import static ch.fhnw.cpib.compiler.tokens.enums.KeywordTerminals.LPAREN;
-import static ch.fhnw.cpib.compiler.tokens.enums.KeywordTerminals.RPAREN;
 import static ch.fhnw.cpib.compiler.tokens.enums.KeywordTerminals.SKIP;
 import static ch.fhnw.cpib.compiler.tokens.enums.KeywordTerminals.THEN;
 import static ch.fhnw.cpib.compiler.tokens.enums.KeywordTerminals.WHILE;
 
-public class Cmd implements INtsParser {
+public class Cmd implements INtsParser, IToAbsNode {
     private final IToken token;
     private IToken identifier;
     private INtsParser exprList;
@@ -98,22 +95,22 @@ public class Cmd implements INtsParser {
             return new AbsSkipCommand();
         }
         else if (token.hasTerminal(ARRLEN, LPAREN, MONOPR, IDENT, LITERAL)) {
-            return new AbsAssignmentCommand(expr1.toAbsSyn(), expr2.toAbsSyn());
+            return new AbsAssignmentCommand(((IToAbsNode)expr1).toAbsSyn(), ((IToAbsNode)expr2).toAbsSyn());
         }
         else if (token.hasTerminal(IF)) {
-            return new AbsConditionalCommand(expr1.toAbsSyn(), cpsCmd.toAbsSyn(), optElseCpsCmd.toAbsSyn());
+            return new AbsConditionalCommand(((IToAbsNode)expr1).toAbsSyn(), ((IToAbsNodeList)cpsCmd).toAbsSyn(), ((IToAbsNodeList)optElseCpsCmd).toAbsSyn());
         }
         else if (token.hasTerminal(WHILE)) {
-            return new AbsWhileCommand(expr1.toAbsSyn(), cpsCmd.toAbsSyn());
+            return new AbsWhileCommand(((IToAbsNode)expr1).toAbsSyn(), ((IToAbsNodeList)cpsCmd).toAbsSyn());
         }
         else if (token.hasTerminal(CALL)) {
-            return new AbsCallCommand(identifier.getValue(), exprList.toAbsSyn(), optGlobInits.toAbsSyn());
+            return new AbsCallCommand(identifier.getValue(), ((IToAbsNodeList)exprList).toAbsSyn(), ((IToAbsNodeList)optGlobInits).toAbsSyn());
         }
         else if (token.hasTerminal(DEBUGIN)) {
-            return new AbsInputCommand(expr1.toAbsSyn());
+            return new AbsInputCommand(((IToAbsNode)expr1).toAbsSyn());
         }
         else {
-            return new AbsOutputCommand(expr1.toAbsSyn());
+            return new AbsOutputCommand(((IToAbsNode)expr1).toAbsSyn());
         }
     }
 
