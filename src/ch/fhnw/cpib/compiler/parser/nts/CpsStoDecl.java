@@ -3,7 +3,6 @@ package ch.fhnw.cpib.compiler.parser.nts;
 import ch.fhnw.cpib.compiler.error.GrammarError;
 import ch.fhnw.cpib.compiler.parser.IAbstractNode;
 import ch.fhnw.cpib.compiler.parser.INtsParser;
-import ch.fhnw.cpib.compiler.parser.IToAbsNode;
 import ch.fhnw.cpib.compiler.parser.IToAbsNodeList;
 import ch.fhnw.cpib.compiler.parser.Parser;
 import ch.fhnw.cpib.compiler.tokens.IToken;
@@ -16,15 +15,15 @@ import static ch.fhnw.cpib.compiler.tokens.enums.AttributeTerminals.IDENT;
 
 public class CpsStoDecl implements INtsParser, IToAbsNodeList {
     private final IToken token;
-    private final INtsParser stoDecl;
-    private final INtsParser repSemicolonStoDecl;
+    private final StoDecl stoDecl;
+    private final RepSemicolonStoDecl repSemicolonStoDecl;
     private final String string;
 
     public CpsStoDecl() throws GrammarError {
         token = Parser.getCurrentToken();
         if (token.hasTerminal(IDENT, CHANGEMODE)) {
             stoDecl = new StoDecl();
-            repSemicolonStoDecl = new RepSemicolonDecl();
+            repSemicolonStoDecl = new RepSemicolonStoDecl();
             string = stoDecl.toString() + " " + repSemicolonStoDecl.toString();
         }
         else {
@@ -53,8 +52,8 @@ public class CpsStoDecl implements INtsParser, IToAbsNodeList {
     @Override
     public List<IAbstractNode> toAbsSyn() {
         List<IAbstractNode> nodeList = new ArrayList<>();
-        nodeList.add(((IToAbsNode)stoDecl).toAbsSyn());
-        nodeList.addAll(((IToAbsNodeList)repSemicolonStoDecl).toAbsSyn());
+        nodeList.add(stoDecl.toAbsSyn());
+        nodeList.addAll(repSemicolonStoDecl.toAbsSyn());
         return nodeList;
     }
 }

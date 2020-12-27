@@ -25,8 +25,8 @@ import static ch.fhnw.cpib.compiler.tokens.enums.KeywordTerminals.WHILE;
 
 public class CpsCmd implements INtsParser, IToAbsNodeList {
     private final IToken token;
-    private final INtsParser cmd;
-    private final INtsParser repSemicolonCmd;
+    private final Cmd cmd;
+    private final RepSemicolonCmd repSemicolonCmd;
     private final String string;
 
     public CpsCmd() throws GrammarError {
@@ -61,8 +61,8 @@ public class CpsCmd implements INtsParser, IToAbsNodeList {
     @Override
     public List<IAbstractNode> toAbsSyn() {
         List<IAbstractNode> cpsCmdList = new ArrayList<>();
-        cpsCmdList.add(((IToAbsNode)cmd).toAbsSyn());
-        cpsCmdList.addAll(((IToAbsNodeList)repSemicolonCmd).toAbsSyn());
+        cpsCmdList.add(cmd.toAbsSyn());
+        cpsCmdList.addAll(repSemicolonCmd.toAbsSyn());
         return cpsCmdList;
     }
 }

@@ -10,9 +10,9 @@ import ch.fhnw.cpib.compiler.tokens.IToken;
 import static ch.fhnw.cpib.compiler.tokens.enums.KeywordTerminals.PIPE;
 
 public class ArrayDecl implements INtsParser, IToAbsNode {
-    private IToken token;
-    private INtsParser optLit;
-    private String string;
+    private final IToken token;
+    private final OptLit optLit;
+    private final String string;
 
     public ArrayDecl() throws GrammarError {
         this.token = Parser.getCurrentToken();
@@ -33,7 +33,7 @@ public class ArrayDecl implements INtsParser, IToAbsNode {
 
     @Override
     public IAbstractNode toAbsSyn() {
-        return ((IToAbsNode)optLit).toAbsSyn();
+        return optLit.toAbsSyn();
     }
 
     public IToken getToken() {

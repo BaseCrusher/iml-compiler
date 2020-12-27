@@ -14,7 +14,7 @@ import static ch.fhnw.cpib.compiler.tokens.enums.KeywordTerminals.ARRLEN;
 import static ch.fhnw.cpib.compiler.tokens.enums.KeywordTerminals.LPAREN;
 
 public class Expr implements INtsParser, IToAbsNode {
-    private final INtsParser term1;
+    private final Term1 term1;
     private final RepBoolOprTerm1 repBoolOprTerm1;
 
     public Expr() throws GrammarError {

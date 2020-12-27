@@ -5,8 +5,10 @@ import ch.fhnw.cpib.compiler.parser.IAbstractNode;
 import ch.fhnw.cpib.compiler.parser.INtsParser;
 import ch.fhnw.cpib.compiler.parser.IToAbsNode;
 import ch.fhnw.cpib.compiler.parser.Parser;
+import ch.fhnw.cpib.compiler.parser.abstracts.AbsIntLiteralExpr;
 import ch.fhnw.cpib.compiler.tokens.IToken;
 
+import static ch.fhnw.cpib.compiler.tokens.enums.AttributeTerminals.BOOLOPR;
 import static ch.fhnw.cpib.compiler.tokens.enums.AttributeTerminals.IDENT;
 import static ch.fhnw.cpib.compiler.tokens.enums.AttributeTerminals.LITERAL;
 import static ch.fhnw.cpib.compiler.tokens.enums.AttributeTerminals.MONOPR;
@@ -17,10 +19,10 @@ import static ch.fhnw.cpib.compiler.tokens.enums.KeywordTerminals.RPAREN;
 public class Factor implements INtsParser, IToAbsNode {
     private final IToken token;
     private IToken identifier;
-    private INtsParser optInitOrExprList;
-    private INtsParser factor;
-    private INtsParser expr;
-    private String string;
+    private OptInitOrExprListOrArrExpr optInitOrExprListOrArrExpr;
+    private Factor factor;
+    private Expr expr;
+    private final String string;
 
     public Factor() throws GrammarError {
         token = Parser.getCurrentToken();
@@ -30,8 +32,8 @@ public class Factor implements INtsParser, IToAbsNode {
         }
         else if (token.hasTerminal(IDENT)) {
             Parser.consume(IDENT);
-            optInitOrExprList = new OptInitOrExprListOrArrExpr();
-            string = token.toString() + " " + optInitOrExprList.toString();
+            optInitOrExprListOrArrExpr = new OptInitOrExprListOrArrExpr();
+            string = token.toString() + " " + optInitOrExprListOrArrExpr.toString();
         } else if (token.hasTerminal(MONOPR)) {
             Parser.consume(MONOPR);
             factor = new Factor();
@@ -70,8 +72,8 @@ public class Factor implements INtsParser, IToAbsNode {
         return token;
     }
 
-    public INtsParser getOptInitOrExprList() {
-        return optInitOrExprList;
+    public INtsParser getOptInitOrExprListOrArrExpr() {
+        return optInitOrExprListOrArrExpr;
     }
 
     public INtsParser getFactor() {
@@ -84,6 +86,33 @@ public class Factor implements INtsParser, IToAbsNode {
 
     @Override
     public IAbstractNode toAbsSyn() {
+        if (token.hasTerminal(LITERAL)) {
+            if (Boolean.parseBoolean(token.getValue()) {
+
+            }
+            return new AbsIntLiteralExpr(token);
+        }
+        else if (token.hasTerminal(IDENT)) {
+            Parser.consume(IDENT);
+            optInitOrExprListOrArrExpr = new OptInitOrExprListOrArrExpr();
+            string = token.toString() + " " + optInitOrExprListOrArrExpr.toString();
+        } else if (token.hasTerminal(MONOPR)) {
+            Parser.consume(MONOPR);
+            factor = new Factor();
+            string = token.toString() + " " + factor.toString();
+        } else if (token.hasTerminal(LPAREN)) {
+            Parser.consume(LPAREN);
+            expr = new Expr();
+            Parser.consume(RPAREN);
+            string = "(" + expr.toString() + ")";
+        }
+        else if (token.hasTerminal(ARRLEN)) {
+            Parser.consume(ARRLEN);
+            Parser.consume(LPAREN);
+            identifier = Parser.consume(IDENT);
+            Parser.consume(RPAREN);
+            string = "ARRLEN(" + identifier.toString() + ")";
+        }
         return null;
     }
 }

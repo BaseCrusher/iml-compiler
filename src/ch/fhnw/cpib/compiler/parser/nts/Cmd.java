@@ -25,12 +25,12 @@ import static ch.fhnw.cpib.compiler.tokens.enums.KeywordTerminals.WHILE;
 public class Cmd implements INtsParser, IToAbsNode {
     private final IToken token;
     private IToken identifier;
-    private INtsParser exprList;
-    private INtsParser optGlobInits;
-    private INtsParser expr1;
-    private INtsParser expr2;
-    private INtsParser cpsCmd;
-    private INtsParser optElseCpsCmd;
+    private ExprList exprList;
+    private OptGlobInits optGlobInits;
+    private Expr expr1;
+    private Expr expr2;
+    private CpsCmd cpsCmd;
+    private OptElseCpsCmd optElseCpsCmd;
     private final String string;
 
     public Cmd() throws GrammarError {
@@ -95,22 +95,22 @@ public class Cmd implements INtsParser, IToAbsNode {
             return new AbsSkipCommand();
         }
         else if (token.hasTerminal(ARRLEN, LPAREN, MONOPR, IDENT, LITERAL)) {
-            return new AbsAssignmentCommand(((IToAbsNode)expr1).toAbsSyn(), ((IToAbsNode)expr2).toAbsSyn());
+            return new AbsAssignmentCommand(expr1.toAbsSyn(), expr2.toAbsSyn());
         }
         else if (token.hasTerminal(IF)) {
-            return new AbsConditionalCommand(((IToAbsNode)expr1).toAbsSyn(), ((IToAbsNodeList)cpsCmd).toAbsSyn(), ((IToAbsNodeList)optElseCpsCmd).toAbsSyn());
+            return new AbsConditionalCommand(expr1.toAbsSyn(), cpsCmd.toAbsSyn(), optElseCpsCmd.toAbsSyn());
         }
         else if (token.hasTerminal(WHILE)) {
-            return new AbsWhileCommand(((IToAbsNode)expr1).toAbsSyn(), ((IToAbsNodeList)cpsCmd).toAbsSyn());
+            return new AbsWhileCommand(expr1.toAbsSyn(), cpsCmd.toAbsSyn());
         }
         else if (token.hasTerminal(CALL)) {
-            return new AbsCallCommand(identifier.getValue(), ((IToAbsNodeList)exprList).toAbsSyn(), ((IToAbsNodeList)optGlobInits).toAbsSyn());
+            return new AbsCallCommand(identifier.getValue(), exprList.toAbsSyn(), optGlobInits.toAbsSyn());
         }
         else if (token.hasTerminal(DEBUGIN)) {
-            return new AbsInputCommand(((IToAbsNode)expr1).toAbsSyn());
+            return new AbsInputCommand(expr1.toAbsSyn());
         }
         else {
-            return new AbsOutputCommand(((IToAbsNode)expr1).toAbsSyn());
+            return new AbsOutputCommand(expr1.toAbsSyn());
         }
     }
 

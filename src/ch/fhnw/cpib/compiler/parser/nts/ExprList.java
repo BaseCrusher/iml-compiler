@@ -7,6 +7,7 @@ import ch.fhnw.cpib.compiler.parser.IToAbsNodeList;
 import ch.fhnw.cpib.compiler.parser.Parser;
 import ch.fhnw.cpib.compiler.tokens.IToken;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static ch.fhnw.cpib.compiler.tokens.enums.KeywordTerminals.LPAREN;
@@ -14,7 +15,7 @@ import static ch.fhnw.cpib.compiler.tokens.enums.KeywordTerminals.RPAREN;
 
 public class ExprList implements INtsParser, IToAbsNodeList {
     private final IToken token;
-    private INtsParser optExprRepCommaExpr;
+    private final OptExprRepCommaExpr optExprRepCommaExpr;
 
     public ExprList() throws GrammarError {
         token = Parser.getCurrentToken();
@@ -43,6 +44,6 @@ public class ExprList implements INtsParser, IToAbsNodeList {
 
     @Override
     public List<IAbstractNode> toAbsSyn() {
-        return null;
+        return new ArrayList<>(optExprRepCommaExpr.toAbsSyn());
     }
 }

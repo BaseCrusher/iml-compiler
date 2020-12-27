@@ -14,9 +14,9 @@ import static ch.fhnw.cpib.compiler.tokens.enums.KeywordTerminals.PROC;
 
 public class Decl implements INtsParser, IToAbsNode {
     private final IToken token;
-    private INtsParser stoDecl;
-    private INtsParser funDecl;
-    private INtsParser procDecl;
+    private StoDecl stoDecl;
+    private FunDecl funDecl;
+    private ProcDecl procDecl;
     private final String string;
 
     public Decl() throws GrammarError {
@@ -46,13 +46,13 @@ public class Decl implements INtsParser, IToAbsNode {
     @Override
     public IAbstractNode toAbsSyn() {
         if (token.hasTerminal(IDENT, CHANGEMODE)) {
-            return ((IToAbsNode)stoDecl).toAbsSyn();
+            return stoDecl.toAbsSyn();
         }
         else if (token.hasTerminal(FUN)) {
-            return ((IToAbsNode)funDecl).toAbsSyn();
+            return funDecl.toAbsSyn();
         }
         else {
-            return ((IToAbsNode)procDecl).toAbsSyn();
+            return procDecl.toAbsSyn();
         }
     }
 
