@@ -22,7 +22,7 @@ import static ch.fhnw.cpib.compiler.tokens.enums.KeywordTerminals.SKIP;
 import static ch.fhnw.cpib.compiler.tokens.enums.KeywordTerminals.THEN;
 import static ch.fhnw.cpib.compiler.tokens.enums.KeywordTerminals.WHILE;
 
-public class Cmd implements INtsParser, IToAbsNode {
+public class Cmd implements INtsParser {
     private final IToken token;
     private IToken identifier;
     private ExprList exprList;
@@ -89,7 +89,6 @@ public class Cmd implements INtsParser, IToAbsNode {
         return string;
     }
 
-    @Override
     public IAbstractNode toAbsSyn() {
         if (token.hasTerminal(SKIP)) {
             return new AbsSkipCommand();
@@ -107,7 +106,7 @@ public class Cmd implements INtsParser, IToAbsNode {
             return new AbsCallCommand(identifier.getValue(), exprList.toAbsSyn(), optGlobInits.toAbsSyn());
         }
         else if (token.hasTerminal(DEBUGIN)) {
-            return new AbsInputCommand(expr1.toAbsSyn());
+            return new AbsInputCommand(expr1);
         }
         else {
             return new AbsOutputCommand(expr1.toAbsSyn());

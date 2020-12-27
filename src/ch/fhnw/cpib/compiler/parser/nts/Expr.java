@@ -4,7 +4,6 @@ import ch.fhnw.cpib.compiler.error.GrammarError;
 import ch.fhnw.cpib.compiler.parser.Environment;
 import ch.fhnw.cpib.compiler.parser.IAbstractNode;
 import ch.fhnw.cpib.compiler.parser.INtsParser;
-import ch.fhnw.cpib.compiler.parser.IToAbsNode;
 import ch.fhnw.cpib.compiler.parser.Parser;
 import ch.fhnw.cpib.compiler.tokens.IToken;
 
@@ -14,7 +13,7 @@ import static ch.fhnw.cpib.compiler.tokens.enums.AttributeTerminals.MONOPR;
 import static ch.fhnw.cpib.compiler.tokens.enums.KeywordTerminals.ARRLEN;
 import static ch.fhnw.cpib.compiler.tokens.enums.KeywordTerminals.LPAREN;
 
-public class Expr implements INtsParser, IToAbsNode {
+public class Expr implements INtsParser {
     private final Term1 term1;
     private final RepBoolOprTerm1 repBoolOprTerm1;
 
@@ -34,7 +33,6 @@ public class Expr implements INtsParser, IToAbsNode {
         return term1.toString() + " " + repBoolOprTerm1.toString();
     }
 
-    @Override
     public IAbstractNode toAbsSyn() {
         return repBoolOprTerm1.toAbsSyn(term1);
     }
@@ -45,5 +43,9 @@ public class Expr implements INtsParser, IToAbsNode {
 
     public INtsParser getRepBoolOprTerm1() {
         return repBoolOprTerm1;
+    }
+
+    public Identifier getIdentifier() {
+        return term1.getIdentifier();
     }
 }

@@ -4,12 +4,12 @@ import ch.fhnw.cpib.compiler.error.GrammarError;
 import ch.fhnw.cpib.compiler.parser.Environment;
 import ch.fhnw.cpib.compiler.parser.IAbstractNode;
 import ch.fhnw.cpib.compiler.parser.INtsParser;
-import ch.fhnw.cpib.compiler.parser.IToAbsNodeList;
 import ch.fhnw.cpib.compiler.parser.Parser;
+import ch.fhnw.cpib.compiler.parser.abstracts.AbsArrExpr;
+import ch.fhnw.cpib.compiler.parser.abstracts.AbsFunCallExpr;
 import ch.fhnw.cpib.compiler.parser.abstracts.AbsStoreExpr;
+import ch.fhnw.cpib.compiler.parser.abstracts.RoutineCall;
 import ch.fhnw.cpib.compiler.tokens.IToken;
-
-import java.util.List;
 
 import static ch.fhnw.cpib.compiler.tokens.enums.AttributeTerminals.*;
 import static ch.fhnw.cpib.compiler.tokens.enums.KeywordTerminals.BECOMES;
@@ -29,12 +29,12 @@ import static ch.fhnw.cpib.compiler.tokens.enums.KeywordTerminals.RPAREN;
 import static ch.fhnw.cpib.compiler.tokens.enums.KeywordTerminals.SEMICOLON;
 import static ch.fhnw.cpib.compiler.tokens.enums.KeywordTerminals.THEN;
 
-public class OptInitOrExprListOrArrExpr implements INtsParser, IToAbsNodeList {
+public class OptInitOrExprListOrArrExpr implements INtsParser {
     private final IToken token;
-    private INtsParser exprList;
-    private INtsParser expr;
-    private INtsParser optInit;
-    private INtsParser epsilon;
+    private ExprList exprList;
+    private Expr expr;
+    private OptInit optInit;
+    private Epsilon epsilon;
     private final String string;
 
     public OptInitOrExprListOrArrExpr(Environment environment) throws GrammarError {
@@ -83,29 +83,19 @@ public class OptInitOrExprListOrArrExpr implements INtsParser, IToAbsNodeList {
         return epsilon;
     }
 
-    @Override
-    public List<IAbstractNode> toAbsSyn() {
-        return null;
-    }
-
-    public IAbstractNode toAbsSyn(IToken token) {
-        if (token.hasTerminal(INIT)) {
-            return new AbsStoreExpr(token.getValue());
+    public IAbstractNode toAbsSyn(Identifier identifier) {
+        if (this.token.hasTerminal(INIT)) {
+            return new AbsStoreExpr(identifier, true);
         }
-        else if (token.hasTerminal(LPAREN)) {
-            exprList = new ExprList(environment);
-            string = exprList.toString();
+        else if (this.token.hasTerminal(LPAREN)) {
+            return new AbsFunCallExpr(new RoutineCall(identifier, exprList.toAbsSyn()));
         }
-        else if (token.hasTerminal(LBRACK)) {
-            Parser.consume(LBRACK);
-            expr = new Expr(environment);
-            Parser.consume(RBRACK);
-            optInit = new OptInit();
-            string = "(" + expr.toString()  + ")";
+        else if (this.token.hasTerminal(LBRACK)) {
+            if (optInit.getEpsilon() == null) {
+                new AbsArrExpr(identifier, expr.toAbsSyn());
+            }
+            return new AbsArrExpr(identifier, expr.toAbsSyn(), optInit.toAbsSyn());
         }
-        else if (token.hasTerminal(COMMA, RBRACK, RPAREN, DO, THEN, ENDWHILE, ENDIF, ELSE, ENDPROC, ENDFUN, ENDPROGRAM, SEMICOLON, BECOMES, BOOLOPR, RELOPR, ADDOPR, MULTOPR, DIVOPR)) {
-            epsilon = new Epsilon();
-            string = epsilon.toString();
-        }
+        return new AbsStoreExpr(identifier, false);
     }
 }

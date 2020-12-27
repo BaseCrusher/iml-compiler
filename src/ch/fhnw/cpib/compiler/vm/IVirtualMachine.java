@@ -17,7 +17,7 @@ public interface IVirtualMachine { // into separate file
     //  - example: division by zero
     class ExecutionError extends Exception
     {
-        ExecutionError(String errorMessage)
+        public ExecutionError(String errorMessage)
         {
             super("Execution error: " + errorMessage);
         }

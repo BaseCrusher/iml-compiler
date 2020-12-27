@@ -3,20 +3,20 @@ package ch.fhnw.cpib.compiler.parser.nts;
 import ch.fhnw.cpib.compiler.error.GrammarError;
 import ch.fhnw.cpib.compiler.parser.IAbstractNode;
 import ch.fhnw.cpib.compiler.parser.INtsParser;
-import ch.fhnw.cpib.compiler.parser.IToAbsNodeList;
 import ch.fhnw.cpib.compiler.parser.Parser;
 import ch.fhnw.cpib.compiler.tokens.IToken;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static ch.fhnw.cpib.compiler.tokens.enums.KeywordTerminals.COMMA;
 import static ch.fhnw.cpib.compiler.tokens.enums.KeywordTerminals.DO;
 import static ch.fhnw.cpib.compiler.tokens.enums.KeywordTerminals.LOCAL;
 
-public class RepCommaGlobImp implements INtsParser, IToAbsNodeList {
+public class RepCommaGlobImp implements INtsParser {
     private final IToken token;
-    private INtsParser globImps;
-    private INtsParser epsilon;
+    private GlobImps globImps;
+    private Epsilon epsilon;
     private final String string;
 
     public RepCommaGlobImp() throws GrammarError {
@@ -52,8 +52,10 @@ public class RepCommaGlobImp implements INtsParser, IToAbsNodeList {
         return epsilon;
     }
 
-    @Override
     public List<IAbstractNode> toAbsSyn() {
-        return null;
+        if (epsilon == null) {
+            return globImps.toAbsSyn();
+        }
+        return new ArrayList<>();
     }
 }

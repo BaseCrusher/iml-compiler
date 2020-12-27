@@ -68,12 +68,12 @@ public class RepMultOprFactor implements INtsParser {
         return epsilon;
     }
 
-    public IAbstractNode toAbsSyn(Factor _factor) {
-        if (epsilon != null) {
-            return new AbsDyadicExpr(operator, _factor.toAbsSyn(), repMultOprFactor.toAbsSyn(factor));
+    public IAbstractNode toAbsSyn(IAbstractNode absFactor) {
+        if (epsilon == null) {
+            return new AbsDyadicExpr(operator, absFactor, repMultOprFactor.toAbsSyn(factor.toAbsSyn()));
         }
         else {
-            return factor.toAbsSyn();
+            return absFactor;
         }
     }
 }

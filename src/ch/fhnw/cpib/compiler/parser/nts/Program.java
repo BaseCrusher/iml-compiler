@@ -11,18 +11,17 @@ import ch.fhnw.cpib.compiler.tokens.enums.KeywordTerminals;
 
 import static ch.fhnw.cpib.compiler.tokens.enums.KeywordTerminals.PROGRAM;
 
-public class Program implements INtsParser, IToAbsNode {
-    private Identifier identifier;
-    private INtsParser programParamList;
-    private INtsParser optGlobalCpsDecl;
-    private IToken _do;
-    private INtsParser cpsCmd;
-    private IToken endProgram;
-    private Environment globalEnv;
+public class Program implements INtsParser {
+    private final Identifier identifier;
+    private final ProgParamList programParamList;
+    private final OptGlobalCpsDecl optGlobalCpsDecl;
+    private final IToken _do;
+    private final CpsCmd cpsCmd;
+    private final IToken endProgram;
 
     public Program() throws GrammarError {
         Parser.consume(PROGRAM);
-        globalEnv = new Environment(null, 0);
+        Environment globalEnv = new Environment(null, 0);
         IToken identifier = Parser.consume(AttributeTerminals.IDENT);
         this.identifier = new Identifier(identifier, globalEnv);
         programParamList = new ProgParamList(globalEnv);
@@ -37,9 +36,8 @@ public class Program implements INtsParser, IToAbsNode {
         return "PROGRAM " + identifier + " " + programParamList.toString() + "\n" + optGlobalCpsDecl.toString() + "\nDO\n" + cpsCmd.toString() + "\nENDPROGRAM";
     }
 
-    @Override
     public IAbstractNode toAbsSyn() {
-        return new AbsProgram(identifier.ident.getValue(), ((IToAbsNodeList)programParamList).toAbsSyn(), ((IToAbsNodeList)optGlobalCpsDecl).toAbsSyn(), ((IToAbsNodeList)cpsCmd).toAbsSyn());
+        return new AbsProgram(identifier.ident.getValue(), programParamList.toAbsSyn(), optGlobalCpsDecl.toAbsSyn(), cpsCmd.toAbsSyn());
     }
 
     public IToken getIdentifier() {

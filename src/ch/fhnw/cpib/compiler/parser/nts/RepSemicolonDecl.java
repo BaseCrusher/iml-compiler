@@ -4,20 +4,20 @@ import ch.fhnw.cpib.compiler.error.GrammarError;
 import ch.fhnw.cpib.compiler.parser.Environment;
 import ch.fhnw.cpib.compiler.parser.IAbstractNode;
 import ch.fhnw.cpib.compiler.parser.INtsParser;
-import ch.fhnw.cpib.compiler.parser.IToAbsNodeList;
 import ch.fhnw.cpib.compiler.parser.Parser;
 import ch.fhnw.cpib.compiler.tokens.IToken;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static ch.fhnw.cpib.compiler.tokens.enums.KeywordTerminals.DO;
 import static ch.fhnw.cpib.compiler.tokens.enums.KeywordTerminals.SEMICOLON;
 
-public class RepSemicolonDecl implements INtsParser, IToAbsNodeList {
+public class RepSemicolonDecl implements INtsParser {
     private final IToken token;
-    private INtsParser decl;
-    private INtsParser repSemicolonDecl;
-    private INtsParser epsilon;
+    private Decl decl;
+    private RepSemicolonDecl repSemicolonDecl;
+    private Epsilon epsilon;
     private final String string;
 
     public RepSemicolonDecl(Environment environment) throws GrammarError {
@@ -58,8 +58,13 @@ public class RepSemicolonDecl implements INtsParser, IToAbsNodeList {
         return epsilon;
     }
 
-    @Override
     public List<IAbstractNode> toAbsSyn() {
-        return null;
+        if (epsilon == null) {
+            List<IAbstractNode> declList = new ArrayList<>();
+            declList.add(decl.toAbsSyn());
+            declList.addAll(repSemicolonDecl.toAbsSyn());
+            return declList;
+        }
+        return new ArrayList<>();
     }
 }

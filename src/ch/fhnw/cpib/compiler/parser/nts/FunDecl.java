@@ -1,13 +1,11 @@
 package ch.fhnw.cpib.compiler.parser.nts;
 
-import java.util.HashMap;
-
 import ch.fhnw.cpib.compiler.error.GrammarError;
 import ch.fhnw.cpib.compiler.parser.Environment;
 import ch.fhnw.cpib.compiler.parser.IAbstractNode;
 import ch.fhnw.cpib.compiler.parser.INtsParser;
-import ch.fhnw.cpib.compiler.parser.IToAbsNode;
 import ch.fhnw.cpib.compiler.parser.Parser;
+import ch.fhnw.cpib.compiler.parser.abstracts.AbsFunDecl;
 import ch.fhnw.cpib.compiler.tokens.IToken;
 
 import static ch.fhnw.cpib.compiler.tokens.enums.AttributeTerminals.IDENT;
@@ -16,14 +14,14 @@ import static ch.fhnw.cpib.compiler.tokens.enums.KeywordTerminals.ENDFUN;
 import static ch.fhnw.cpib.compiler.tokens.enums.KeywordTerminals.FUN;
 import static ch.fhnw.cpib.compiler.tokens.enums.KeywordTerminals.RETURNS;
 
-public class FunDecl implements INtsParser, IToAbsNode {
+public class FunDecl implements INtsParser {
     private final IToken token;
     private final Identifier identifier;
-    private final INtsParser paramList;
-    private final INtsParser stoDecl;
-    private final INtsParser optGlobalGlobImps;
-    private final INtsParser optLocalCpsStoDecl;
-    private final INtsParser cpsCmd;
+    private final ParamList paramList;
+    private final StoDecl stoDecl;
+    private final OptGlobalGlobImps optGlobalGlobImps;
+    private final OptLocalCpsStoDecl optLocalCpsStoDecl;
+    private final CpsCmd cpsCmd;
     private final String string;
 
     public FunDecl(Environment globalEnv) throws GrammarError {
@@ -81,8 +79,7 @@ public class FunDecl implements INtsParser, IToAbsNode {
         return cpsCmd;
     }
 
-    @Override
     public IAbstractNode toAbsSyn() {
-        return null;
+        return new AbsFunDecl(identifier, paramList.toAbsSyn(), stoDecl.toAbsSyn(), optGlobalGlobImps.toAbsSyn(), optLocalCpsStoDecl.toAbsSyn(), cpsCmd.toAbsSyn());
     }
 }

@@ -1,20 +1,19 @@
 package ch.fhnw.cpib.compiler.parser.nts;
 
 import ch.fhnw.cpib.compiler.error.GrammarError;
-import ch.fhnw.cpib.compiler.parser.IAbstractNode;
 import ch.fhnw.cpib.compiler.parser.INtsParser;
-import ch.fhnw.cpib.compiler.parser.IToAbsNode;
 import ch.fhnw.cpib.compiler.parser.Parser;
 import ch.fhnw.cpib.compiler.tokens.IToken;
+import ch.fhnw.cpib.compiler.tokens.enums.modes.ChangeModes;
 
 import static ch.fhnw.cpib.compiler.tokens.enums.AttributeTerminals.CHANGEMODE;
 import static ch.fhnw.cpib.compiler.tokens.enums.AttributeTerminals.FLOWMODE;
 import static ch.fhnw.cpib.compiler.tokens.enums.AttributeTerminals.IDENT;
 import static ch.fhnw.cpib.compiler.tokens.enums.AttributeTerminals.MECHMODE;
 
-public class OptFlowmode  implements INtsParser, IToAbsNode {
+public class OptFlowmode  implements INtsParser {
     private final IToken token;
-    private INtsParser epsilon;
+    private Epsilon epsilon;
     private final String string;
 
     public OptFlowmode() throws GrammarError {
@@ -45,8 +44,10 @@ public class OptFlowmode  implements INtsParser, IToAbsNode {
         return epsilon;
     }
 
-    @Override
-    public IAbstractNode toAbsSyn() {
+    public ChangeModes toAbsSyn() {
+        if (epsilon == null) {
+            return ChangeModes.getByName(token.getValue());
+        }
         return null;
     }
 }

@@ -4,19 +4,19 @@ import ch.fhnw.cpib.compiler.error.GrammarError;
 import ch.fhnw.cpib.compiler.parser.Environment;
 import ch.fhnw.cpib.compiler.parser.IAbstractNode;
 import ch.fhnw.cpib.compiler.parser.INtsParser;
-import ch.fhnw.cpib.compiler.parser.IToAbsNodeList;
 import ch.fhnw.cpib.compiler.parser.Parser;
 import ch.fhnw.cpib.compiler.tokens.IToken;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static ch.fhnw.cpib.compiler.tokens.enums.KeywordTerminals.DO;
 import static ch.fhnw.cpib.compiler.tokens.enums.KeywordTerminals.GLOBAL;
 
-public class OptGlobalCpsDecl implements INtsParser, IToAbsNodeList {
+public class OptGlobalCpsDecl implements INtsParser {
     private final IToken token;
-    private INtsParser cpsDecl;
-    private INtsParser epsilon;
+    private CpsDecl cpsDecl;
+    private Epsilon epsilon;
     private final String string;
 
     public OptGlobalCpsDecl(Environment globalEnv) throws GrammarError {
@@ -52,8 +52,10 @@ public class OptGlobalCpsDecl implements INtsParser, IToAbsNodeList {
         return epsilon;
     }
 
-    @Override
     public List<IAbstractNode> toAbsSyn() {
-        return null;
+        if (epsilon == null) {
+            return cpsDecl.toAbsSyn();
+        }
+        return new ArrayList<>();
     }
 }

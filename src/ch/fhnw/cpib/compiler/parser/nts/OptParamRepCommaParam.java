@@ -4,10 +4,10 @@ import ch.fhnw.cpib.compiler.error.GrammarError;
 import ch.fhnw.cpib.compiler.parser.Environment;
 import ch.fhnw.cpib.compiler.parser.IAbstractNode;
 import ch.fhnw.cpib.compiler.parser.INtsParser;
-import ch.fhnw.cpib.compiler.parser.IToAbsNodeList;
 import ch.fhnw.cpib.compiler.parser.Parser;
 import ch.fhnw.cpib.compiler.tokens.IToken;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static ch.fhnw.cpib.compiler.tokens.enums.AttributeTerminals.CHANGEMODE;
@@ -16,11 +16,11 @@ import static ch.fhnw.cpib.compiler.tokens.enums.AttributeTerminals.IDENT;
 import static ch.fhnw.cpib.compiler.tokens.enums.AttributeTerminals.MECHMODE;
 import static ch.fhnw.cpib.compiler.tokens.enums.KeywordTerminals.RPAREN;
 
-public class OptParamRepCommaParam implements INtsParser, IToAbsNodeList {
+public class OptParamRepCommaParam implements INtsParser {
     private final IToken token;
-    private INtsParser param;
-    private INtsParser repCommaParam;
-    private INtsParser epsilon;
+    private Param param;
+    private RepCommaParam repCommaParam;
+    private Epsilon epsilon;
     private final String string;
 
     public OptParamRepCommaParam(Environment environment) throws GrammarError {
@@ -60,8 +60,13 @@ public class OptParamRepCommaParam implements INtsParser, IToAbsNodeList {
         return epsilon;
     }
 
-    @Override
     public List<IAbstractNode> toAbsSyn() {
-        return null;
+        if (epsilon == null) {
+            List<IAbstractNode> paramList = new ArrayList<>();
+            paramList.add(param.toAbsSyn());
+            paramList.addAll(repCommaParam.toAbsSyn());
+            return paramList;
+        }
+        return new ArrayList<>();
     }
 }

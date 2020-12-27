@@ -119,4 +119,8 @@ public class AbsDyadicExpr implements IAbstractNode {
                 throw new Error("Operator not supported by vm.");
         }
     }
+
+    public boolean lvalue() {
+        return false;
+    }
 }

@@ -13,9 +13,9 @@ import static ch.fhnw.cpib.compiler.tokens.enums.KeywordTerminals.COLON;
 
 public class TypedIdent implements INtsParser {
 
-    private IToken identifier;
-    private IToken type;
-    private OptArrDecl optArrDecl;
+    private final IToken identifier;
+    private final IToken type;
+    private final OptArrDecl optArrDecl;
     private final String string;
 
     public TypedIdent() throws GrammarError {
@@ -33,7 +33,10 @@ public class TypedIdent implements INtsParser {
     }
 
     public IAbstractNode toAbsSyn() {
-        return new AbsTypedIdent(identifier.getValue(), type.getValue(), optArrDecl.toAbsSyn());
+        if (optArrDecl.getEpsilon() != null) {
+            return new AbsTypedIdent(identifier.getValue(), type.getValue(), null);
+        }
+        return new AbsTypedIdent(identifier.getValue(), type.getValue(), optArrDecl.toAbsSyn(type));
     }
 
     @Override

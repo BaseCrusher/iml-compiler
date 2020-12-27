@@ -2,22 +2,21 @@ package ch.fhnw.cpib.compiler.parser.abstracts;
 
 import ch.fhnw.cpib.compiler.error.GrammarError;
 import ch.fhnw.cpib.compiler.parser.IAbstractNode;
-import ch.fhnw.cpib.compiler.parser.nts.TypedIdent;
-import ch.fhnw.cpib.compiler.tokens.enums.modes.ChangeModes;
+import ch.fhnw.cpib.compiler.parser.nts.OptChangemode;
+import ch.fhnw.cpib.compiler.parser.nts.OptFlowmode;
 import ch.fhnw.cpib.compiler.tokens.enums.types.IType;
 import ch.fhnw.cpib.compiler.vm.ICodeArray;
 
-public class AbsStoDecl implements IAbstractNode {
-
-
-    private final ChangeModes optChangemode;
-    private final TypedIdent typedIdent;
+public class AbsProgParam implements IAbstractNode {
+    private final OptFlowmode optFlowmode;
+    private final OptChangemode optChangemode;
     private final IAbstractNode absTypedIdent;
 
-    public AbsStoDecl(ChangeModes optChangemode, TypedIdent typedIdent) {
+    public AbsProgParam(OptFlowmode optFlowmode, OptChangemode optChangemode, IAbstractNode absTypedIdent) {
+
+        this.optFlowmode = optFlowmode;
         this.optChangemode = optChangemode;
-        this.typedIdent = typedIdent;
-        this.absTypedIdent = typedIdent.toAbsSyn();
+        this.absTypedIdent = absTypedIdent;
     }
 
     @Override
@@ -27,10 +26,6 @@ public class AbsStoDecl implements IAbstractNode {
 
     @Override
     public int code(int loc) throws ICodeArray.CodeTooSmallError {
-        return 0;
-    }
-
-    public TypedIdent getTypedIdent() {
-        return typedIdent;
+        return loc;
     }
 }

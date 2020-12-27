@@ -2,19 +2,22 @@ package ch.fhnw.cpib.compiler.parser.abstracts;
 
 import ch.fhnw.cpib.compiler.error.GrammarError;
 import ch.fhnw.cpib.compiler.parser.IAbstractNode;
+import ch.fhnw.cpib.compiler.parser.nts.OptFlowmode;
+import ch.fhnw.cpib.compiler.tokens.enums.modes.ChangeModes;
 import ch.fhnw.cpib.compiler.tokens.enums.types.IType;
 import ch.fhnw.cpib.compiler.vm.ICodeArray;
 
-public class AbsTypedIdent implements IAbstractNode {
+public class AbsGlobImp implements IAbstractNode {
 
+    private final OptFlowmode absFlowMode;
+    private final ChangeModes absChangeMode;
     private final String ident;
-    private final String type;
-    private final IAbstractNode optArrDecl;
 
-    public AbsTypedIdent(String ident, String type, IAbstractNode optArrDecl) {
+    public AbsGlobImp(OptFlowmode absFlowMode, ChangeModes absChangeMode, String ident) {
+
+        this.absFlowMode = absFlowMode;
+        this.absChangeMode = absChangeMode;
         this.ident = ident;
-        this.type = type;
-        this.optArrDecl = optArrDecl;
     }
 
     @Override
@@ -24,6 +27,6 @@ public class AbsTypedIdent implements IAbstractNode {
 
     @Override
     public int code(int loc) throws ICodeArray.CodeTooSmallError {
-        return 0;
+        return loc;
     }
 }

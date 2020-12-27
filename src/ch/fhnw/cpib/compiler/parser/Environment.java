@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import ch.fhnw.cpib.compiler.error.DuplicateDeclaratoinError;
+import ch.fhnw.cpib.compiler.error.GrammarError;
 
 public class Environment {
     private Map<String, Variable> vars;
@@ -26,6 +27,15 @@ public class Environment {
                 duplicateDeclaratoinError.printStackTrace();
             }
         }
+        vars.put(ident, variable);
+    }
+
+    public Variable getVariable(String varKey) {
+        Variable variable = vars.get(varKey);
+        if (variable == null && parent != null) {
+            return parent.getVariable(varKey);
+        }
+        return variable;
     }
 
     public Map<String, Variable> getVars() {
@@ -42,5 +52,21 @@ public class Environment {
 
     public int getStartAddress() {
         return startAddress;
+    }
+
+    public int getAbsoluteAddress() {
+        // global
+        if (parent == null) {
+            return startAddress;
+        }
+        return startAddress + parent.getAbsoluteAddress();
+    }
+
+    public Routine getRoutine(String routineKey) {
+        Routine routine = routines.get(routineKey);
+        if (routine == null && parent != null) {
+            return parent.getRoutine(routineKey);
+        }
+        return routine;
     }
 }

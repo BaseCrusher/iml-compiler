@@ -4,7 +4,6 @@ import ch.fhnw.cpib.compiler.error.GrammarError;
 import ch.fhnw.cpib.compiler.parser.Environment;
 import ch.fhnw.cpib.compiler.parser.IAbstractNode;
 import ch.fhnw.cpib.compiler.parser.INtsParser;
-import ch.fhnw.cpib.compiler.parser.IToAbsNode;
 import ch.fhnw.cpib.compiler.parser.Parser;
 import ch.fhnw.cpib.compiler.parser.abstracts.AbsDyadicExpr;
 import ch.fhnw.cpib.compiler.tokens.IToken;
@@ -71,12 +70,12 @@ public class RepAddOprTerm3 implements INtsParser {
         return epsilon;
     }
 
-    public IAbstractNode toAbsSyn(AbsDyadicExpr absDyadicExpr) {
-        if (epsilon != null) {
-            return repAddOprTerm3.toAbsSyn(new AbsDyadicExpr(operator, absDyadicExpr, term3.toAbsSyn()));
+    public IAbstractNode toAbsSyn(IAbstractNode absNode) {
+        if (epsilon == null) {
+            return repAddOprTerm3.toAbsSyn(new AbsDyadicExpr(operator, absNode, term3.toAbsSyn()));
         }
         else {
-            return absDyadicExpr;
+            return absNode;
         }
     }
 }

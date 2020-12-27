@@ -4,7 +4,6 @@ import ch.fhnw.cpib.compiler.error.GrammarError;
 import ch.fhnw.cpib.compiler.parser.Environment;
 import ch.fhnw.cpib.compiler.parser.IAbstractNode;
 import ch.fhnw.cpib.compiler.parser.INtsParser;
-import ch.fhnw.cpib.compiler.parser.IToAbsNode;
 import ch.fhnw.cpib.compiler.parser.Parser;
 import ch.fhnw.cpib.compiler.parser.abstracts.AbsDyadicExpr;
 import ch.fhnw.cpib.compiler.tokens.IToken;
@@ -24,11 +23,11 @@ import static ch.fhnw.cpib.compiler.tokens.enums.KeywordTerminals.RPAREN;
 import static ch.fhnw.cpib.compiler.tokens.enums.KeywordTerminals.SEMICOLON;
 import static ch.fhnw.cpib.compiler.tokens.enums.KeywordTerminals.THEN;
 
-public class RepBoolOprTerm1 implements INtsParser, IToAbsNode {
+public class RepBoolOprTerm1 implements INtsParser {
     private final IToken token;
-    private INtsParser term1;
-    private INtsParser repBoolOprTerm1;
-    private INtsParser epsilon;
+    private Term1 term1;
+    private RepBoolOprTerm1 repBoolOprTerm1;
+    private Epsilon epsilon;
     private final String string;
 
     public RepBoolOprTerm1(Environment environment) throws GrammarError {
@@ -69,15 +68,10 @@ public class RepBoolOprTerm1 implements INtsParser, IToAbsNode {
         return epsilon;
     }
 
-    @Override
-    public IAbstractNode toAbsSyn() {
-        return null;
-    }
-
-    public IAbstractNode toAbsSyn(INtsParser term1) {
-        if (epsilon != null) {
-            return term1.toAbsSyn();
+    public IAbstractNode toAbsSyn(Term1 term1) {
+        if (epsilon == null) {
+            return new AbsDyadicExpr(token.getValue(), term1.toAbsSyn(), repBoolOprTerm1.toAbsSyn(this.term1));
         }
-        return new AbsDyadicExpr(token.getValue(), term1.toAbsSyn(), repBoolOprTerm1.toAbsSyn(this.term1));
+        return term1.toAbsSyn();
     }
 }

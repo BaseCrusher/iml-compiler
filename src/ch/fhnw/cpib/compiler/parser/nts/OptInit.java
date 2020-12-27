@@ -1,9 +1,7 @@
 package ch.fhnw.cpib.compiler.parser.nts;
 
 import ch.fhnw.cpib.compiler.error.GrammarError;
-import ch.fhnw.cpib.compiler.parser.IAbstractNode;
 import ch.fhnw.cpib.compiler.parser.INtsParser;
-import ch.fhnw.cpib.compiler.parser.IToAbsNode;
 import ch.fhnw.cpib.compiler.parser.Parser;
 import ch.fhnw.cpib.compiler.tokens.IToken;
 
@@ -26,9 +24,10 @@ import static ch.fhnw.cpib.compiler.tokens.enums.KeywordTerminals.RPAREN;
 import static ch.fhnw.cpib.compiler.tokens.enums.KeywordTerminals.SEMICOLON;
 import static ch.fhnw.cpib.compiler.tokens.enums.KeywordTerminals.THEN;
 
-public class OptInit implements INtsParser, IToAbsNode {
+public class OptInit implements INtsParser {
     private final IToken token;
     private String string;
+    private Epsilon epsilon;
 
     public OptInit() throws GrammarError {
         token = Parser.getCurrentToken();
@@ -36,7 +35,7 @@ public class OptInit implements INtsParser, IToAbsNode {
             Parser.consume(INIT);
             string = token.toString();
         } else if (token.hasTerminal(RELOPR, ADDOPR, COMMA, RBRACK, RPAREN, DO, THEN, ENDWHILE, ENDIF, ELSE, ENDPROC, ENDFUN, ENDPROGRAM, SEMICOLON, BECOMES, BOOLOPR, MULTOPR)) {
-            Epsilon epsilon = new Epsilon();
+            epsilon = new Epsilon();
             string = epsilon.toString();
         }
     }
@@ -50,8 +49,11 @@ public class OptInit implements INtsParser, IToAbsNode {
         return token;
     }
 
-    @Override
-    public IAbstractNode toAbsSyn() {
-        return null;
+    public String toAbsSyn() {
+        return token.getValue();
+    }
+
+    public Epsilon getEpsilon() {
+        return epsilon;
     }
 }

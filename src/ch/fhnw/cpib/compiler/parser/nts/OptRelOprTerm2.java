@@ -3,6 +3,7 @@ package ch.fhnw.cpib.compiler.parser.nts;
 
 import ch.fhnw.cpib.compiler.error.GrammarError;
 import ch.fhnw.cpib.compiler.parser.*;
+import ch.fhnw.cpib.compiler.parser.abstracts.AbsDyadicExpr;
 import ch.fhnw.cpib.compiler.tokens.IToken;
 
 import static ch.fhnw.cpib.compiler.tokens.enums.AttributeTerminals.BOOLOPR;
@@ -21,10 +22,10 @@ import static ch.fhnw.cpib.compiler.tokens.enums.KeywordTerminals.RPAREN;
 import static ch.fhnw.cpib.compiler.tokens.enums.KeywordTerminals.SEMICOLON;
 import static ch.fhnw.cpib.compiler.tokens.enums.KeywordTerminals.THEN;
 
-public class OptRelOprTerm2 implements INtsParser, IToAbsNode {
+public class OptRelOprTerm2 implements INtsParser {
     private final IToken token;
-    private INtsParser term2;
-    private INtsParser epsilon;
+    private Term2 term2;
+    private Epsilon epsilon;
     private final String string;
 
     public OptRelOprTerm2(Environment environment) throws GrammarError {
@@ -59,8 +60,10 @@ public class OptRelOprTerm2 implements INtsParser, IToAbsNode {
         return epsilon;
     }
 
-    @Override
-    public IAbstractNode toAbsSyn() {
-        return null;
+    public IAbstractNode toAbsSyn(IAbstractNode absTerm2) {
+        if (epsilon == null) {
+            return new AbsDyadicExpr(token.getValue(), absTerm2, this.term2.toAbsSyn());
+        }
+        return absTerm2;
     }
 }

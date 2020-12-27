@@ -1,17 +1,16 @@
 package ch.fhnw.cpib.compiler.parser.nts;
 
 import ch.fhnw.cpib.compiler.error.GrammarError;
-import ch.fhnw.cpib.compiler.parser.IAbstractNode;
 import ch.fhnw.cpib.compiler.parser.INtsParser;
-import ch.fhnw.cpib.compiler.parser.IToAbsNode;
 import ch.fhnw.cpib.compiler.parser.Parser;
 import ch.fhnw.cpib.compiler.tokens.IToken;
+import ch.fhnw.cpib.compiler.tokens.enums.modes.ChangeModes;
 
 import static ch.fhnw.cpib.compiler.tokens.enums.AttributeTerminals.MECHMODE;
 
-public class OptMechmode implements INtsParser, IToAbsNode {
+public class OptMechmode implements INtsParser {
     private final IToken token;
-    private INtsParser epsilon;
+    private Epsilon epsilon;
     private final String string;
 
     public OptMechmode() throws GrammarError {
@@ -39,8 +38,10 @@ public class OptMechmode implements INtsParser, IToAbsNode {
         return epsilon;
     }
 
-    @Override
-    public IAbstractNode toAbsSyn() {
+    public ChangeModes toAbsSyn() {
+        if (epsilon == null) {
+            return ChangeModes.getByName(token.getValue());
+        }
         return null;
     }
 }

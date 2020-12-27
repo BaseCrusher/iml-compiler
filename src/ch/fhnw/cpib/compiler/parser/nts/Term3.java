@@ -30,7 +30,7 @@ public class Term3 implements INtsParser {
     }
 
     public IAbstractNode toAbsSyn() {
-        return repMultOprFactor.toAbsSyn(factor);
+        return repMultOprFactor.toAbsSyn(factor.toAbsSyn());
     }
 
     @Override
@@ -48,5 +48,9 @@ public class Term3 implements INtsParser {
 
     public INtsParser getRepMultOprFactor() {
         return repMultOprFactor;
+    }
+
+    public Identifier getIdentifier() {
+        return factor.getOriginalIdentifier();
     }
 }

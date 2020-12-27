@@ -6,7 +6,6 @@ import ch.fhnw.cpib.compiler.error.GrammarError;
 import ch.fhnw.cpib.compiler.parser.Environment;
 import ch.fhnw.cpib.compiler.parser.IAbstractNode;
 import ch.fhnw.cpib.compiler.parser.INtsParser;
-import ch.fhnw.cpib.compiler.parser.IToAbsNode;
 import ch.fhnw.cpib.compiler.parser.Parser;
 import ch.fhnw.cpib.compiler.parser.abstracts.AbsArrLenExpr;
 import ch.fhnw.cpib.compiler.parser.abstracts.AbsBoolLiteralExpr;
@@ -22,7 +21,7 @@ import static ch.fhnw.cpib.compiler.tokens.enums.KeywordTerminals.ARRLEN;
 import static ch.fhnw.cpib.compiler.tokens.enums.KeywordTerminals.LPAREN;
 import static ch.fhnw.cpib.compiler.tokens.enums.KeywordTerminals.RPAREN;
 
-public class Factor implements INtsParser, IToAbsNode {
+public class Factor implements INtsParser {
     private final IToken token;
     private Identifier identifier;
     private OptInitOrExprListOrArrExpr optInitOrExprListOrArrExpr;
@@ -73,7 +72,7 @@ public class Factor implements INtsParser, IToAbsNode {
     }
 
     public IToken getIdentifier() {
-        return identifier;
+        return identifier.ident;
     }
 
     public IToken getToken() {
@@ -92,7 +91,6 @@ public class Factor implements INtsParser, IToAbsNode {
         return expr;
     }
 
-    @Override
     public IAbstractNode toAbsSyn() {
         if (token.hasTerminal(LITERAL)) {
             if (((AttributeToken)token).getOriginalValue() instanceof BigInteger) {
@@ -102,7 +100,7 @@ public class Factor implements INtsParser, IToAbsNode {
             }
         }
         else if (token.hasTerminal(IDENT)) {
-            return optInitOrExprListOrArrExpr.toAbsSyn(token);
+            return optInitOrExprListOrArrExpr.toAbsSyn(identifier);
         } else if (token.hasTerminal(MONOPR)) {
             return new AbsMonadicExpr(token.getValue(), factor.toAbsSyn());
         } else if (token.hasTerminal(LPAREN)) {
@@ -111,6 +109,10 @@ public class Factor implements INtsParser, IToAbsNode {
         else if (token.hasTerminal(ARRLEN)) {
             return new AbsArrLenExpr(identifier);
         }
-        return null;
+        throw new Error("Factor has no corresponding terminal");
+    }
+
+    public Identifier getOriginalIdentifier() {
+        return identifier;
     }
 }

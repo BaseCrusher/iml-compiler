@@ -1,13 +1,11 @@
 package ch.fhnw.cpib.compiler.parser.nts;
 
-import java.util.HashMap;
-
 import ch.fhnw.cpib.compiler.error.GrammarError;
 import ch.fhnw.cpib.compiler.parser.Environment;
 import ch.fhnw.cpib.compiler.parser.IAbstractNode;
 import ch.fhnw.cpib.compiler.parser.INtsParser;
-import ch.fhnw.cpib.compiler.parser.IToAbsNode;
 import ch.fhnw.cpib.compiler.parser.Parser;
+import ch.fhnw.cpib.compiler.parser.abstracts.AbsProcDecl;
 import ch.fhnw.cpib.compiler.tokens.IToken;
 
 import static ch.fhnw.cpib.compiler.tokens.enums.AttributeTerminals.IDENT;
@@ -15,13 +13,13 @@ import static ch.fhnw.cpib.compiler.tokens.enums.KeywordTerminals.DO;
 import static ch.fhnw.cpib.compiler.tokens.enums.KeywordTerminals.ENDPROC;
 import static ch.fhnw.cpib.compiler.tokens.enums.KeywordTerminals.PROC;
 
-public class ProcDecl implements INtsParser, IToAbsNode {
+public class ProcDecl implements INtsParser {
     private final IToken token;
     private final Identifier identifier;
-    private final INtsParser paramList;
-    private final INtsParser optGlobalGlobImps;
-    private final INtsParser optLocalCpsStoDecl;
-    private final INtsParser cpsCmd;
+    private final ParamList paramList;
+    private final OptGlobalGlobImps optGlobalGlobImps;
+    private final OptLocalCpsStoDecl optLocalCpsStoDecl;
+    private final CpsCmd cpsCmd;
     private final String string;
 
     public ProcDecl(Environment globalEnv) throws GrammarError {
@@ -74,8 +72,7 @@ public class ProcDecl implements INtsParser, IToAbsNode {
         return cpsCmd;
     }
 
-    @Override
     public IAbstractNode toAbsSyn() {
-        return null;
+        return new AbsProcDecl(identifier, paramList.toAbsSyn(), optGlobalGlobImps.toAbsSyn(), optLocalCpsStoDecl.toAbsSyn(), cpsCmd.toAbsSyn());
     }
 }

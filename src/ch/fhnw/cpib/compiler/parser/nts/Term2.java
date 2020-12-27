@@ -4,7 +4,6 @@ import ch.fhnw.cpib.compiler.error.GrammarError;
 import ch.fhnw.cpib.compiler.parser.Environment;
 import ch.fhnw.cpib.compiler.parser.IAbstractNode;
 import ch.fhnw.cpib.compiler.parser.INtsParser;
-import ch.fhnw.cpib.compiler.parser.IToAbsNode;
 import ch.fhnw.cpib.compiler.parser.Parser;
 import ch.fhnw.cpib.compiler.tokens.IToken;
 
@@ -49,5 +48,9 @@ public class Term2 implements INtsParser {
 
     public IAbstractNode toAbsSyn() {
         return repAddOprTerm3.toAbsSyn(term3.toAbsSyn());
+    }
+
+    public Identifier getIdentifier() {
+        return term3.getIdentifier();
     }
 }

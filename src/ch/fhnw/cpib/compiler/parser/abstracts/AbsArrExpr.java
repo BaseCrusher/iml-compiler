@@ -5,29 +5,30 @@ import ch.fhnw.cpib.compiler.parser.IAbstractNode;
 import ch.fhnw.cpib.compiler.parser.nts.Identifier;
 import ch.fhnw.cpib.compiler.tokens.enums.types.IType;
 import ch.fhnw.cpib.compiler.vm.ICodeArray;
-import ch.fhnw.cpib.compiler.vm.IInstructions;
 
-import static ch.fhnw.cpib.compiler.codeGenerator.CodeGenerator.codeArray;
-import static ch.fhnw.cpib.compiler.tokens.enums.types.Inttypes.INT32;
+public class AbsArrExpr implements IAbstractNode {
+    private final Identifier identifier;
+    private final IAbstractNode exp;
+    private String optInit;
 
-public class AbsArrLenExpr implements IAbstractNode {
-
-    private Identifier identifier;
-
-    public AbsArrLenExpr(Identifier identifier) {
-
+    public AbsArrExpr(Identifier identifier, IAbstractNode exp, String optInit) {
         this.identifier = identifier;
+        this.exp = exp;
+        this.optInit = optInit;
+    }
+    public AbsArrExpr(Identifier identifier, IAbstractNode exp) {
+        this.identifier = identifier;
+        this.exp = exp;
     }
 
     @Override
     public IType check() throws GrammarError {
-        return INT32;
+
+        return null;
     }
 
     @Override
     public int code(int loc) throws ICodeArray.CodeTooSmallError {
-        identifier.getEnvironment().getStartAddress();
-        codeArray.put(loc, new IInstructions.LoadImInt(0)); //TODO
         return 0;
     }
 }

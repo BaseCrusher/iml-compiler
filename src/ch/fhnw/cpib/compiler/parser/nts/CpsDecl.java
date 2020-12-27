@@ -4,7 +4,6 @@ import ch.fhnw.cpib.compiler.error.GrammarError;
 import ch.fhnw.cpib.compiler.parser.Environment;
 import ch.fhnw.cpib.compiler.parser.IAbstractNode;
 import ch.fhnw.cpib.compiler.parser.INtsParser;
-import ch.fhnw.cpib.compiler.parser.IToAbsNodeList;
 import ch.fhnw.cpib.compiler.parser.Parser;
 import ch.fhnw.cpib.compiler.tokens.IToken;
 
@@ -16,7 +15,7 @@ import static ch.fhnw.cpib.compiler.tokens.enums.AttributeTerminals.IDENT;
 import static ch.fhnw.cpib.compiler.tokens.enums.KeywordTerminals.FUN;
 import static ch.fhnw.cpib.compiler.tokens.enums.KeywordTerminals.PROC;
 
-public class CpsDecl implements INtsParser, IToAbsNodeList {
+public class CpsDecl implements INtsParser {
     private final IToken token;
     private final Decl decl;
     private final RepSemicolonDecl repSemicolonDecl;
@@ -51,7 +50,6 @@ public class CpsDecl implements INtsParser, IToAbsNodeList {
         return token;
     }
 
-    @Override
     public List<IAbstractNode> toAbsSyn() {
         List<IAbstractNode> nodeList = new ArrayList<>();
         nodeList.add(decl.toAbsSyn());

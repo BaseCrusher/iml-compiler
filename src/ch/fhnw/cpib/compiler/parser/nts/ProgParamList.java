@@ -4,15 +4,14 @@ import ch.fhnw.cpib.compiler.error.GrammarError;
 import ch.fhnw.cpib.compiler.parser.Environment;
 import ch.fhnw.cpib.compiler.parser.IAbstractNode;
 import ch.fhnw.cpib.compiler.parser.INtsParser;
-import ch.fhnw.cpib.compiler.parser.IToAbsNodeList;
 import ch.fhnw.cpib.compiler.parser.Parser;
 import ch.fhnw.cpib.compiler.tokens.enums.KeywordTerminals;
 
 import java.util.List;
 
-public class ProgParamList implements INtsParser, IToAbsNodeList {
+public class ProgParamList implements INtsParser {
 
-    private INtsParser optProgParamRepCommaProgParam;
+    private OptProgParamRepCommaProgParam optProgParamRepCommaProgParam;
 
     public ProgParamList(Environment globalEnv) throws GrammarError {
         Parser.consume(KeywordTerminals.LPAREN);
@@ -29,8 +28,7 @@ public class ProgParamList implements INtsParser, IToAbsNodeList {
         return optProgParamRepCommaProgParam;
     }
 
-    @Override
     public List<IAbstractNode> toAbsSyn() {
-        return null;
+        return optProgParamRepCommaProgParam.toAbsSyn();
     }
 }

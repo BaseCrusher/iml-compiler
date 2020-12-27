@@ -4,20 +4,20 @@ import ch.fhnw.cpib.compiler.error.GrammarError;
 import ch.fhnw.cpib.compiler.parser.Environment;
 import ch.fhnw.cpib.compiler.parser.IAbstractNode;
 import ch.fhnw.cpib.compiler.parser.INtsParser;
-import ch.fhnw.cpib.compiler.parser.IToAbsNodeList;
 import ch.fhnw.cpib.compiler.parser.Parser;
 import ch.fhnw.cpib.compiler.tokens.IToken;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static ch.fhnw.cpib.compiler.tokens.enums.KeywordTerminals.COMMA;
 import static ch.fhnw.cpib.compiler.tokens.enums.KeywordTerminals.RPAREN;
 
-public class RepCommaProgParam implements INtsParser, IToAbsNodeList {
+public class RepCommaProgParam implements INtsParser {
     private final IToken token;
-    private INtsParser progParam;
-    private INtsParser repCommaProgParam;
-    private INtsParser epsilon;
+    private ProgParam progParam;
+    private RepCommaProgParam repCommaProgParam;
+    private Epsilon epsilon;
     private final String string;
 
     public RepCommaProgParam(Environment globalEnv) throws GrammarError {
@@ -58,8 +58,13 @@ public class RepCommaProgParam implements INtsParser, IToAbsNodeList {
         return epsilon;
     }
 
-    @Override
     public List<IAbstractNode> toAbsSyn() {
-        return null;
+        if (epsilon == null) {
+            List<IAbstractNode> progParamList = new ArrayList<>();
+            progParamList.add(progParam.toAbsSyn());
+            progParamList.addAll(repCommaProgParam.toAbsSyn());
+            return progParamList;
+        }
+        return new ArrayList<>();
     }
 }

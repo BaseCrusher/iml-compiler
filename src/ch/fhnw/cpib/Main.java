@@ -10,15 +10,19 @@ import ch.fhnw.cpib.compiler.parser.IConcreteTree;
 import ch.fhnw.cpib.compiler.parser.Parser;
 import ch.fhnw.cpib.compiler.tokens.ITokenList;
 import ch.fhnw.cpib.compiler.vm.ICodeArray;
+import ch.fhnw.cpib.compiler.vm.IVirtualMachine;
+import ch.fhnw.cpib.compiler.vm.VirtualMachine;
 
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
+import static ch.fhnw.cpib.compiler.codeGenerator.CodeGenerator.codeArray;
+
 public class Main {
 
     public static void main(String[] args) throws IOException {
-        Path p = Path.of("example_programs/ArrayFindFirst.iml");
+        Path p = Path.of("example_programs/Add17.iml");
         StringBuilder sb = new StringBuilder();
         Files.lines(p).forEach((String s) -> { sb.append(s).append("\n"); } );
         String content = sb.toString();
@@ -39,6 +43,12 @@ public class Main {
             } catch (ICodeArray.CodeTooSmallError codeTooSmallError) {
                 codeTooSmallError.printStackTrace();
             }
+            try {
+                VirtualMachine virtualMachine = new VirtualMachine(codeArray, 3);
+            } catch (IVirtualMachine.ExecutionError executionError) {
+                executionError.printStackTrace();
+            }
+
         }
         catch (LexicalError | GrammarError ex){
             System.out.println(ex);

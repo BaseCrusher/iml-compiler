@@ -4,8 +4,6 @@ import ch.fhnw.cpib.compiler.error.GrammarError;
 import ch.fhnw.cpib.compiler.parser.Environment;
 import ch.fhnw.cpib.compiler.parser.IAbstractNode;
 import ch.fhnw.cpib.compiler.parser.INtsParser;
-import ch.fhnw.cpib.compiler.parser.IToAbsNode;
-import ch.fhnw.cpib.compiler.parser.IToAbsNodeList;
 import ch.fhnw.cpib.compiler.parser.Parser;
 import ch.fhnw.cpib.compiler.tokens.IToken;
 
@@ -20,11 +18,11 @@ import static ch.fhnw.cpib.compiler.tokens.enums.KeywordTerminals.ENDPROGRAM;
 import static ch.fhnw.cpib.compiler.tokens.enums.KeywordTerminals.ENDWHILE;
 import static ch.fhnw.cpib.compiler.tokens.enums.KeywordTerminals.SEMICOLON;
 
-public class RepSemicolonCmd implements INtsParser, IToAbsNodeList {
+public class RepSemicolonCmd implements INtsParser {
     private final IToken token;
-    private INtsParser cmd;
-    private INtsParser repSemicolonCmd;
-    private INtsParser epsilon;
+    private Cmd cmd;
+    private RepSemicolonCmd repSemicolonCmd;
+    private Epsilon epsilon;
     private final String string;
 
     public RepSemicolonCmd(Environment environment) throws GrammarError {
@@ -65,14 +63,13 @@ public class RepSemicolonCmd implements INtsParser, IToAbsNodeList {
         return epsilon;
     }
 
-    @Override
     public List<IAbstractNode> toAbsSyn() {
-        if (epsilon != null) {
-            return new ArrayList<>();
+        if (epsilon == null) {
+            List<IAbstractNode> cmdList = new ArrayList<>();
+            cmdList.add(cmd.toAbsSyn());
+            cmdList.addAll(repSemicolonCmd.toAbsSyn());
+            return cmdList;
         }
-        List<IAbstractNode> nodeList = new ArrayList<>();
-        nodeList.add(((IToAbsNode)cmd).toAbsSyn());
-        nodeList.addAll(((IToAbsNodeList)repSemicolonCmd).toAbsSyn());
-        return nodeList;
+        return new ArrayList<>();
     }
 }

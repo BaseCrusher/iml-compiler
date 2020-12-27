@@ -4,16 +4,16 @@ import ch.fhnw.cpib.compiler.error.GrammarError;
 import ch.fhnw.cpib.compiler.parser.Environment;
 import ch.fhnw.cpib.compiler.parser.IAbstractNode;
 import ch.fhnw.cpib.compiler.parser.INtsParser;
-import ch.fhnw.cpib.compiler.parser.IToAbsNode;
 import ch.fhnw.cpib.compiler.parser.Parser;
 import ch.fhnw.cpib.compiler.parser.Variable;
+import ch.fhnw.cpib.compiler.parser.abstracts.AbsProgParam;
 import ch.fhnw.cpib.compiler.tokens.IToken;
 
 import static ch.fhnw.cpib.compiler.tokens.enums.AttributeTerminals.CHANGEMODE;
 import static ch.fhnw.cpib.compiler.tokens.enums.AttributeTerminals.FLOWMODE;
 import static ch.fhnw.cpib.compiler.tokens.enums.AttributeTerminals.IDENT;
 
-public class ProgParam implements INtsParser, IToAbsNode {
+public class ProgParam implements INtsParser {
     private final IToken token;
     private final OptFlowmode optFlowmode;
     private final OptChangemode optChangemode;
@@ -26,7 +26,7 @@ public class ProgParam implements INtsParser, IToAbsNode {
             optFlowmode = new OptFlowmode();
             optChangemode = new OptChangemode();
             typedIdent = new TypedIdent();
-            Variable param = new Variable(typedIdent.getIdentifier().getValue(), optFlowmode.toAbsSyn(), optChangemode.toAbsSyn(), typedIdent.getType(), globalEnv.getStartAddress() + globalEnv.getVars().size());
+            Variable param = new Variable(typedIdent.getIdentifier().getValue(), optFlowmode, optChangemode, typedIdent.getType(), globalEnv.getStartAddress() + globalEnv.getVars().size());
             globalEnv.putVariable(typedIdent.getIdentifier().getValue(), param);
             string = optFlowmode.toString() + " : " + optChangemode.toString() + " : " + typedIdent.toString();
         }
@@ -55,8 +55,7 @@ public class ProgParam implements INtsParser, IToAbsNode {
         return typedIdent;
     }
 
-    @Override
     public IAbstractNode toAbsSyn() {
-        return null;
+        return new AbsProgParam(optFlowmode, optChangemode, typedIdent.toAbsSyn());
     }
 }
