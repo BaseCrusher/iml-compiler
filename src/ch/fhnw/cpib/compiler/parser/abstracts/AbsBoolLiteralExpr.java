@@ -1,30 +1,33 @@
 package ch.fhnw.cpib.compiler.parser.abstracts;
 
 import ch.fhnw.cpib.compiler.parser.IAbstractNode;
-import ch.fhnw.cpib.compiler.tokens.AttributeToken;
 import ch.fhnw.cpib.compiler.tokens.IToken;
 import ch.fhnw.cpib.compiler.tokens.enums.types.IType;
 import ch.fhnw.cpib.compiler.vm.ICodeArray;
 import ch.fhnw.cpib.compiler.vm.IInstructions;
 
 import static ch.fhnw.cpib.compiler.codeGenerator.CodeGenerator.codeArray;
-import static ch.fhnw.cpib.compiler.tokens.enums.types.Inttypes.INT32;
+import static ch.fhnw.cpib.compiler.tokens.enums.types.BoolTypes.BOOL;
 
-public class AbsIntLiteralExpr implements IAbstractNode {
-    private AttributeToken literal;
+public class AbsBoolLiteralExpr implements IAbstractNode {
+    private IToken literal;
 
-    public AbsIntLiteralExpr(IToken literal) {
-        this.literal = (AttributeToken) literal;
+    public AbsBoolLiteralExpr(IToken literal) {
+        this.literal = literal;
     }
 
     @Override
     public IType check() {
-        return INT32;
+        return BOOL;
     }
 
     @Override
     public int code(int loc) throws ICodeArray.CodeTooSmallError {
-        codeArray.put(loc, new IInstructions.LoadImInt(Integer.parseInt(literal.getValue())));
+        var value = 0;
+        if (Boolean.parseBoolean(literal.getValue())) {
+            value = 1;
+        }
+        codeArray.put(loc, new IInstructions.LoadImInt(value));
         return loc + 1;
     }
 

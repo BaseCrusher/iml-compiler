@@ -5,6 +5,7 @@ import ch.fhnw.cpib.compiler.parser.IAbstractNode;
 import ch.fhnw.cpib.compiler.parser.INtsParser;
 import ch.fhnw.cpib.compiler.parser.IToAbsNodeList;
 import ch.fhnw.cpib.compiler.parser.Parser;
+import ch.fhnw.cpib.compiler.parser.abstracts.AbsStoreExpr;
 import ch.fhnw.cpib.compiler.tokens.IToken;
 
 import java.util.List;
@@ -84,5 +85,26 @@ public class OptInitOrExprListOrArrExpr implements INtsParser, IToAbsNodeList {
     @Override
     public List<IAbstractNode> toAbsSyn() {
         return null;
+    }
+
+    public IAbstractNode toAbsSyn(IToken token) {
+        if (token.hasTerminal(INIT)) {
+            return new AbsStoreExpr(token.getValue());
+        }
+        else if (token.hasTerminal(LPAREN)) {
+            exprList = new ExprList();
+            string = exprList.toString();
+        }
+        else if (token.hasTerminal(LBRACK)) {
+            Parser.consume(LBRACK);
+            expr = new Expr();
+            Parser.consume(RBRACK);
+            optInit = new OptInit();
+            string = "(" + expr.toString()  + ")";
+        }
+        else if (token.hasTerminal(COMMA, RBRACK, RPAREN, DO, THEN, ENDWHILE, ENDIF, ELSE, ENDPROC, ENDFUN, ENDPROGRAM, SEMICOLON, BECOMES, BOOLOPR, RELOPR, ADDOPR, MULTOPR, DIVOPR)) {
+            epsilon = new Epsilon();
+            string = epsilon.toString();
+        }
     }
 }

@@ -1,11 +1,15 @@
 package ch.fhnw.cpib.compiler.parser.nts;
 
+import java.math.BigInteger;
+
 import ch.fhnw.cpib.compiler.error.GrammarError;
 import ch.fhnw.cpib.compiler.parser.IAbstractNode;
 import ch.fhnw.cpib.compiler.parser.INtsParser;
 import ch.fhnw.cpib.compiler.parser.IToAbsNode;
 import ch.fhnw.cpib.compiler.parser.Parser;
+import ch.fhnw.cpib.compiler.parser.abstracts.AbsBoolLiteralExpr;
 import ch.fhnw.cpib.compiler.parser.abstracts.AbsIntLiteralExpr;
+import ch.fhnw.cpib.compiler.tokens.AttributeToken;
 import ch.fhnw.cpib.compiler.tokens.IToken;
 
 import static ch.fhnw.cpib.compiler.tokens.enums.AttributeTerminals.BOOLOPR;
@@ -87,15 +91,14 @@ public class Factor implements INtsParser, IToAbsNode {
     @Override
     public IAbstractNode toAbsSyn() {
         if (token.hasTerminal(LITERAL)) {
-            if (Boolean.parseBoolean(token.getValue()) {
-
+            if (((AttributeToken)token).getOriginalValue() instanceof BigInteger) {
+                return new AbsIntLiteralExpr(token);
+            } else {
+                return new AbsBoolLiteralExpr(token);
             }
-            return new AbsIntLiteralExpr(token);
         }
         else if (token.hasTerminal(IDENT)) {
-            Parser.consume(IDENT);
-            optInitOrExprListOrArrExpr = new OptInitOrExprListOrArrExpr();
-            string = token.toString() + " " + optInitOrExprListOrArrExpr.toString();
+            return optInitOrExprListOrArrExpr.toAbsSyn(token);
         } else if (token.hasTerminal(MONOPR)) {
             Parser.consume(MONOPR);
             factor = new Factor();

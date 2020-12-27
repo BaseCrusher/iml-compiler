@@ -45,6 +45,10 @@ public class AttributeToken<T> implements IToken {
         return _value.toString();
     }
 
+    public T getOriginalValue() {
+        return _value;
+    }
+
     @Override
     public boolean hasTerminal(ITerminal... terminals) {
         for (ITerminal terminal : terminals){
