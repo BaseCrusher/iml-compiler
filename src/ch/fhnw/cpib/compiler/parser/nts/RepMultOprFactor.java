@@ -4,8 +4,8 @@ import ch.fhnw.cpib.compiler.error.GrammarError;
 import ch.fhnw.cpib.compiler.parser.Environment;
 import ch.fhnw.cpib.compiler.parser.IAbstractNode;
 import ch.fhnw.cpib.compiler.parser.INtsParser;
-import ch.fhnw.cpib.compiler.parser.IToAbsNode;
 import ch.fhnw.cpib.compiler.parser.Parser;
+import ch.fhnw.cpib.compiler.parser.abstracts.AbsDyadicExpr;
 import ch.fhnw.cpib.compiler.tokens.IToken;
 
 import static ch.fhnw.cpib.compiler.tokens.enums.AttributeTerminals.*;
@@ -23,17 +23,18 @@ import static ch.fhnw.cpib.compiler.tokens.enums.KeywordTerminals.RPAREN;
 import static ch.fhnw.cpib.compiler.tokens.enums.KeywordTerminals.SEMICOLON;
 import static ch.fhnw.cpib.compiler.tokens.enums.KeywordTerminals.THEN;
 
-public class RepMultOprFactor implements INtsParser, IToAbsNode {
+public class RepMultOprFactor implements INtsParser {
     private final IToken token;
-    private INtsParser factor;
-    private INtsParser repMultOprFactor;
-    private INtsParser epsilon;
+    private Factor factor;
+    private String operator;
+    private RepMultOprFactor repMultOprFactor;
+    private Epsilon epsilon;
     private final String string;
 
     public RepMultOprFactor(Environment environment) throws GrammarError {
         token = Parser.getCurrentToken();
         if (token.hasTerminal(MULTOPR, DIVOPR)) {
-            Parser.consume(MULTOPR, DIVOPR);
+            operator = Parser.consume(MULTOPR, DIVOPR).getValue();
             factor = new Factor(environment);
             repMultOprFactor = new RepMultOprFactor(environment);
             string = token.toString() + " " + factor.toString() + " " + repMultOprFactor.toString();
@@ -67,8 +68,12 @@ public class RepMultOprFactor implements INtsParser, IToAbsNode {
         return epsilon;
     }
 
-    @Override
-    public IAbstractNode toAbsSyn() {
-        return null;
+    public IAbstractNode toAbsSyn(Factor _factor) {
+        if (epsilon != null) {
+            return new AbsDyadicExpr(operator, _factor.toAbsSyn(), repMultOprFactor.toAbsSyn(factor));
+        }
+        else {
+            return factor.toAbsSyn();
+        }
     }
 }

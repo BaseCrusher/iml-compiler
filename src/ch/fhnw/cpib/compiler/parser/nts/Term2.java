@@ -14,10 +14,10 @@ import static ch.fhnw.cpib.compiler.tokens.enums.AttributeTerminals.MONOPR;
 import static ch.fhnw.cpib.compiler.tokens.enums.KeywordTerminals.ARRLEN;
 import static ch.fhnw.cpib.compiler.tokens.enums.KeywordTerminals.LPAREN;
 
-public class Term2 implements INtsParser, IToAbsNode {
+public class Term2 implements INtsParser {
     private final IToken token;
-    private INtsParser term3;
-    private INtsParser repAddOprTerm3;
+    private Term3 term3;
+    private RepAddOprTerm3 repAddOprTerm3;
 
     public Term2(Environment environment) throws GrammarError {
         token = Parser.getCurrentToken();
@@ -47,8 +47,7 @@ public class Term2 implements INtsParser, IToAbsNode {
         return repAddOprTerm3;
     }
 
-    @Override
     public IAbstractNode toAbsSyn() {
-        return null;
+        return repAddOprTerm3.toAbsSyn(term3.toAbsSyn());
     }
 }

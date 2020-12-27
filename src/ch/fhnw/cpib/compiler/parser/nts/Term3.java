@@ -4,7 +4,6 @@ import ch.fhnw.cpib.compiler.error.GrammarError;
 import ch.fhnw.cpib.compiler.parser.Environment;
 import ch.fhnw.cpib.compiler.parser.IAbstractNode;
 import ch.fhnw.cpib.compiler.parser.INtsParser;
-import ch.fhnw.cpib.compiler.parser.IToAbsNode;
 import ch.fhnw.cpib.compiler.parser.Parser;
 import ch.fhnw.cpib.compiler.tokens.IToken;
 
@@ -14,10 +13,10 @@ import static ch.fhnw.cpib.compiler.tokens.enums.AttributeTerminals.MONOPR;
 import static ch.fhnw.cpib.compiler.tokens.enums.KeywordTerminals.ARRLEN;
 import static ch.fhnw.cpib.compiler.tokens.enums.KeywordTerminals.LPAREN;
 
-public class Term3 implements INtsParser, IToAbsNode {
+public class Term3 implements INtsParser {
     private final IToken token;
-    private final INtsParser factor;
-    private final INtsParser repMultOprFactor;
+    private final Factor factor;
+    private final RepMultOprFactor repMultOprFactor;
 
     public Term3(Environment environment) throws GrammarError {
         token = Parser.getCurrentToken();
@@ -30,9 +29,8 @@ public class Term3 implements INtsParser, IToAbsNode {
         }
     }
 
-    @Override
     public IAbstractNode toAbsSyn() {
-        return ((IToAbsNode)repMultOprFactor).toAbsSyn();
+        return repMultOprFactor.toAbsSyn(factor);
     }
 
     @Override

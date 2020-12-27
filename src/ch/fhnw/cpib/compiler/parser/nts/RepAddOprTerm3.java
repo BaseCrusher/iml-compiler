@@ -6,6 +6,7 @@ import ch.fhnw.cpib.compiler.parser.IAbstractNode;
 import ch.fhnw.cpib.compiler.parser.INtsParser;
 import ch.fhnw.cpib.compiler.parser.IToAbsNode;
 import ch.fhnw.cpib.compiler.parser.Parser;
+import ch.fhnw.cpib.compiler.parser.abstracts.AbsDyadicExpr;
 import ch.fhnw.cpib.compiler.tokens.IToken;
 
 import static ch.fhnw.cpib.compiler.tokens.enums.AttributeTerminals.ADDOPR;
@@ -25,17 +26,18 @@ import static ch.fhnw.cpib.compiler.tokens.enums.KeywordTerminals.RPAREN;
 import static ch.fhnw.cpib.compiler.tokens.enums.KeywordTerminals.SEMICOLON;
 import static ch.fhnw.cpib.compiler.tokens.enums.KeywordTerminals.THEN;
 
-public class RepAddOprTerm3 implements INtsParser, IToAbsNode {
+public class RepAddOprTerm3 implements INtsParser {
     private final IToken token;
-    private INtsParser term3;
-    private INtsParser repAddOprTerm3;
-    private INtsParser epsilon;
+    private Term3 term3;
+    private String operator;
+    private RepAddOprTerm3 repAddOprTerm3;
+    private Epsilon epsilon;
     private String string;
 
     public RepAddOprTerm3(Environment environment) throws GrammarError {
         token = Parser.getCurrentToken();
         if (token.hasTerminal(ADDOPR)) {
-            Parser.consume(ADDOPR);
+            operator = Parser.consume(ADDOPR).getValue();
             term3 = new Term3(environment);
             repAddOprTerm3 = new RepAddOprTerm3(environment);
             string = token.toString() + " " + term3.toString() + " " + repAddOprTerm3.toString();
@@ -69,8 +71,12 @@ public class RepAddOprTerm3 implements INtsParser, IToAbsNode {
         return epsilon;
     }
 
-    @Override
-    public IAbstractNode toAbsSyn() {
-        return null;
+    public IAbstractNode toAbsSyn(AbsDyadicExpr absDyadicExpr) {
+        if (epsilon != null) {
+            return repAddOprTerm3.toAbsSyn(new AbsDyadicExpr(operator, absDyadicExpr, term3.toAbsSyn()));
+        }
+        else {
+            return absDyadicExpr;
+        }
     }
 }

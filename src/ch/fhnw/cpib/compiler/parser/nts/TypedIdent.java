@@ -3,7 +3,6 @@ package ch.fhnw.cpib.compiler.parser.nts;
 import ch.fhnw.cpib.compiler.error.GrammarError;
 import ch.fhnw.cpib.compiler.parser.IAbstractNode;
 import ch.fhnw.cpib.compiler.parser.INtsParser;
-import ch.fhnw.cpib.compiler.parser.IToAbsNode;
 import ch.fhnw.cpib.compiler.parser.Parser;
 import ch.fhnw.cpib.compiler.parser.abstracts.AbsTypedIdent;
 import ch.fhnw.cpib.compiler.tokens.IToken;
@@ -12,11 +11,11 @@ import static ch.fhnw.cpib.compiler.tokens.enums.AttributeTerminals.IDENT;
 import static ch.fhnw.cpib.compiler.tokens.enums.AttributeTerminals.TYPE;
 import static ch.fhnw.cpib.compiler.tokens.enums.KeywordTerminals.COLON;
 
-public class TypedIdent implements INtsParser, IToAbsNode {
+public class TypedIdent implements INtsParser {
 
     private IToken identifier;
     private IToken type;
-    private INtsParser optArrDecl;
+    private OptArrDecl optArrDecl;
     private final String string;
 
     public TypedIdent() throws GrammarError {
@@ -33,9 +32,8 @@ public class TypedIdent implements INtsParser, IToAbsNode {
 
     }
 
-    @Override
     public IAbstractNode toAbsSyn() {
-        return new AbsTypedIdent(identifier.getValue(), type.getValue(), ((IToAbsNode)optArrDecl).toAbsSyn());
+        return new AbsTypedIdent(identifier.getValue(), type.getValue(), optArrDecl.toAbsSyn());
     }
 
     @Override
