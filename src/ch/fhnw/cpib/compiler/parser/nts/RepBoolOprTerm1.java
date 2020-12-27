@@ -5,6 +5,7 @@ import ch.fhnw.cpib.compiler.parser.IAbstractNode;
 import ch.fhnw.cpib.compiler.parser.INtsParser;
 import ch.fhnw.cpib.compiler.parser.IToAbsNode;
 import ch.fhnw.cpib.compiler.parser.Parser;
+import ch.fhnw.cpib.compiler.parser.abstracts.AbsDyadicExpr;
 import ch.fhnw.cpib.compiler.tokens.IToken;
 
 import static ch.fhnw.cpib.compiler.tokens.enums.AttributeTerminals.BOOLOPR;
@@ -70,5 +71,12 @@ public class RepBoolOprTerm1 implements INtsParser, IToAbsNode {
     @Override
     public IAbstractNode toAbsSyn() {
         return null;
+    }
+
+    public IAbstractNode toAbsSyn(INtsParser term1) {
+        if (epsilon != null) {
+            return term1.toAbsSyn();
+        }
+        return new AbsDyadicExpr(token.getValue(), term1.toAbsSyn(), repBoolOprTerm1.toAbsSyn(this.term1));
     }
 }

@@ -14,8 +14,8 @@ import static ch.fhnw.cpib.compiler.tokens.enums.KeywordTerminals.ARRLEN;
 import static ch.fhnw.cpib.compiler.tokens.enums.KeywordTerminals.LPAREN;
 
 public class Expr implements INtsParser, IToAbsNode {
-    private INtsParser term1;
-    private INtsParser repBoolOprTerm1;
+    private final INtsParser term1;
+    private final RepBoolOprTerm1 repBoolOprTerm1;
 
     public Expr() throws GrammarError {
         IToken token = Parser.getCurrentToken();
@@ -35,7 +35,7 @@ public class Expr implements INtsParser, IToAbsNode {
 
     @Override
     public IAbstractNode toAbsSyn() {
-        return null;
+        return repBoolOprTerm1.toAbsSyn(term1);
     }
 
     public INtsParser getTerm1() {

@@ -3,7 +3,6 @@ package ch.fhnw.cpib.compiler.parser.nts;
 import ch.fhnw.cpib.compiler.error.GrammarError;
 import ch.fhnw.cpib.compiler.parser.*;
 import ch.fhnw.cpib.compiler.parser.abstracts.AbsProgram;
-import ch.fhnw.cpib.compiler.tokens.AttributeToken;
 import ch.fhnw.cpib.compiler.tokens.IToken;
 import ch.fhnw.cpib.compiler.tokens.enums.AttributeTerminals;
 import ch.fhnw.cpib.compiler.tokens.enums.KeywordTerminals;

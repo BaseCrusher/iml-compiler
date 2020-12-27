@@ -3,10 +3,12 @@ package ch.fhnw.cpib.compiler.parser.nts;
 import ch.fhnw.cpib.compiler.error.GrammarError;
 import ch.fhnw.cpib.compiler.parser.IAbstractNode;
 import ch.fhnw.cpib.compiler.parser.INtsParser;
+import ch.fhnw.cpib.compiler.parser.IToAbsNode;
 import ch.fhnw.cpib.compiler.parser.IToAbsNodeList;
 import ch.fhnw.cpib.compiler.parser.Parser;
 import ch.fhnw.cpib.compiler.tokens.IToken;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static ch.fhnw.cpib.compiler.tokens.enums.AttributeTerminals.IDENT;
@@ -23,8 +25,8 @@ import static ch.fhnw.cpib.compiler.tokens.enums.KeywordTerminals.WHILE;
 
 public class CpsCmd implements INtsParser, IToAbsNodeList {
     private final IToken token;
-    private INtsParser cmd;
-    private INtsParser repSemicolonCmd;
+    private final INtsParser cmd;
+    private final INtsParser repSemicolonCmd;
     private final String string;
 
     public CpsCmd() throws GrammarError {
@@ -58,6 +60,9 @@ public class CpsCmd implements INtsParser, IToAbsNodeList {
 
     @Override
     public List<IAbstractNode> toAbsSyn() {
-        return null;
+        List<IAbstractNode> cpsCmdList = new ArrayList<>();
+        cpsCmdList.add(((IToAbsNode)cmd).toAbsSyn());
+        cpsCmdList.addAll(((IToAbsNodeList)repSemicolonCmd).toAbsSyn());
+        return cpsCmdList;
     }
 }

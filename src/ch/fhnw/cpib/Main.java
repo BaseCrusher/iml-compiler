@@ -1,11 +1,16 @@
 package ch.fhnw.cpib;
 
 import ch.fhnw.cpib.compiler.Scanner;
+import ch.fhnw.cpib.compiler.codeGenerator.CodeGenerator;
 import ch.fhnw.cpib.compiler.error.GrammarError;
 import ch.fhnw.cpib.compiler.error.LexicalError;
+import ch.fhnw.cpib.compiler.parser.AbstractTree;
+import ch.fhnw.cpib.compiler.parser.IAbstractTree;
 import ch.fhnw.cpib.compiler.parser.IConcreteTree;
 import ch.fhnw.cpib.compiler.parser.Parser;
 import ch.fhnw.cpib.compiler.tokens.ITokenList;
+import ch.fhnw.cpib.compiler.vm.ICodeArray;
+
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -22,11 +27,18 @@ public class Main {
         try {
             ITokenList bla = s.scan(content);
 
-            //System.out.println(bla);
-
             Parser parser = new Parser(bla);
             IConcreteTree concreteTree = parser.parse();
+            IAbstractTree abstractTree = new AbstractTree(concreteTree);
             System.out.println(concreteTree);
+            System.out.println(abstractTree);
+
+            CodeGenerator codeGenerator = new CodeGenerator();
+            try {
+                codeGenerator.code(abstractTree);
+            } catch (ICodeArray.CodeTooSmallError codeTooSmallError) {
+                codeTooSmallError.printStackTrace();
+            }
         }
         catch (LexicalError | GrammarError ex){
             System.out.println(ex);

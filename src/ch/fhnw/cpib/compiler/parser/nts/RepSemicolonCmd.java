@@ -3,10 +3,12 @@ package ch.fhnw.cpib.compiler.parser.nts;
 import ch.fhnw.cpib.compiler.error.GrammarError;
 import ch.fhnw.cpib.compiler.parser.IAbstractNode;
 import ch.fhnw.cpib.compiler.parser.INtsParser;
+import ch.fhnw.cpib.compiler.parser.IToAbsNode;
 import ch.fhnw.cpib.compiler.parser.IToAbsNodeList;
 import ch.fhnw.cpib.compiler.parser.Parser;
 import ch.fhnw.cpib.compiler.tokens.IToken;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static ch.fhnw.cpib.compiler.tokens.enums.KeywordTerminals.ELSE;
@@ -64,6 +66,12 @@ public class RepSemicolonCmd implements INtsParser, IToAbsNodeList {
 
     @Override
     public List<IAbstractNode> toAbsSyn() {
-        return null;
+        if (epsilon != null) {
+            return new ArrayList<>();
+        }
+        List<IAbstractNode> nodeList = new ArrayList<>();
+        nodeList.add(((IToAbsNode)cmd).toAbsSyn());
+        nodeList.addAll(((IToAbsNodeList)repSemicolonCmd).toAbsSyn());
+        return nodeList;
     }
 }
