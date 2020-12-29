@@ -23,7 +23,7 @@ public class StoDecl implements INtsParser {
         if (token.hasTerminal(IDENT, CHANGEMODE)) {
             optChangemode = new OptChangemode();
             typedIdent = new TypedIdent();
-            Variable variable = new Variable(typedIdent.getIdentifier().getValue(), optChangemode, typedIdent.getType(), environment.getStartAddress() + environment.getVars().size());
+            Variable variable = new Variable(typedIdent.getIdentifier().getValue(), optChangemode, typedIdent.getToken(), environment.getStartAddress() + environment.getVars().size());
             environment.putVariable(typedIdent.getIdentifier().getValue(), variable);
         } else {
             throw new GrammarError(token);
@@ -48,7 +48,7 @@ public class StoDecl implements INtsParser {
         return optChangemode;
     }
 
-    public INtsParser getTypedIdent() {
+    public TypedIdent getTypedIdent() {
         return typedIdent;
     }
 }

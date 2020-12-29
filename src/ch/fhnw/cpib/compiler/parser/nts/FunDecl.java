@@ -1,11 +1,18 @@
 package ch.fhnw.cpib.compiler.parser.nts;
 
+import java.util.List;
+import java.util.Map;
+
+import ch.fhnw.cpib.compiler.error.DuplicateDeclaratoinError;
 import ch.fhnw.cpib.compiler.error.GrammarError;
 import ch.fhnw.cpib.compiler.parser.Environment;
 import ch.fhnw.cpib.compiler.parser.IAbstractNode;
 import ch.fhnw.cpib.compiler.parser.INtsParser;
 import ch.fhnw.cpib.compiler.parser.Parser;
+import ch.fhnw.cpib.compiler.parser.Routine;
+import ch.fhnw.cpib.compiler.parser.Variable;
 import ch.fhnw.cpib.compiler.parser.abstracts.AbsFunDecl;
+import ch.fhnw.cpib.compiler.parser.abstracts.AbsParam;
 import ch.fhnw.cpib.compiler.tokens.IToken;
 
 import static ch.fhnw.cpib.compiler.tokens.enums.AttributeTerminals.IDENT;
@@ -35,6 +42,11 @@ public class FunDecl implements INtsParser {
             stoDecl = new StoDecl(localEnv);
             optGlobalGlobImps = new OptGlobalGlobImps();
             optLocalCpsStoDecl = new OptLocalCpsStoDecl(localEnv);
+            try {
+                globalEnv.putRoutine(identifier.getValue(), new Routine(identifier.getValue(), localEnv.getVars(), stoDecl.getTypedIdent().getType()));
+            } catch (DuplicateDeclaratoinError duplicateDeclaratoinError) {
+                duplicateDeclaratoinError.printStackTrace();
+            }
             Parser.consume(DO);
             cpsCmd = new CpsCmd(localEnv);
             Parser.consume(ENDFUN);

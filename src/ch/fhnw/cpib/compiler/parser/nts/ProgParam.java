@@ -26,7 +26,7 @@ public class ProgParam implements INtsParser {
             optFlowmode = new OptFlowmode();
             optChangemode = new OptChangemode();
             typedIdent = new TypedIdent();
-            Variable param = new Variable(typedIdent.getIdentifier().getValue(), optFlowmode, optChangemode, typedIdent.getType(), globalEnv.getStartAddress() + globalEnv.getVars().size());
+            Variable param = new Variable(typedIdent.getIdentifier().getValue(), optFlowmode, optChangemode, typedIdent.getToken(), globalEnv.getStartAddress() + globalEnv.getVars().size());
             globalEnv.putVariable(typedIdent.getIdentifier().getValue(), param);
             string = optFlowmode.toString() + " : " + optChangemode.toString() + " : " + typedIdent.toString();
         }

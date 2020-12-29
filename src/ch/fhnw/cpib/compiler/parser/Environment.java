@@ -73,4 +73,11 @@ public class Environment {
         }
         return routine;
     }
+
+    public void putRoutine(String ident, Routine routine) throws DuplicateDeclaratoinError {
+        if (routines.containsKey(ident)) {
+            throw new DuplicateDeclaratoinError(ident + " already defined.");
+        }
+        routines.put(ident, routine);
+    }
 }

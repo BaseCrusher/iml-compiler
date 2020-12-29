@@ -6,6 +6,8 @@ import ch.fhnw.cpib.compiler.parser.INtsParser;
 import ch.fhnw.cpib.compiler.parser.Parser;
 import ch.fhnw.cpib.compiler.parser.abstracts.AbsTypedIdent;
 import ch.fhnw.cpib.compiler.tokens.IToken;
+import ch.fhnw.cpib.compiler.tokens.enums.types.IType;
+import ch.fhnw.cpib.compiler.tokens.enums.types.Types;
 
 import static ch.fhnw.cpib.compiler.tokens.enums.AttributeTerminals.IDENT;
 import static ch.fhnw.cpib.compiler.tokens.enums.AttributeTerminals.TYPE;
@@ -48,7 +50,11 @@ public class TypedIdent implements INtsParser {
         return identifier;
     }
 
-    public IToken getType() {
+    public IToken getToken() {
         return type;
+    }
+
+    public IType getType() {
+        return Types.getByName(type.getValue());
     }
 }

@@ -36,17 +36,25 @@ public class AbsFunDecl implements IAbstractNode {
     @Override
     public IType check() throws TypeCheckError {
         for (IAbstractNode params : paramList) {
-            params.check();
+            if (params != null) {
+                params.check();
+            }
         }
         absStoDecl.check();
         for (IAbstractNode imp : optGlobalGlobImps) {
-            imp.check();
+            if (imp != null) {
+                imp.check();
+            }
         }
         for (IAbstractNode localImp : optLocalCpsStoDecl) {
-            localImp.check();
+            if (localImp != null) {
+                localImp.check();
+            }
         }
         for (IAbstractNode cmd : cpsCmd) {
-            cmd.check();
+            if (cmd != null) {
+                cmd.check();
+            }
         }
         return VOID;
     }
@@ -56,27 +64,28 @@ public class AbsFunDecl implements IAbstractNode {
         int nextLoc = loc + 1;
         loc = absStoDecl.code(loc);
         var relLoc = 0;
-        if (paramList != null) {
             for (IAbstractNode param : paramList) {
-                loc = param.code(loc);
+                if (param != null) {
+                    loc = param.code(loc);
+                }
             }
             relLoc = paramList.size();
-        }
         int globImpsSize = 0;
-        if (optGlobalGlobImps != null) {
             for (IAbstractNode glob : optGlobalGlobImps) {
-                loc = glob.code(loc);
+                if (glob != null) {
+                    loc = glob.code(loc);
+                }
             }
             globImpsSize = optGlobalGlobImps.size();
-        }
 
         int optLocalCpsStoDeclsSize = 0;
-        if (optLocalCpsStoDecl != null) {
             for (IAbstractNode local : optLocalCpsStoDecl) {
-                loc = local.code(loc);
+                if (local != null) {
+                    loc = local.code(loc);
+                }
             }
             optLocalCpsStoDeclsSize = optLocalCpsStoDecl.size();
-        }
+
         for (IAbstractNode cmd : cpsCmd) {
             loc = cmd.code(loc);
         }

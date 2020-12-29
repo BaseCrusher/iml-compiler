@@ -1,5 +1,6 @@
 package ch.fhnw.cpib.compiler.parser.abstracts;
 
+import ch.fhnw.cpib.compiler.error.CodeGenError;
 import ch.fhnw.cpib.compiler.error.TypeCheckError;
 import ch.fhnw.cpib.compiler.parser.IAbstractNode;
 import ch.fhnw.cpib.compiler.parser.nts.Expr;
@@ -28,7 +29,7 @@ public class AbsOutputCommand implements IAbstractNode {
     }
 
     @Override
-    public int code(int loc) throws ICodeArray.CodeTooSmallError {
+    public int code(int loc) throws ICodeArray.CodeTooSmallError, CodeGenError {
         if (type.equals(BOOL)) {
             codeArray.put(loc, new IInstructions.OutputBool("output"));
             return loc + 1;

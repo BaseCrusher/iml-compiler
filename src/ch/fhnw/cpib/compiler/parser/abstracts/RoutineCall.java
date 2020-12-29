@@ -20,13 +20,9 @@ public class RoutineCall implements IAbstractNode {
 
     @Override
     public IType check() throws TypeCheckError {
-        exprList.forEach(param -> {
-            try {
-                check();
-            } catch (TypeCheckError typeCheckError) {
-                typeCheckError.printStackTrace();
-            }
-        });
+        for (IAbstractNode param : exprList) {
+            param.check();
+        }
         Routine routine = identifier.getEnvironment().getRoutine(identifier.getIdent().getValue());
         if (routine == null) throw new TypeCheckError("Routine " + identifier.getIdent().getValue() + " was not declared");
         return routine.getReturnType();
