@@ -2,7 +2,9 @@ package ch.fhnw.cpib.compiler.parser.abstracts;
 
 import java.util.List;
 
+import ch.fhnw.cpib.compiler.error.CodeGenError;
 import ch.fhnw.cpib.compiler.error.GrammarError;
+import ch.fhnw.cpib.compiler.error.TypeCheckError;
 import ch.fhnw.cpib.compiler.parser.Environment;
 import ch.fhnw.cpib.compiler.parser.IAbstractNode;
 import ch.fhnw.cpib.compiler.parser.Variable;
@@ -32,19 +34,19 @@ public class AbsFunDecl implements IAbstractNode {
     }
 
     @Override
-    public IType check() throws GrammarError {
+    public IType check() throws TypeCheckError {
         cpsCmd.forEach(c -> {
             try {
                 check();
-            } catch (GrammarError grammarError) {
-                grammarError.printStackTrace();
+            } catch (TypeCheckError typeCheckError) {
+                typeCheckError.printStackTrace();
             }
         });
         return VOID;
     }
 
     @Override
-    public int code(int loc) throws ICodeArray.CodeTooSmallError {
+    public int code(int loc) throws ICodeArray.CodeTooSmallError, CodeGenError {
         int nextLoc = loc + 1;
         loc = absStoDecl.code(loc);
         var relLoc = 0;

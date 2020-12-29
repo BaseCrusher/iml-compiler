@@ -1,6 +1,8 @@
 package ch.fhnw.cpib.compiler.parser.abstracts;
 
+import ch.fhnw.cpib.compiler.error.CodeGenError;
 import ch.fhnw.cpib.compiler.error.GrammarError;
+import ch.fhnw.cpib.compiler.error.TypeCheckError;
 import ch.fhnw.cpib.compiler.parser.IAbstractNode;
 import ch.fhnw.cpib.compiler.parser.nts.Expr;
 import ch.fhnw.cpib.compiler.tokens.enums.types.IType;
@@ -25,13 +27,13 @@ public class AbsInputCommand implements IAbstractNode {
     }
 
     @Override
-    public IType check() throws GrammarError {
+    public IType check() throws TypeCheckError {
         absExpr.check();
         return VOID;
     }
 
     @Override
-    public int code(int loc) throws ICodeArray.CodeTooSmallError {
+    public int code(int loc) throws ICodeArray.CodeTooSmallError, CodeGenError {
         int loc1 = absExpr.code(loc);
         try {
             // retrieve type from expression using check() as a hack :)
@@ -46,8 +48,8 @@ public class AbsInputCommand implements IAbstractNode {
             } else {
                 throw new IVirtualMachine.ExecutionError("Unsupported type " + runtimeType.toString());
             }
-        } catch (GrammarError | IVirtualMachine.ExecutionError grammarError) {
-            grammarError.printStackTrace();
+        } catch (TypeCheckError | IVirtualMachine.ExecutionError e) {
+            e.printStackTrace();
         }
         return loc1 + 1;
     }

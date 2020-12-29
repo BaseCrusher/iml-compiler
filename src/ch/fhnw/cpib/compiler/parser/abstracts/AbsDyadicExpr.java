@@ -1,6 +1,8 @@
 package ch.fhnw.cpib.compiler.parser.abstracts;
 
+import ch.fhnw.cpib.compiler.error.CodeGenError;
 import ch.fhnw.cpib.compiler.error.GrammarError;
+import ch.fhnw.cpib.compiler.error.TypeCheckError;
 import ch.fhnw.cpib.compiler.parser.IAbstractNode;
 import ch.fhnw.cpib.compiler.tokens.enums.types.BoolTypes;
 import ch.fhnw.cpib.compiler.tokens.enums.types.IType;
@@ -23,14 +25,14 @@ public class AbsDyadicExpr implements IAbstractNode {
     }
 
     @Override
-    public IType check() throws GrammarError {
+    public IType check() throws TypeCheckError {
         IType leftType = leftAbsExpr.check();
         IType rightType = rightAbsExpr.check();
         if (leftType != rightType) {
-            throw new GrammarError("left and right type need to have matching types");
+            throw new TypeCheckError("left and right type need to have matching types");
         }
         if (leftType == VOID) {
-            throw new GrammarError("left type cant be of type void.");
+            throw new TypeCheckError("left type cant be of type void.");
         }
 
         switch (operator) {
@@ -40,7 +42,7 @@ public class AbsDyadicExpr implements IAbstractNode {
                     return BoolTypes.BOOL;
                 }
                 else {
-                    throw new GrammarError("Operator type mismatch");
+                    throw new TypeCheckError("Operator type mismatch");
                 }
             case "GE":
             case "LE":
@@ -50,7 +52,7 @@ public class AbsDyadicExpr implements IAbstractNode {
                     return BoolTypes.BOOL;
                 }
                 else {
-                    throw new GrammarError("Operator type mismatch");
+                    throw new TypeCheckError("Operator type mismatch");
                 }
             case "PLUS":
             case "MINUS":
@@ -65,18 +67,18 @@ public class AbsDyadicExpr implements IAbstractNode {
                     return leftType;
                 }
                 else {
-                    throw new GrammarError("Operator type mismatch");
+                    throw new TypeCheckError("Operator type mismatch");
                 }
             case "EQ":
             case "NEQ":
                 return BoolTypes.BOOL;
             default:
-                throw new GrammarError("Operator is not diadic");
+                throw new TypeCheckError("Operator is not diadic");
         }
     }
 
     @Override
-    public int code(int loc) throws ICodeArray.CodeTooSmallError {
+    public int code(int loc) throws ICodeArray.CodeTooSmallError, CodeGenError {
         int leftLoc = leftAbsExpr.code(loc);
         int rightLoc = rightAbsExpr.code(leftLoc);
         switch (operator) {

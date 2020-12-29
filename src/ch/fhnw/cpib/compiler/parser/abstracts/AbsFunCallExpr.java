@@ -1,6 +1,7 @@
 package ch.fhnw.cpib.compiler.parser.abstracts;
 
 import ch.fhnw.cpib.compiler.error.GrammarError;
+import ch.fhnw.cpib.compiler.error.TypeCheckError;
 import ch.fhnw.cpib.compiler.parser.IAbstractNode;
 import ch.fhnw.cpib.compiler.tokens.enums.types.IType;
 
@@ -15,7 +16,7 @@ public class AbsFunCallExpr implements IAbstractNode {
     }
 
     @Override
-    public IType check() throws GrammarError {
+    public IType check() throws TypeCheckError {
         return this.routineCall.check();
     }
 

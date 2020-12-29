@@ -20,7 +20,7 @@ public class AbsArrLenExpr implements IAbstractNode {
     }
 
     @Override
-    public IType check() throws GrammarError {
+    public IType check() {
         return INT32;
     }
 

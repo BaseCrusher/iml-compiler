@@ -2,7 +2,9 @@ package ch.fhnw.cpib.compiler.parser.abstracts;
 
 import java.util.List;
 
+import ch.fhnw.cpib.compiler.error.CodeGenError;
 import ch.fhnw.cpib.compiler.error.GrammarError;
+import ch.fhnw.cpib.compiler.error.TypeCheckError;
 import ch.fhnw.cpib.compiler.parser.IAbstractNode;
 import ch.fhnw.cpib.compiler.parser.nts.Identifier;
 import ch.fhnw.cpib.compiler.tokens.enums.types.IType;
@@ -29,19 +31,19 @@ public class AbsProcDecl implements IAbstractNode {
     }
 
     @Override
-    public IType check() throws GrammarError {
+    public IType check() throws TypeCheckError {
         absCpsCmd.forEach(cmd -> {
             try {
                 check();
-            } catch (GrammarError grammarError) {
-                grammarError.printStackTrace();
+            } catch (TypeCheckError typeCheckError) {
+                typeCheckError.printStackTrace();
             }
         });
         return VOID;
     }
 
     @Override
-    public int code(int loc) throws ICodeArray.CodeTooSmallError {
+    public int code(int loc) throws ICodeArray.CodeTooSmallError, CodeGenError {
         int nextLoc = loc + 1;
         if (absParamList != null) {
             for (IAbstractNode param : absParamList) {

@@ -3,8 +3,8 @@ package ch.fhnw.cpib.compiler.parser;
 import java.util.HashMap;
 import java.util.Map;
 
+import ch.fhnw.cpib.compiler.error.CodeGenError;
 import ch.fhnw.cpib.compiler.error.DuplicateDeclaratoinError;
-import ch.fhnw.cpib.compiler.error.GrammarError;
 
 public class Environment {
     private Map<String, Variable> vars;
@@ -54,12 +54,16 @@ public class Environment {
         return startAddress;
     }
 
-    public int getAbsoluteAddress() {
+    public int getAbsoluteAddress(String varKey) throws CodeGenError {
+        Variable variable = vars.get(varKey);
         // global
-        if (parent == null) {
-            return startAddress;
+        if (variable !=null) {
+            return variable.getRelAddress();
         }
-        return startAddress + parent.getAbsoluteAddress();
+        if (parent != null) {
+            return parent.getAbsoluteAddress(varKey);
+        }
+        throw new CodeGenError("Var " + varKey + " not found!");
     }
 
     public Routine getRoutine(String routineKey) {

@@ -1,6 +1,7 @@
 package ch.fhnw.cpib.compiler.parser.abstracts;
 
-import ch.fhnw.cpib.compiler.error.GrammarError;
+import ch.fhnw.cpib.compiler.error.CodeGenError;
+import ch.fhnw.cpib.compiler.error.TypeCheckError;
 import ch.fhnw.cpib.compiler.parser.Environment;
 import ch.fhnw.cpib.compiler.parser.IAbstractNode;
 import ch.fhnw.cpib.compiler.parser.Variable;
@@ -25,22 +26,22 @@ public class AbsStoreExpr implements IAbstractNode {
     }
 
     @Override
-    public IType check() throws GrammarError {
+    public IType check() throws TypeCheckError {
         Variable variable = ident.getEnvironment().getVariable(ident.getIdent().getValue());
-        if (variable.getType() == null) throw new GrammarError("undefined " + ident.getIdent().getValue());
+        if (variable.getType() == null) throw new TypeCheckError("undefined " + ident.getIdent().getValue());
         return Types.getByName(variable.getType().getValue());
     }
 
     @Override
-    public int code(int loc) throws ICodeArray.CodeTooSmallError {
+    public int code(int loc) throws ICodeArray.CodeTooSmallError, CodeGenError {
         Environment env = ident.getEnvironment();
         Variable variable = ident.getEnvironment().getVariable(ident.getIdent().getValue());
 
         // global scope
         if (env.getParent() == null) {
-            codeArray.put(loc, new IInstructions.LoadImInt(env.getAbsoluteAddress()));
+            codeArray.put(loc, new IInstructions.LoadImInt(env.getAbsoluteAddress(ident.getIdent().getValue())));
         } else {
-            codeArray.put(loc, new IInstructions.LoadAddrRel(env.getAbsoluteAddress()));
+            codeArray.put(loc, new IInstructions.LoadAddrRel(env.getAbsoluteAddress(ident.getIdent().getValue())));
         }
         int loc2 = loc + 1;
         if (variable.getMechmode() != null && variable.getMechmode().getToken().getValue().equals(COPY.name())) {
@@ -52,5 +53,9 @@ public class AbsStoreExpr implements IAbstractNode {
             loc2 += 1;
         }
         return loc2;
+    }
+
+    public Identifier getIdent() {
+        return ident;
     }
 }

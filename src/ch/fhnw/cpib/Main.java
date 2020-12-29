@@ -2,6 +2,7 @@ package ch.fhnw.cpib;
 
 import ch.fhnw.cpib.compiler.Scanner;
 import ch.fhnw.cpib.compiler.codeGenerator.CodeGenerator;
+import ch.fhnw.cpib.compiler.error.CodeGenError;
 import ch.fhnw.cpib.compiler.error.GrammarError;
 import ch.fhnw.cpib.compiler.error.LexicalError;
 import ch.fhnw.cpib.compiler.parser.AbstractTree;
@@ -40,11 +41,11 @@ public class Main {
             CodeGenerator codeGenerator = new CodeGenerator();
             try {
                 codeGenerator.code(abstractTree);
-            } catch (ICodeArray.CodeTooSmallError codeTooSmallError) {
+            } catch (ICodeArray.CodeTooSmallError | CodeGenError codeTooSmallError) {
                 codeTooSmallError.printStackTrace();
             }
             try {
-                VirtualMachine virtualMachine = new VirtualMachine(codeArray, 3);
+                VirtualMachine virtualMachine = new VirtualMachine(codeArray, 1024);
             } catch (IVirtualMachine.ExecutionError executionError) {
                 executionError.printStackTrace();
             }

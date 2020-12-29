@@ -54,6 +54,9 @@ public class VirtualMachine implements IVirtualMachine {
     private void loadProgram(ICodeArray code) {
         this.code= new IInstructions.IExecInstr[code.getSize()];
         for (int i= 0; i < code.getSize(); i++) {
+            if (code.get(i) == null) {
+                break;
+            }
             this.code[i]= code.get(i).toExecInstr(this);
         }
     }

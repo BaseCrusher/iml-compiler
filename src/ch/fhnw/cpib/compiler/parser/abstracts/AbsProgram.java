@@ -1,9 +1,11 @@
 package ch.fhnw.cpib.compiler.parser.abstracts;
 
+import ch.fhnw.cpib.compiler.error.CodeGenError;
 import ch.fhnw.cpib.compiler.parser.IAbstractNode;
 import ch.fhnw.cpib.compiler.tokens.enums.types.IType;
 
 import ch.fhnw.cpib.compiler.vm.ICodeArray;
+import ch.fhnw.cpib.compiler.vm.IInstructions;
 import ch.fhnw.cpib.compiler.vm.IInstructions.Stop;
 
 import java.util.List;
@@ -33,18 +35,18 @@ public class AbsProgram implements IAbstractNode {
     }
 
     @Override
-    public int code(int loc) throws ICodeArray.CodeTooSmallError {
-        int loc1 = loc;
+    public int code(int loc) throws ICodeArray.CodeTooSmallError, CodeGenError {
         for (IAbstractNode param : progParamList) {
-            loc1 = param.code(loc1);
+            loc = param.code(loc);
         }
         for (IAbstractNode decl : optGlobalCpsDecl) {
-            loc1 = decl.code(loc1);
+            loc = decl.code(loc);
         }
         for (IAbstractNode cmd : cmds) {
-            loc1 = cmd.code(loc1);
+            loc = cmd.code(loc);
         }
-        codeArray.put(loc1, new Stop());
-        return loc1;
+        codeArray.put(loc, new Stop());
+        loc++;
+        return loc;
     }
 }

@@ -19,7 +19,7 @@ public class AbsCallCommand implements IAbstractNode {
     }
 
     @Override
-    public IType check() throws GrammarError {
+    public IType check() {
         return null;
     }
 

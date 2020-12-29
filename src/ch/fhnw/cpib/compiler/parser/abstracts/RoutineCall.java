@@ -3,6 +3,7 @@ package ch.fhnw.cpib.compiler.parser.abstracts;
 import java.util.List;
 
 import ch.fhnw.cpib.compiler.error.GrammarError;
+import ch.fhnw.cpib.compiler.error.TypeCheckError;
 import ch.fhnw.cpib.compiler.parser.IAbstractNode;
 import ch.fhnw.cpib.compiler.parser.Routine;
 import ch.fhnw.cpib.compiler.parser.nts.Identifier;
@@ -19,16 +20,16 @@ public class RoutineCall implements IAbstractNode {
     }
 
     @Override
-    public IType check() throws GrammarError {
+    public IType check() throws TypeCheckError {
         exprList.forEach(param -> {
             try {
                 check();
-            } catch (GrammarError grammarError) {
-                grammarError.printStackTrace();
+            } catch (TypeCheckError typeCheckError) {
+                typeCheckError.printStackTrace();
             }
         });
         Routine routine = identifier.getEnvironment().getRoutine(identifier.getIdent().getValue());
-        if (routine == null) throw new GrammarError("Routine " + identifier.getIdent().getValue() + " was not declared");
+        if (routine == null) throw new TypeCheckError("Routine " + identifier.getIdent().getValue() + " was not declared");
         return routine.getReturnType();
     }
 

@@ -1,6 +1,8 @@
 package ch.fhnw.cpib.compiler.parser.abstracts;
 
+import ch.fhnw.cpib.compiler.error.CodeGenError;
 import ch.fhnw.cpib.compiler.error.GrammarError;
+import ch.fhnw.cpib.compiler.error.TypeCheckError;
 import ch.fhnw.cpib.compiler.parser.IAbstractNode;
 import ch.fhnw.cpib.compiler.tokens.enums.types.IType;
 import ch.fhnw.cpib.compiler.vm.ICodeArray;
@@ -26,7 +28,7 @@ public class AbsMonadicExpr implements IAbstractNode {
     }
 
     @Override
-    public IType check() throws GrammarError {
+    public IType check() throws TypeCheckError {
         IType type = factor.check();
         if (type == VOID) throw new AssertionError("Unexpected VOID");
 
@@ -34,21 +36,21 @@ public class AbsMonadicExpr implements IAbstractNode {
             if (type == INT32 || type == INT64 || type == INT1024) {
                 return type;
             } else {
-                throw new GrammarError("Unexpected type" + type.toString() + " for unary MINUS");
+                throw new TypeCheckError("Unexpected type" + type.toString() + " for unary MINUS");
             }
         }
         else if (operator.equals(NOT.name())) {
             if (type == BOOL) {
                 return type;
             } else {
-                throw new GrammarError("Unexpected type" + type.toString() + " for operator NOT");
+                throw new TypeCheckError("Unexpected type" + type.toString() + " for operator NOT");
             }
         }
-        else throw new  AssertionError(operator + " is not a monadic expression");
+        else throw new TypeCheckError(operator + " is not a monadic expression");
     }
 
     @Override
-    public int code(int loc) throws ICodeArray.CodeTooSmallError {
+    public int code(int loc) throws ICodeArray.CodeTooSmallError, CodeGenError {
         int loc1 = factor.code(loc);
 
         if (operator.equals(MINUS.name())) {
