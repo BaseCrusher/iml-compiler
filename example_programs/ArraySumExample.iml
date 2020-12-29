@@ -1,0 +1,14 @@
+program ArraySumExample (in a:int32, in b:int32, out c:int32) global
+   fun sum(intArr:int32||) returns sum:int32
+   local
+      var i:int32
+   do
+sum init := 0;
+i init := 1;
+while i <= arrLen(intArr) do
+sum := sum + intArr[i] endwhile
+endfun;
+   var myArray:int32|2|
+do
+myArray[1] init := a; myArray[2] init := b;
+c init := sum(myArray) endprogram

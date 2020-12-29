@@ -1,0 +1,11 @@
+program Expr02()
+global
+  x:int32;
+  y:int32;
+  z:int32
+do
+  debugin x init;
+  debugin y init;
+  debugin z init;
+  debugout x < y /\? y < z
+endprogram

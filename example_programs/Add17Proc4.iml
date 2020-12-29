@@ -1,0 +1,15 @@
+program Add17Proc4()
+global
+  proc p(inout ref x:int32)
+  do
+    x := x + 17
+  endproc;
+
+  var a:int32
+do
+  debugin a init;
+  call p(a);
+  call p(a);
+  call p(a);
+  debugout a
+endprogram

@@ -1,0 +1,13 @@
+program Expr01()
+global
+  x:int32;
+  x1:int32;
+  x2:int32
+do
+  debugin x init;
+  x1 init := x * x + 12 * x + 35;
+  debugout x1;
+  x2 init := (x + 5) * (x + 7);
+  debugout x1;
+  debugout x1 = x2
+endprogram

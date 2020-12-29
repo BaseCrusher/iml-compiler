@@ -1,0 +1,22 @@
+program FindFirstExample (in myArray:int32||, out index:int32)
+global
+   fun findFirst(intArr:int32||, value:int32) returns elementIndex:int32
+   local
+      var i:int32;
+      var elementIndex:int32
+   do
+      i init := arrLen(intArr);
+      elementIndex := 0;
+      while i > 0
+      do
+         if intArr[i] = value then
+            elementIndex := i
+         endif;
+      i := i - 1
+      endwhile
+   endfun
+
+do
+   index init := findFirst(myArray, 69)
+
+endprogram

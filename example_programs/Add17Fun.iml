@@ -1,0 +1,12 @@
+program Add17Fun()
+global
+  fun f(x:int32) returns y:int32
+  do
+    y init := x + 17
+  endfun;
+
+  var x:int32
+do
+  debugin x init;
+  debugout f(x)
+endprogram
