@@ -1,6 +1,5 @@
 package ch.fhnw.cpib.compiler.parser.abstracts;
 
-import ch.fhnw.cpib.compiler.error.GrammarError;
 import ch.fhnw.cpib.compiler.parser.IAbstractNode;
 import ch.fhnw.cpib.compiler.parser.nts.Identifier;
 import ch.fhnw.cpib.compiler.tokens.enums.types.IType;

@@ -13,6 +13,10 @@ public class CodeGenerator {
         codeArray = new CodeArray(1024);
     }
 
+    public void check(IAbstractTree abstractTree) {
+        abstractTree.check();
+    }
+
     public void code(IAbstractTree abstractTree) throws ICodeArray.CodeTooSmallError, CodeGenError {
         abstractTree.code();
     }

@@ -32,13 +32,18 @@ public class AbsProcDecl implements IAbstractNode {
 
     @Override
     public IType check() throws TypeCheckError {
-        absCpsCmd.forEach(cmd -> {
-            try {
-                check();
-            } catch (TypeCheckError typeCheckError) {
-                typeCheckError.printStackTrace();
-            }
-        });
+        for (IAbstractNode param : absParamList) {
+            param.check();
+        }
+        for (IAbstractNode imp : absOptGlobalGlobImps) {
+            imp.check();
+        }
+        for (IAbstractNode localDecl : absOptLocalCpsStoDecl) {
+            localDecl.check();
+        }
+        for (IAbstractNode cmd : absCpsCmd) {
+            cmd.check();
+        }
         return VOID;
     }
 

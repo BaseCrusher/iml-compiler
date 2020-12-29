@@ -26,7 +26,7 @@ public class AbsStoDecl implements IAbstractNode {
 
     @Override
     public IType check() throws TypeCheckError {
-        return null;
+        return absTypedIdent.check();
     }
 
     @Override

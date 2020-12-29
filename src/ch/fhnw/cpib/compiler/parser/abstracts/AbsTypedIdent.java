@@ -1,8 +1,10 @@
 package ch.fhnw.cpib.compiler.parser.abstracts;
 
 import ch.fhnw.cpib.compiler.error.GrammarError;
+import ch.fhnw.cpib.compiler.error.TypeCheckError;
 import ch.fhnw.cpib.compiler.parser.IAbstractNode;
 import ch.fhnw.cpib.compiler.tokens.enums.types.IType;
+import ch.fhnw.cpib.compiler.tokens.enums.types.Types;
 import ch.fhnw.cpib.compiler.vm.ICodeArray;
 
 public class AbsTypedIdent implements IAbstractNode {
@@ -18,12 +20,16 @@ public class AbsTypedIdent implements IAbstractNode {
     }
 
     @Override
-    public IType check() {
-        return null;
+    public IType check() throws TypeCheckError {
+        if (optArrDecl != null) {
+            return optArrDecl.check();
+
+        }
+        return Types.getByName(type);
     }
 
     @Override
     public int code(int loc) throws ICodeArray.CodeTooSmallError {
-        return 0;
+        return loc;
     }
 }

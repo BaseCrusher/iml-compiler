@@ -7,6 +7,8 @@ import ch.fhnw.cpib.compiler.tokens.enums.modes.ChangeModes;
 import ch.fhnw.cpib.compiler.tokens.enums.types.IType;
 import ch.fhnw.cpib.compiler.vm.ICodeArray;
 
+import static ch.fhnw.cpib.compiler.tokens.enums.types.VoidType.VOID;
+
 public class AbsGlobImp implements IAbstractNode {
 
     private final OptFlowmode absFlowMode;
@@ -22,7 +24,7 @@ public class AbsGlobImp implements IAbstractNode {
 
     @Override
     public IType check() {
-        return null;
+        return VOID;
     }
 
     @Override

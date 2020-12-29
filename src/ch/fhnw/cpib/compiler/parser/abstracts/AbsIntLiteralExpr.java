@@ -11,7 +11,7 @@ import static ch.fhnw.cpib.compiler.codeGenerator.CodeGenerator.codeArray;
 import static ch.fhnw.cpib.compiler.tokens.enums.types.Inttypes.INT32;
 
 public class AbsIntLiteralExpr implements IAbstractNode {
-    private AttributeToken literal;
+    private final AttributeToken literal;
 
     public AbsIntLiteralExpr(IToken literal) {
         this.literal = (AttributeToken) literal;

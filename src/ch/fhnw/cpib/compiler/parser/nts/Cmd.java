@@ -109,7 +109,7 @@ public class Cmd implements INtsParser {
             return new AbsInputCommand(expr1);
         }
         else {
-            return new AbsOutputCommand(expr1.toAbsSyn());
+            return new AbsOutputCommand(expr1);
         }
     }
 

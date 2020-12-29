@@ -39,6 +39,7 @@ public class Main {
             System.out.println(abstractTree);
 
             CodeGenerator codeGenerator = new CodeGenerator();
+            codeGenerator.check(abstractTree);
             try {
                 codeGenerator.code(abstractTree);
             } catch (ICodeArray.CodeTooSmallError | CodeGenError codeTooSmallError) {

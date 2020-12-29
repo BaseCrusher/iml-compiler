@@ -80,46 +80,61 @@ public class AbsDyadicExpr implements IAbstractNode {
     @Override
     public int code(int loc) throws ICodeArray.CodeTooSmallError, CodeGenError {
         int leftLoc = leftAbsExpr.code(loc);
+        codeArray.put(leftLoc, new IInstructions.Deref());
+        leftLoc++;
         int rightLoc = rightAbsExpr.code(leftLoc);
         switch (operator) {
             case "CON_OR":
             case "TIMES":
                 codeArray.put(rightLoc, new IInstructions.MultInt());
-                return rightLoc + 1;
+                rightLoc++;
+                break;
             case "CON_AND":
             case "PLUS":
                 codeArray.put(rightLoc, new IInstructions.AddInt());
-                return rightLoc + 1;
+                rightLoc++;
+                break;
             case "GE":
                 codeArray.put(rightLoc, new IInstructions.GeInt());
-                return rightLoc + 1;
+                rightLoc++;
+                break;
             case "LE":
                 codeArray.put(rightLoc, new IInstructions.LeInt());
-                return rightLoc + 1;
+                rightLoc++;
+                break;
             case "GT":
                 codeArray.put(rightLoc, new IInstructions.GtInt());
-                return rightLoc + 1;
+                rightLoc++;
+                break;
             case "LT":
                 codeArray.put(rightLoc, new IInstructions.LtInt());
-                return rightLoc + 1;
+                rightLoc++;
+                break;
             case "MINUS":
                 codeArray.put(rightLoc, new IInstructions.SubInt());
-                return rightLoc + 1;
+                rightLoc++;
+                break;
             case "DIV_T":
                 codeArray.put(rightLoc, new IInstructions.DivTruncInt());
-                return rightLoc + 1;
+                rightLoc++;
+                break;
             case "MOD_T":
                 codeArray.put(rightLoc, new IInstructions.ModTruncInt());
-                return rightLoc + 1;
+                rightLoc++;
+                break;
             case "EQ":
                 codeArray.put(rightLoc, new IInstructions.EqInt());
-                return rightLoc + 1;
+                rightLoc++;
+                break;
             case "NEQ":
                 codeArray.put(rightLoc, new IInstructions.NeInt());
-                return rightLoc + 1;
+                rightLoc++;
+                break;
             default:
                 throw new Error("Operator not supported by vm.");
         }
+        codeArray.put(rightLoc, new IInstructions.Store());
+        return rightLoc + 1;
     }
 
     public boolean lvalue() {

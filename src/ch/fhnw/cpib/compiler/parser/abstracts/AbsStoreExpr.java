@@ -36,23 +36,22 @@ public class AbsStoreExpr implements IAbstractNode {
     public int code(int loc) throws ICodeArray.CodeTooSmallError, CodeGenError {
         Environment env = ident.getEnvironment();
         Variable variable = ident.getEnvironment().getVariable(ident.getIdent().getValue());
-
         // global scope
         if (env.getParent() == null) {
             codeArray.put(loc, new IInstructions.LoadImInt(env.getAbsoluteAddress(ident.getIdent().getValue())));
         } else {
             codeArray.put(loc, new IInstructions.LoadAddrRel(env.getAbsoluteAddress(ident.getIdent().getValue())));
         }
-        int loc2 = loc + 1;
+        loc++;
         if (variable.getMechmode() != null && variable.getMechmode().getToken().getValue().equals(COPY.name())) {
-            codeArray.put(loc2, new IInstructions.Deref());
-            loc2 += 1;
+            codeArray.put(loc, new IInstructions.Deref());
+            loc++;
         }
         if (variable.getChangeMode() != null && variable.getChangeMode().getToken().getValue().equals(CONST.name())) {
-            codeArray.put(loc2, new IInstructions.Deref());
-            loc2 += 1;
+            codeArray.put(loc, new IInstructions.Deref());
+            loc++;
         }
-        return loc2;
+        return loc;
     }
 
     public Identifier getIdent() {

@@ -1,6 +1,7 @@
 package ch.fhnw.cpib.compiler.parser.abstracts;
 
 import ch.fhnw.cpib.compiler.error.GrammarError;
+import ch.fhnw.cpib.compiler.error.TypeCheckError;
 import ch.fhnw.cpib.compiler.parser.IAbstractNode;
 import ch.fhnw.cpib.compiler.parser.nts.OptChangemode;
 import ch.fhnw.cpib.compiler.parser.nts.OptFlowmode;
@@ -20,8 +21,8 @@ public class AbsProgParam implements IAbstractNode {
     }
 
     @Override
-    public IType check() {
-        return null;
+    public IType check() throws TypeCheckError {
+        return absTypedIdent.check();
     }
 
     @Override

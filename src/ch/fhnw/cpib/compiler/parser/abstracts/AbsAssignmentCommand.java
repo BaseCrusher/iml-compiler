@@ -1,7 +1,6 @@
 package ch.fhnw.cpib.compiler.parser.abstracts;
 
 import ch.fhnw.cpib.compiler.error.CodeGenError;
-import ch.fhnw.cpib.compiler.error.GrammarError;
 import ch.fhnw.cpib.compiler.error.TypeCheckError;
 import ch.fhnw.cpib.compiler.parser.IAbstractNode;
 import ch.fhnw.cpib.compiler.tokens.enums.types.IType;
@@ -9,7 +8,6 @@ import ch.fhnw.cpib.compiler.vm.ICodeArray;
 import ch.fhnw.cpib.compiler.vm.IInstructions;
 
 import static ch.fhnw.cpib.compiler.codeGenerator.CodeGenerator.codeArray;
-import static ch.fhnw.cpib.compiler.tokens.enums.types.BoolTypes.BOOL;
 import static ch.fhnw.cpib.compiler.tokens.enums.types.VoidType.VOID;
 
 public class AbsAssignmentCommand implements IAbstractNode {
@@ -35,6 +33,7 @@ public class AbsAssignmentCommand implements IAbstractNode {
     @Override
     public int code(int loc) throws ICodeArray.CodeTooSmallError, CodeGenError {
         loc = assignmentVar.code(loc);
-        return expr.code(loc);
+        loc = expr.code(loc);
+        return loc;
     }
 }

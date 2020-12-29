@@ -2,6 +2,7 @@ package ch.fhnw.cpib.compiler.parser;
 
 
 import ch.fhnw.cpib.compiler.error.CodeGenError;
+import ch.fhnw.cpib.compiler.error.TypeCheckError;
 import ch.fhnw.cpib.compiler.vm.ICodeArray;
 
 public class AbstractTree implements IAbstractTree {
@@ -10,6 +11,15 @@ public class AbstractTree implements IAbstractTree {
 
     public AbstractTree(IConcreteTree concreteTree) {
          absProgram = concreteTree.getProgram().toAbsSyn();
+    }
+
+    @Override
+    public void check() {
+        try {
+            absProgram.check();
+        } catch (TypeCheckError typeCheckError) {
+            typeCheckError.printStackTrace();
+        }
     }
 
     public void code() throws ICodeArray.CodeTooSmallError, CodeGenError {

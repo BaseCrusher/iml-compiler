@@ -35,13 +35,19 @@ public class AbsFunDecl implements IAbstractNode {
 
     @Override
     public IType check() throws TypeCheckError {
-        cpsCmd.forEach(c -> {
-            try {
-                check();
-            } catch (TypeCheckError typeCheckError) {
-                typeCheckError.printStackTrace();
-            }
-        });
+        for (IAbstractNode params : paramList) {
+            params.check();
+        }
+        absStoDecl.check();
+        for (IAbstractNode imp : optGlobalGlobImps) {
+            imp.check();
+        }
+        for (IAbstractNode localImp : optLocalCpsStoDecl) {
+            localImp.check();
+        }
+        for (IAbstractNode cmd : cpsCmd) {
+            cmd.check();
+        }
         return VOID;
     }
 

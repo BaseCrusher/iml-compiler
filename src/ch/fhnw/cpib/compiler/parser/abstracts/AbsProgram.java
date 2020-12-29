@@ -1,6 +1,7 @@
 package ch.fhnw.cpib.compiler.parser.abstracts;
 
 import ch.fhnw.cpib.compiler.error.CodeGenError;
+import ch.fhnw.cpib.compiler.error.TypeCheckError;
 import ch.fhnw.cpib.compiler.parser.IAbstractNode;
 import ch.fhnw.cpib.compiler.tokens.enums.types.IType;
 
@@ -29,8 +30,16 @@ public class AbsProgram implements IAbstractNode {
     }
 
     @Override
-    public IType check() {
-        progParamList.forEach(param -> check());
+    public IType check() throws TypeCheckError {
+        for (IAbstractNode param : progParamList) {
+            param.check();
+        }
+        for (IAbstractNode decl : optGlobalCpsDecl) {
+            decl.check();
+        }
+        for (IAbstractNode cmd : cmds) {
+            cmd.check();
+        }
         return VOID;
     }
 

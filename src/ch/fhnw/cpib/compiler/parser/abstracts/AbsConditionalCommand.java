@@ -1,11 +1,14 @@
 package ch.fhnw.cpib.compiler.parser.abstracts;
 
 import ch.fhnw.cpib.compiler.error.GrammarError;
+import ch.fhnw.cpib.compiler.error.TypeCheckError;
 import ch.fhnw.cpib.compiler.parser.IAbstractNode;
 import ch.fhnw.cpib.compiler.tokens.enums.types.IType;
 import ch.fhnw.cpib.compiler.vm.ICodeArray;
 
 import java.util.List;
+
+import static ch.fhnw.cpib.compiler.tokens.enums.types.VoidType.VOID;
 
 public class AbsConditionalCommand implements IAbstractNode {
     private final IAbstractNode absExpr;
@@ -19,8 +22,15 @@ public class AbsConditionalCommand implements IAbstractNode {
     }
 
     @Override
-    public IType check() {
-        return null;
+    public IType check() throws TypeCheckError {
+        absExpr.check();
+        for (IAbstractNode cmd : thenCommand) {
+            cmd.check();
+        }
+        for (IAbstractNode cmd : elseCommand) {
+            cmd.check();
+        }
+        return VOID;
     }
 
     @Override
