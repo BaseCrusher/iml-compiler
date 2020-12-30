@@ -30,6 +30,7 @@ public class AbsOutputCommand implements IAbstractNode {
 
     @Override
     public int code(int loc) throws ICodeArray.CodeTooSmallError, CodeGenError {
+        loc = absExpr.code(loc);
         if (type.equals(BOOL)) {
             codeArray.put(loc, new IInstructions.OutputBool("output"));
             return loc + 1;

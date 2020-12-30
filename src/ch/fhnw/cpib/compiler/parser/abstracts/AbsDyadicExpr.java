@@ -80,8 +80,6 @@ public class AbsDyadicExpr implements IAbstractNode {
     @Override
     public int code(int loc) throws ICodeArray.CodeTooSmallError, CodeGenError {
         int leftLoc = leftAbsExpr.code(loc);
-        codeArray.put(leftLoc, new IInstructions.Deref());
-        leftLoc++;
         int rightLoc = rightAbsExpr.code(leftLoc);
         switch (operator) {
             case "CON_OR":
@@ -133,8 +131,7 @@ public class AbsDyadicExpr implements IAbstractNode {
             default:
                 throw new Error("Operator not supported by vm.");
         }
-        codeArray.put(rightLoc, new IInstructions.Store());
-        return rightLoc + 1;
+        return rightLoc;
     }
 
     public boolean lvalue() {

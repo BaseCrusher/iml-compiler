@@ -38,16 +38,13 @@ public class AbsStoreExpr implements IAbstractNode {
         Variable variable = ident.getEnvironment().getVariable(ident.getIdent().getValue());
         // global scope
         if (env.getParent() == null) {
+
             codeArray.put(loc, new IInstructions.LoadImInt(env.getAbsoluteAddress(ident.getIdent().getValue())));
         } else {
             codeArray.put(loc, new IInstructions.LoadAddrRel(env.getAbsoluteAddress(ident.getIdent().getValue())));
         }
         loc++;
-        if (variable.getMechmode() != null && variable.getMechmode().getToken().getValue().equals(COPY.name())) {
-            codeArray.put(loc, new IInstructions.Deref());
-            loc++;
-        }
-        if (variable.getChangeMode() != null && variable.getChangeMode().getToken().getValue().equals(CONST.name())) {
+        if ((variable.getMechmode() == null || variable.getMechmode().getToken().getValue().equals(COPY.name())) && !isInit) {
             codeArray.put(loc, new IInstructions.Deref());
             loc++;
         }

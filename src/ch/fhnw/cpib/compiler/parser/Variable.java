@@ -4,6 +4,9 @@ import ch.fhnw.cpib.compiler.parser.nts.OptChangemode;
 import ch.fhnw.cpib.compiler.parser.nts.OptFlowmode;
 import ch.fhnw.cpib.compiler.parser.nts.OptMechmode;
 import ch.fhnw.cpib.compiler.tokens.IToken;
+import ch.fhnw.cpib.compiler.tokens.enums.modes.MechModes;
+
+import static ch.fhnw.cpib.compiler.tokens.enums.modes.MechModes.COPY;
 
 public class Variable {
     private String ident;

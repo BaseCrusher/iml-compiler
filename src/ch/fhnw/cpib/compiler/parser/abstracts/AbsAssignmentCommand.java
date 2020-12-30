@@ -34,6 +34,7 @@ public class AbsAssignmentCommand implements IAbstractNode {
     public int code(int loc) throws ICodeArray.CodeTooSmallError, CodeGenError {
         loc = assignmentVar.code(loc);
         loc = expr.code(loc);
-        return loc;
+        codeArray.put(loc, new IInstructions.Store());
+        return loc + 1;
     }
 }
