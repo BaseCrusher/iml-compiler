@@ -83,9 +83,9 @@ public class OptInitOrExprListOrArrExpr implements INtsParser {
         return epsilon;
     }
 
-    public IAbstractNode toAbsSyn(Identifier identifier) {
+    public IAbstractNode toAbsSyn(Identifier identifier, boolean isAssignment) {
         if (this.token.hasTerminal(INIT)) {
-            return new AbsStoreExpr(identifier, true);
+            return new AbsStoreExpr(identifier, true, isAssignment);
         }
         else if (this.token.hasTerminal(LPAREN)) {
             return new AbsFunCallExpr(new RoutineCall(identifier, exprList.toAbsSyn()));
@@ -96,6 +96,6 @@ public class OptInitOrExprListOrArrExpr implements INtsParser {
             }
             return new AbsArrExpr(identifier, expr.toAbsSyn(), optInit.toAbsSyn());
         }
-        return new AbsStoreExpr(identifier, false);
+        return new AbsStoreExpr(identifier, false, isAssignment);
     }
 }

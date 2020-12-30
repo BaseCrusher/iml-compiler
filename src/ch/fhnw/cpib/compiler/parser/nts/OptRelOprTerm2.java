@@ -62,7 +62,7 @@ public class OptRelOprTerm2 implements INtsParser {
 
     public IAbstractNode toAbsSyn(IAbstractNode absTerm2) {
         if (epsilon == null) {
-            return new AbsDyadicExpr(token.getValue(), absTerm2, this.term2.toAbsSyn());
+            return new AbsDyadicExpr(token.getValue(), absTerm2, this.term2.toAbsSyn(false));
         }
         return absTerm2;
     }

@@ -91,7 +91,7 @@ public class Factor implements INtsParser {
         return expr;
     }
 
-    public IAbstractNode toAbsSyn() {
+    public IAbstractNode toAbsSyn(boolean isAssignment) {
         if (token.hasTerminal(LITERAL)) {
             if (((AttributeToken)token).getOriginalValue() instanceof BigInteger) {
                 return new AbsIntLiteralExpr(token);
@@ -100,9 +100,9 @@ public class Factor implements INtsParser {
             }
         }
         else if (token.hasTerminal(IDENT)) {
-            return optInitOrExprListOrArrExpr.toAbsSyn(identifier);
+            return optInitOrExprListOrArrExpr.toAbsSyn(identifier, isAssignment);
         } else if (token.hasTerminal(MONOPR)) {
-            return new AbsMonadicExpr(token.getValue(), factor.toAbsSyn());
+            return new AbsMonadicExpr(token.getValue(), factor.toAbsSyn(isAssignment));
         } else if (token.hasTerminal(LPAREN)) {
             return expr.toAbsSyn();
         }

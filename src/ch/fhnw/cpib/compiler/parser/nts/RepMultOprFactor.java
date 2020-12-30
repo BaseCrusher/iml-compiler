@@ -70,7 +70,7 @@ public class RepMultOprFactor implements INtsParser {
 
     public IAbstractNode toAbsSyn(IAbstractNode absFactor) {
         if (epsilon == null) {
-            return new AbsDyadicExpr(operator, absFactor, repMultOprFactor.toAbsSyn(factor.toAbsSyn()));
+            return new AbsDyadicExpr(operator, absFactor, repMultOprFactor.toAbsSyn(factor.toAbsSyn(false)));
         }
         else {
             return absFactor;

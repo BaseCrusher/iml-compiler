@@ -46,8 +46,8 @@ public class Term2 implements INtsParser {
         return repAddOprTerm3;
     }
 
-    public IAbstractNode toAbsSyn() {
-        return repAddOprTerm3.toAbsSyn(term3.toAbsSyn());
+    public IAbstractNode toAbsSyn(boolean isAssignment) {
+        return repAddOprTerm3.toAbsSyn(term3.toAbsSyn(isAssignment));
     }
 
     public Identifier getIdentifier() {

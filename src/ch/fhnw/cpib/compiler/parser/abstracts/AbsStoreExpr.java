@@ -12,17 +12,18 @@ import ch.fhnw.cpib.compiler.vm.ICodeArray;
 import ch.fhnw.cpib.compiler.vm.IInstructions;
 
 import static ch.fhnw.cpib.compiler.codeGenerator.CodeGenerator.codeArray;
-import static ch.fhnw.cpib.compiler.tokens.enums.modes.ChangeModes.CONST;
 import static ch.fhnw.cpib.compiler.tokens.enums.modes.MechModes.COPY;
 
 public class AbsStoreExpr implements IAbstractNode {
 
     private final Identifier ident;
-    private final boolean isInit;
+    private boolean isInit;
+    private final boolean isAssignment;
 
-    public AbsStoreExpr(Identifier ident, boolean isInit) {
+    public AbsStoreExpr(Identifier ident, boolean isInit, boolean isAssignment) {
         this.ident = ident;
         this.isInit = isInit;
+        this.isAssignment = isAssignment;
     }
 
     @Override
@@ -38,13 +39,12 @@ public class AbsStoreExpr implements IAbstractNode {
         Variable variable = ident.getEnvironment().getVariable(ident.getIdent().getValue());
         // global scope
         if (env.getParent() == null) {
-
             codeArray.put(loc, new IInstructions.LoadImInt(env.getAbsoluteAddress(ident.getIdent().getValue())));
         } else {
             codeArray.put(loc, new IInstructions.LoadAddrRel(env.getAbsoluteAddress(ident.getIdent().getValue())));
         }
         loc++;
-        if ((variable.getMechmode() == null || variable.getMechmode().getToken().getValue().equals(COPY.name())) && !isInit) {
+        if ((variable.getMechmode() == null || variable.getMechmode().getToken().getValue().equals(COPY.name())) && !isInit && !isAssignment) {
             codeArray.put(loc, new IInstructions.Deref());
             loc++;
         }

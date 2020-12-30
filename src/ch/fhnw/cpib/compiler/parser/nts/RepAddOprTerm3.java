@@ -72,7 +72,7 @@ public class RepAddOprTerm3 implements INtsParser {
 
     public IAbstractNode toAbsSyn(IAbstractNode absNode) {
         if (epsilon == null) {
-            return repAddOprTerm3.toAbsSyn(new AbsDyadicExpr(operator, absNode, term3.toAbsSyn()));
+            return repAddOprTerm3.toAbsSyn(new AbsDyadicExpr(operator, absNode, term3.toAbsSyn(false)));
         }
         else {
             return absNode;

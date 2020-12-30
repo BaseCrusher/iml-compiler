@@ -69,9 +69,12 @@ public class RepBoolOprTerm1 implements INtsParser {
     }
 
     public IAbstractNode toAbsSyn(Term1 term1) {
-        if (epsilon == null) {
-            return new AbsDyadicExpr(token.getValue(), term1.toAbsSyn(), repBoolOprTerm1.toAbsSyn(this.term1));
+        if (token.hasTerminal(BECOMES)) {
+            return term1.toAbsSyn(true);
         }
-        return term1.toAbsSyn();
+        if (epsilon == null) {
+            return new AbsDyadicExpr(token.getValue(), term1.toAbsSyn(false), repBoolOprTerm1.toAbsSyn(this.term1));
+        }
+        return term1.toAbsSyn(false);
     }
 }

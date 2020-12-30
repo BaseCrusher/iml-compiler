@@ -29,8 +29,8 @@ public class Term3 implements INtsParser {
         }
     }
 
-    public IAbstractNode toAbsSyn() {
-        return repMultOprFactor.toAbsSyn(factor.toAbsSyn());
+    public IAbstractNode toAbsSyn(boolean isAssignment) {
+        return repMultOprFactor.toAbsSyn(factor.toAbsSyn(isAssignment));
     }
 
     @Override

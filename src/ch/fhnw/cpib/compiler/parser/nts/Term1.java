@@ -17,6 +17,7 @@ public class Term1 implements INtsParser {
     private final IToken token;
     private final Term2 term2;
     private final OptRelOprTerm2 optRelOprTerm2;
+    private boolean isAssignment = false;
 
     public Term1(Environment environment) throws GrammarError {
         token = Parser.getCurrentToken();
@@ -46,8 +47,8 @@ public class Term1 implements INtsParser {
         return optRelOprTerm2;
     }
 
-    public IAbstractNode toAbsSyn() {
-        return optRelOprTerm2.toAbsSyn(term2.toAbsSyn());
+    public IAbstractNode toAbsSyn(boolean isAssignment) {
+        return optRelOprTerm2.toAbsSyn(term2.toAbsSyn(isAssignment));
     }
 
     public Identifier getIdentifier() {
