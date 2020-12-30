@@ -1,0 +1,15 @@
+Add17;
+ 0 : AllocBlock 1;
+ 1 : AllocStack 3;
+ 2 : LoadIm Int 0;
+ 3 : Input int32 (5:3-16) "x";
+ 4 : LoadIm Int 0;
+ 5 : LoadIm Int 0;
+ 6 : Deref;
+ 7 : LoadIm Int32 17;
+ 8 : Add Int32 (6:8-13);
+ 9 : Store;
+10 : LoadIm Int 0;
+11 : Deref;
+12 : Output int32 "<rExpr>";
+13 : Stop;
