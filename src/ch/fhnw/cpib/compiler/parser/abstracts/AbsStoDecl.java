@@ -17,6 +17,7 @@ public class AbsStoDecl implements IAbstractNode {
     private final ChangeModes optChangemode;
     private final TypedIdent typedIdent;
     private final IAbstractNode absTypedIdent;
+    private int blockSize = 0;
 
     public AbsStoDecl(ChangeModes optChangemode, TypedIdent typedIdent) {
         this.optChangemode = optChangemode;
@@ -26,13 +27,13 @@ public class AbsStoDecl implements IAbstractNode {
 
     @Override
     public IType check() throws TypeCheckError {
+        blockSize++;
         return absTypedIdent.check();
     }
 
     @Override
     public int code(int loc) throws ICodeArray.CodeTooSmallError {
-        codeArray.put(loc, new IInstructions.AllocBlock(1));
-        return loc + 1;
+        return loc;
     }
 
     public TypedIdent getTypedIdent() {

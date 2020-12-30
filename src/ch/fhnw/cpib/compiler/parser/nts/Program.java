@@ -18,10 +18,11 @@ public class Program implements INtsParser {
     private final IToken _do;
     private final CpsCmd cpsCmd;
     private final IToken endProgram;
+    private final Environment globalEnv;
 
     public Program() throws GrammarError {
         Parser.consume(PROGRAM);
-        Environment globalEnv = new Environment(null, 0);
+        globalEnv = new Environment(null, 0);
         IToken identifier = Parser.consume(AttributeTerminals.IDENT);
         this.identifier = new Identifier(identifier, globalEnv);
         programParamList = new ProgParamList(globalEnv);
@@ -37,7 +38,7 @@ public class Program implements INtsParser {
     }
 
     public IAbstractNode toAbsSyn() {
-        return new AbsProgram(identifier.ident.getValue(), programParamList.toAbsSyn(), optGlobalCpsDecl.toAbsSyn(), cpsCmd.toAbsSyn());
+        return new AbsProgram(identifier.ident.getValue(), programParamList.toAbsSyn(), optGlobalCpsDecl.toAbsSyn(), cpsCmd.toAbsSyn(), globalEnv);
     }
 
     public IToken getIdentifier() {

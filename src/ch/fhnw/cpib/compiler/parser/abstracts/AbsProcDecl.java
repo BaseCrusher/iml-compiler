@@ -5,6 +5,7 @@ import java.util.List;
 import ch.fhnw.cpib.compiler.error.CodeGenError;
 import ch.fhnw.cpib.compiler.error.GrammarError;
 import ch.fhnw.cpib.compiler.error.TypeCheckError;
+import ch.fhnw.cpib.compiler.parser.Environment;
 import ch.fhnw.cpib.compiler.parser.IAbstractNode;
 import ch.fhnw.cpib.compiler.parser.nts.Identifier;
 import ch.fhnw.cpib.compiler.tokens.enums.types.IType;
@@ -20,14 +21,16 @@ public class AbsProcDecl implements IAbstractNode {
     private final List<IAbstractNode> absOptGlobalGlobImps;
     private final List<IAbstractNode> absOptLocalCpsStoDecl;
     private final List<IAbstractNode> absCpsCmd;
+    private final Environment localEnv;
 
-    public AbsProcDecl(Identifier identifier, List<IAbstractNode> absParamList, List<IAbstractNode> absOptGlobalGlobImps, List<IAbstractNode> absOptLocalCpsStoDecl, List<IAbstractNode> absCpsCmd) {
+    public AbsProcDecl(Identifier identifier, List<IAbstractNode> absParamList, List<IAbstractNode> absOptGlobalGlobImps, List<IAbstractNode> absOptLocalCpsStoDecl, List<IAbstractNode> absCpsCmd, Environment localEnv) {
 
         this.identifier = identifier;
         this.absParamList = absParamList;
         this.absOptGlobalGlobImps = absOptGlobalGlobImps;
         this.absOptLocalCpsStoDecl = absOptLocalCpsStoDecl;
         this.absCpsCmd = absCpsCmd;
+        this.localEnv = localEnv;
     }
 
     @Override
@@ -49,6 +52,8 @@ public class AbsProcDecl implements IAbstractNode {
 
     @Override
     public int code(int loc) throws ICodeArray.CodeTooSmallError, CodeGenError {
+        codeArray.put(loc, new IInstructions.AllocBlock(localEnv.getVars().size()));
+        loc++;
         int nextLoc = loc + 1;
         if (absParamList != null) {
             for (IAbstractNode param : absParamList) {

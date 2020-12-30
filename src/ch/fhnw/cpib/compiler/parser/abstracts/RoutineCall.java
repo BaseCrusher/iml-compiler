@@ -2,11 +2,17 @@ package ch.fhnw.cpib.compiler.parser.abstracts;
 
 import java.util.List;
 
+import ch.fhnw.cpib.compiler.error.CodeGenError;
 import ch.fhnw.cpib.compiler.error.TypeCheckError;
 import ch.fhnw.cpib.compiler.parser.IAbstractNode;
 import ch.fhnw.cpib.compiler.parser.Routine;
 import ch.fhnw.cpib.compiler.parser.nts.Identifier;
 import ch.fhnw.cpib.compiler.tokens.enums.types.IType;
+import ch.fhnw.cpib.compiler.vm.ICodeArray;
+import ch.fhnw.cpib.compiler.vm.IInstructions;
+
+import static ch.fhnw.cpib.compiler.codeGenerator.CodeGenerator.codeArray;
+import static ch.fhnw.cpib.compiler.tokens.enums.types.VoidType.VOID;
 
 public class RoutineCall implements IAbstractNode {
 
@@ -29,7 +35,21 @@ public class RoutineCall implements IAbstractNode {
     }
 
     @Override
-    public int code(int loc) {
-        return loc;
+    public int code(int loc) throws CodeGenError, ICodeArray.CodeTooSmallError {
+        Routine routine = identifier.getEnvironment().getRoutine(identifier.getIdent().getValue());
+        if (routine == null) {
+            throw new CodeGenError("Routine not found in environment " + identifier.getIdent().getValue());
+        }
+        boolean isFunction = routine.getReturnType() != VOID;
+        int size = isFunction ? 1 : 0;
+        codeArray.put(loc, new IInstructions.AllocBlock(size)); //todo local or global!
+        loc++;
+        for (IAbstractNode expr : exprList) {
+            loc = expr.code(loc);
+        }
+
+        codeArray.put(loc, new IInstructions.Call(identifier.getEnvironment().getAbsoluteAddress(routine.getName())));
+        return loc + 1;
+
     }
 }

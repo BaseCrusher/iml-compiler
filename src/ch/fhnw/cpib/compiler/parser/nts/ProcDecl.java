@@ -21,13 +21,14 @@ public class ProcDecl implements INtsParser {
     private final OptLocalCpsStoDecl optLocalCpsStoDecl;
     private final CpsCmd cpsCmd;
     private final String string;
+    private final Environment localEnv;
 
     public ProcDecl(Environment globalEnv) throws GrammarError {
         token = Parser.getCurrentToken();
         if (token.hasTerminal(PROC)) {
             Parser.consume(PROC);
             IToken identifier = Parser.consume(IDENT);
-            Environment localEnv = new Environment(globalEnv, globalEnv.getStartAddress() + globalEnv.getVars().size());
+            localEnv = new Environment(globalEnv, globalEnv.getStartAddress() + globalEnv.getVars().size());
             paramList = new ParamList(localEnv);
             optGlobalGlobImps = new OptGlobalGlobImps();
             optLocalCpsStoDecl = new OptLocalCpsStoDecl(localEnv);
@@ -73,6 +74,6 @@ public class ProcDecl implements INtsParser {
     }
 
     public IAbstractNode toAbsSyn() {
-        return new AbsProcDecl(identifier, paramList.toAbsSyn(), optGlobalGlobImps.toAbsSyn(), optLocalCpsStoDecl.toAbsSyn(), cpsCmd.toAbsSyn());
+        return new AbsProcDecl(identifier, paramList.toAbsSyn(), optGlobalGlobImps.toAbsSyn(), optLocalCpsStoDecl.toAbsSyn(), cpsCmd.toAbsSyn(), localEnv);
     }
 }

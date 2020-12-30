@@ -23,14 +23,16 @@ public class AbsFunDecl implements IAbstractNode {
     private final List<IAbstractNode> optGlobalGlobImps;
     private final List<IAbstractNode> optLocalCpsStoDecl;
     private final List<IAbstractNode> cpsCmd;
+    private final Environment localEnv;
 
-    public AbsFunDecl(Identifier identifier, List<IAbstractNode> paramList, IAbstractNode absStoDecl, List<IAbstractNode> optGlobalGlobImps, List<IAbstractNode> optLocalCpsStoDecl, List<IAbstractNode> cpsCmd) {
+    public AbsFunDecl(Identifier identifier, List<IAbstractNode> paramList, IAbstractNode absStoDecl, List<IAbstractNode> optGlobalGlobImps, List<IAbstractNode> optLocalCpsStoDecl, List<IAbstractNode> cpsCmd, Environment localEnv) {
         this.identifier = identifier;
         this.paramList = paramList;
         this.absStoDecl = absStoDecl;
         this.optGlobalGlobImps = optGlobalGlobImps;
         this.optLocalCpsStoDecl = optLocalCpsStoDecl;
         this.cpsCmd = cpsCmd;
+        this.localEnv = localEnv;
     }
 
     @Override
@@ -61,6 +63,8 @@ public class AbsFunDecl implements IAbstractNode {
 
     @Override
     public int code(int loc) throws ICodeArray.CodeTooSmallError, CodeGenError {
+        codeArray.put(loc, new IInstructions.AllocBlock(localEnv.getVars().size()));
+        loc++;
         int nextLoc = loc + 1;
         loc = absStoDecl.code(loc);
         var relLoc = 0;
