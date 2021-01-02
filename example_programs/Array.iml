@@ -2,7 +2,7 @@ program Array()
 global
   var y:int32;
   var z:int32;
-  var x:int32|66|
+  var x:int32|3|
 do
   x[1] init := 10;
   x[2] init := 1;

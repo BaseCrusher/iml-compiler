@@ -5,9 +5,7 @@ import ch.fhnw.cpib.compiler.error.TypeCheckError;
 import ch.fhnw.cpib.compiler.parser.Environment;
 import ch.fhnw.cpib.compiler.parser.IAbstractNode;
 import ch.fhnw.cpib.compiler.parser.Variable;
-import ch.fhnw.cpib.compiler.parser.nts.Expr;
 import ch.fhnw.cpib.compiler.parser.nts.Identifier;
-import ch.fhnw.cpib.compiler.parser.nts.Param;
 import ch.fhnw.cpib.compiler.tokens.enums.types.IType;
 import ch.fhnw.cpib.compiler.tokens.enums.types.Types;
 import ch.fhnw.cpib.compiler.vm.ICodeArray;
@@ -53,6 +51,26 @@ public class AbsArrExpr implements IAbstractNode {
     @Override
     public int code(int loc) throws ICodeArray.CodeTooSmallError, CodeGenError {
         Environment env = identifier.getEnvironment();
+        loc = exp.code(loc);
+        codeArray.put(loc, new IInstructions.LoadAddrRel(env.getRelAddress(identifier.getIdent().getValue())));
+        loc++;
+        codeArray.put(loc, new IInstructions.Deref());
+        loc++;
+        codeArray.put(loc, new IInstructions.LeInt());
+        loc++;
+        codeArray.put(loc, new IInstructions.LoadImInt(0));
+        loc++;
+        loc = exp.code(loc);
+        loc++;
+        codeArray.put(loc, new IInstructions.GeInt());
+        loc++;
+        codeArray.put(loc, new IInstructions.AddInt());
+        loc ++;
+        codeArray.put(loc, new IInstructions.CondJump(loc + 2));
+        loc++;
+        codeArray.put(loc, new IInstructions.Stop());
+        loc++;
+
         codeArray.put(loc, new IInstructions.LoadAddrRel(env.getRelAddress(identifier.getIdent().getValue())));
         loc++;
         loc = exp.code(loc);
