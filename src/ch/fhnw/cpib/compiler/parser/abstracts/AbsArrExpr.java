@@ -51,6 +51,7 @@ public class AbsArrExpr implements IAbstractNode {
     @Override
     public int code(int loc) throws ICodeArray.CodeTooSmallError, CodeGenError {
         Environment env = identifier.getEnvironment();
+        // Check if in bounds of array
         loc = exp.code(loc);
         codeArray.put(loc, new IInstructions.LoadAddrRel(env.getRelAddress(identifier.getIdent().getValue())));
         loc++;
@@ -70,6 +71,7 @@ public class AbsArrExpr implements IAbstractNode {
         codeArray.put(loc, new IInstructions.ArrayOutOfBoundsException());
         loc++;
 
+        // Get value at index
         codeArray.put(loc, new IInstructions.LoadAddrRel(env.getRelAddress(identifier.getIdent().getValue())));
         loc++;
         loc = exp.code(loc);
