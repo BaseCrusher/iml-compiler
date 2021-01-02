@@ -53,11 +53,11 @@ public class AbsProgram implements IAbstractNode {
         for (IAbstractNode param : progParamList) {
             loc = param.code(loc);
         }
-        for (IAbstractNode cmd : cmds) {
-            loc = cmd.code(loc);
-        }
         for (IAbstractNode decl : optGlobalCpsDecl) {
             loc = decl.code(loc);
+        }
+        for (IAbstractNode cmd : cmds) {
+            loc = cmd.code(loc);
         }
         codeArray.put(loc, new Stop());
         loc++;

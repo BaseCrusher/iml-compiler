@@ -46,6 +46,10 @@ public class OptArrDecl implements INtsParser {
         return arrayDecl;
     }
 
+    public ArrayDecl getArrDecl() {
+        return arrayDecl;
+    }
+
     public IAbstractNode toAbsSyn(IToken type) {
         return arrayDecl.toAbsSyn();
     }

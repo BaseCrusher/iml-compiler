@@ -1,7 +1,6 @@
 package ch.fhnw.cpib.compiler.parser.abstracts;
 
 import ch.fhnw.cpib.compiler.error.CodeGenError;
-import ch.fhnw.cpib.compiler.error.GrammarError;
 import ch.fhnw.cpib.compiler.error.TypeCheckError;
 import ch.fhnw.cpib.compiler.parser.IAbstractNode;
 import ch.fhnw.cpib.compiler.parser.nts.Expr;

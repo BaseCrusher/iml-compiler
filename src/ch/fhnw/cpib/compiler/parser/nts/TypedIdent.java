@@ -57,4 +57,8 @@ public class TypedIdent implements INtsParser {
     public IType getType() {
         return Types.getByName(type.getValue());
     }
+
+    public OptArrDecl getArrDecl() {
+        return optArrDecl;
+    }
 }

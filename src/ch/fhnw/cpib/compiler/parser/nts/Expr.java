@@ -48,4 +48,8 @@ public class Expr implements INtsParser {
     public Identifier getIdentifier() {
         return term1.getIdentifier();
     }
+
+    public IToken getLiteral() {
+        return term1.getLiteral();
+    }
 }

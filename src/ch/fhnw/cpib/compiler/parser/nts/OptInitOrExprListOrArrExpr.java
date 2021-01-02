@@ -31,6 +31,7 @@ import static ch.fhnw.cpib.compiler.tokens.enums.KeywordTerminals.THEN;
 
 public class OptInitOrExprListOrArrExpr implements INtsParser {
     private final IToken token;
+    private IToken finalToken;
     private ExprList exprList;
     private Expr expr;
     private OptInit optInit;
@@ -52,6 +53,7 @@ public class OptInitOrExprListOrArrExpr implements INtsParser {
             expr = new Expr(environment);
             Parser.consume(RBRACK);
             optInit = new OptInit();
+            finalToken = Parser.getCurrentToken();
             string = "(" + expr.toString()  + ")";
         }
         else if (token.hasTerminal(COMMA, RBRACK, RPAREN, DO, THEN, ENDWHILE, ENDIF, ELSE, ENDPROC, ENDFUN, ENDPROGRAM, SEMICOLON, BECOMES, BOOLOPR, RELOPR, ADDOPR, MULTOPR, DIVOPR)) {
@@ -92,7 +94,10 @@ public class OptInitOrExprListOrArrExpr implements INtsParser {
         }
         else if (this.token.hasTerminal(LBRACK)) {
             if (optInit.getEpsilon() == null) {
-                new AbsArrExpr(identifier, expr.toAbsSyn());
+                if (finalToken.hasTerminal(BECOMES)) {
+                    return new AbsArrExpr(identifier, expr.toAbsSyn(), true);
+                }
+                return new AbsArrExpr(identifier, expr.toAbsSyn());
             }
             return new AbsArrExpr(identifier, expr.toAbsSyn(), optInit.toAbsSyn());
         }

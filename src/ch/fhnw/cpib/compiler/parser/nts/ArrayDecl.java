@@ -38,7 +38,7 @@ public class ArrayDecl implements INtsParser {
         return token;
     }
 
-    public INtsParser getOptLit() {
+    public OptLit getOptLit() {
         return optLit;
     }
 }

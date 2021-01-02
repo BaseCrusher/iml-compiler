@@ -1,0 +1,12 @@
+program Array()
+global
+  var x:int32|2|;
+  var y:int32;
+  var z:int32
+do
+  x[1] init := 10;
+  x[2] init := 20;
+  y init := 2;
+
+  debugout x[y] + x[1]
+endprogram

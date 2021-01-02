@@ -53,4 +53,8 @@ public class Term3 implements INtsParser {
     public Identifier getIdentifier() {
         return factor.getOriginalIdentifier();
     }
+
+    public IToken getLiteral() {
+        return factor.getLiteral();
+    }
 }

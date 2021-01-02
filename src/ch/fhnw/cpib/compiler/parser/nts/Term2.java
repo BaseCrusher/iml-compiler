@@ -53,4 +53,8 @@ public class Term2 implements INtsParser {
     public Identifier getIdentifier() {
         return term3.getIdentifier();
     }
+
+    public IToken getLiteral() {
+        return term3.getLiteral();
+    }
 }

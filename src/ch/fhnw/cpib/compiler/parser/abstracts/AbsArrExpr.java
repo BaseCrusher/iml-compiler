@@ -1,12 +1,25 @@
 package ch.fhnw.cpib.compiler.parser.abstracts;
 
+import ch.fhnw.cpib.compiler.error.CodeGenError;
+import ch.fhnw.cpib.compiler.error.TypeCheckError;
+import ch.fhnw.cpib.compiler.parser.Environment;
 import ch.fhnw.cpib.compiler.parser.IAbstractNode;
+import ch.fhnw.cpib.compiler.parser.Variable;
+import ch.fhnw.cpib.compiler.parser.nts.Expr;
 import ch.fhnw.cpib.compiler.parser.nts.Identifier;
+import ch.fhnw.cpib.compiler.parser.nts.Param;
 import ch.fhnw.cpib.compiler.tokens.enums.types.IType;
+import ch.fhnw.cpib.compiler.tokens.enums.types.Types;
 import ch.fhnw.cpib.compiler.vm.ICodeArray;
+import ch.fhnw.cpib.compiler.vm.IInstructions;
+
+import static ch.fhnw.cpib.compiler.codeGenerator.CodeGenerator.codeArray;
+import static ch.fhnw.cpib.compiler.tokens.enums.KeywordTerminals.BECOMES;
+import static ch.fhnw.cpib.compiler.tokens.enums.types.Inttypes.INT32;
 
 public class AbsArrExpr implements IAbstractNode {
     private final Identifier identifier;
+    private boolean isAssignment = false;
     private final IAbstractNode exp;
     private String optInit;
 
@@ -20,14 +33,39 @@ public class AbsArrExpr implements IAbstractNode {
         this.exp = exp;
     }
 
-    @Override
-    public IType check() {
-
-        return null;
+    public AbsArrExpr(Identifier identifier, IAbstractNode exp, boolean isAssignment) {
+        this.identifier = identifier;
+        this.exp = exp;
+        this.isAssignment = isAssignment;
     }
 
     @Override
-    public int code(int loc) throws ICodeArray.CodeTooSmallError {
-        return 0;
+    public IType check() throws TypeCheckError {
+        Variable variable = identifier.getEnvironment().getVariable(identifier.getIdent().getValue());
+        if (variable.getType() == null) throw new TypeCheckError("undefined " + identifier.getIdent().getValue());
+        IType exprType = exp.check();
+        if (!exprType.equals(INT32)) {
+            throw new TypeCheckError("expression in array is of wrong type");
+        }
+        return Types.getByName(variable.getType().getValue());
+    }
+
+    @Override
+    public int code(int loc) throws ICodeArray.CodeTooSmallError, CodeGenError {
+        Environment env = identifier.getEnvironment();
+        codeArray.put(loc, new IInstructions.LoadAddrRel(env.getRelAddress(identifier.getIdent().getValue())));
+        loc++;
+        loc = exp.code(loc);
+        codeArray.put(loc, new IInstructions.LoadImInt(1));
+        loc++;
+        codeArray.put(loc, new IInstructions.SubInt());
+        loc++;
+        codeArray.put(loc, new IInstructions.AddInt());
+        loc++;
+        if ((optInit != null && !optInit.equals(BECOMES.name())) && !isAssignment) {
+            codeArray.put(loc, new IInstructions.Deref());
+            loc++;
+        }
+        return loc;
     }
 }

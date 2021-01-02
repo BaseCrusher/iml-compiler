@@ -66,6 +66,15 @@ public class Environment {
         throw new CodeGenError("Var " + varKey + " not found!");
     }
 
+    public int getRelAddress(String varKey) throws CodeGenError {
+        int addr = 0;
+        if (parent != null) {
+            addr += parent.getRelAddress(varKey);
+        }
+        addr += getAbsoluteAddress(varKey);
+        return addr;
+    }
+
     public Routine getRoutine(String routineKey) {
         Routine routine = routines.get(routineKey);
         if (routine == null && parent != null) {

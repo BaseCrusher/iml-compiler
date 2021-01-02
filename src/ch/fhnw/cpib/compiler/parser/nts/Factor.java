@@ -115,4 +115,11 @@ public class Factor implements INtsParser {
     public Identifier getOriginalIdentifier() {
         return identifier;
     }
+
+    public IToken getLiteral(){
+        if (token.hasTerminal(LITERAL)) {
+            return token;
+        }
+        return null;
+    }
 }
