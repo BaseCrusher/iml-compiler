@@ -82,6 +82,12 @@ public class VirtualMachine implements IVirtualMachine {
         }
     }
 
+    public class ArrayOutOfBoundsExceptionExec extends IInstructions.Stop implements IInstructions.IExecInstr {
+        public void execute() throws ExecutionError {
+            throw new ExecutionError("Array out of bounds");
+        }
+    }
+
     // stack instruction
     public class DupExec extends IInstructions.Dup implements IInstructions.IExecInstr {
         public void execute() throws ExecutionError

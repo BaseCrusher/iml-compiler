@@ -17,6 +17,13 @@ public interface IInstructions {
         void execute() throws IVirtualMachine.ExecutionError;
     }
 
+    class ArrayOutOfBoundsException implements IInstr {
+        public String toString() { return "Array out of bounds exception"; }
+        public IExecInstr toExecInstr(VirtualMachine vm) {
+            return vm.new ArrayOutOfBoundsExceptionExec();
+        }
+    }
+
     // stop instruction
     class Stop implements IInstr {
         public String toString() { return "Stop"; }

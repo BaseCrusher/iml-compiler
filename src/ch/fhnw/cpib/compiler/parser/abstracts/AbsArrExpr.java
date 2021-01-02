@@ -56,19 +56,18 @@ public class AbsArrExpr implements IAbstractNode {
         loc++;
         codeArray.put(loc, new IInstructions.Deref());
         loc++;
-        codeArray.put(loc, new IInstructions.LeInt());
+        codeArray.put(loc, new IInstructions.GtInt());
         loc++;
         codeArray.put(loc, new IInstructions.LoadImInt(0));
         loc++;
         loc = exp.code(loc);
-        loc++;
         codeArray.put(loc, new IInstructions.GeInt());
         loc++;
         codeArray.put(loc, new IInstructions.AddInt());
         loc ++;
         codeArray.put(loc, new IInstructions.CondJump(loc + 2));
         loc++;
-        codeArray.put(loc, new IInstructions.Stop());
+        codeArray.put(loc, new IInstructions.ArrayOutOfBoundsException());
         loc++;
 
         codeArray.put(loc, new IInstructions.LoadAddrRel(env.getRelAddress(identifier.getIdent().getValue())));

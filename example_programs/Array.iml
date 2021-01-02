@@ -6,7 +6,7 @@ global
 do
   x[1] init := 10;
   x[2] init := 1;
-  x[3] init := 1;
+  x[0] init := 1;
   y init := 8;
 
   debugout arrLen(x)
