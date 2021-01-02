@@ -2,11 +2,12 @@ program Array()
 global
   var y:int32;
   var z:int32;
-  var x:int32|2|
+  var x:int32|66|
 do
   x[1] init := 10;
   x[2] init := 1;
-  y init := 2;
+  x[3] init := 1;
+  y init := 8;
 
-  debugout x[3]
+  debugout arrLen(x)
 endprogram
