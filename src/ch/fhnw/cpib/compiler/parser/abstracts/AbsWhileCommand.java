@@ -39,7 +39,7 @@ public class AbsWhileCommand implements IAbstractNode {
         for (IAbstractNode cmd : absCpsCmd) {
             loc = cmd.code(loc);
         }
-        codeArray.put(loc, new IInstructions.CondJump(conCalcLoc));
+        codeArray.put(loc, new IInstructions.UncondJump(conCalcLoc));
         loc++;
         codeArray.put(whileCondLoc, new IInstructions.CondJump(loc));
         return loc;

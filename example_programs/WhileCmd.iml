@@ -3,6 +3,7 @@ global
   var x:int32
 do
   debugin x init;
+  //x init := 5;
   while x > 0 do
     x := x - 1;
     debugout x
