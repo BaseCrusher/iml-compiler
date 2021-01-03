@@ -4,7 +4,7 @@ global
 do
   debugin x init;
   while x > 0 do
-    x := x - 1
-  endwhile;
-  debugout x
+    x := x - 1;
+    debugout x
+  endwhile
 endprogram

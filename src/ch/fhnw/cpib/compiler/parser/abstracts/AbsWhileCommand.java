@@ -1,13 +1,15 @@
 package ch.fhnw.cpib.compiler.parser.abstracts;
 
-import ch.fhnw.cpib.compiler.error.GrammarError;
+import ch.fhnw.cpib.compiler.error.CodeGenError;
 import ch.fhnw.cpib.compiler.error.TypeCheckError;
 import ch.fhnw.cpib.compiler.parser.IAbstractNode;
 import ch.fhnw.cpib.compiler.tokens.enums.types.IType;
 import ch.fhnw.cpib.compiler.vm.ICodeArray;
+import ch.fhnw.cpib.compiler.vm.IInstructions;
 
 import java.util.List;
 
+import static ch.fhnw.cpib.compiler.codeGenerator.CodeGenerator.codeArray;
 import static ch.fhnw.cpib.compiler.tokens.enums.types.VoidType.VOID;
 
 public class AbsWhileCommand implements IAbstractNode {
@@ -29,7 +31,16 @@ public class AbsWhileCommand implements IAbstractNode {
     }
 
     @Override
-    public int code(int loc) throws ICodeArray.CodeTooSmallError {
+    public int code(int loc) throws ICodeArray.CodeTooSmallError, CodeGenError {
+        int conCalcLoc = loc;
+        loc = absExpr.code(loc);
+        int whileCondLoc = loc;
+        for (IAbstractNode cmd : absCpsCmd) {
+            loc = cmd.code(loc);
+        }
+        codeArray.put(loc, new IInstructions.CondJump(conCalcLoc));
+        loc++;
+        codeArray.put(whileCondLoc, new IInstructions.CondJump(loc));
         return loc;
     }
 }
