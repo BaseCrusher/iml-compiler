@@ -23,7 +23,7 @@ import static ch.fhnw.cpib.compiler.codeGenerator.CodeGenerator.codeArray;
 public class Main {
 
     public static void main(String[] args) throws IOException {
-        Path p = Path.of("example_programs/WhileCmd.iml");
+        Path p = Path.of("example_programs/Add17.iml");
         StringBuilder sb = new StringBuilder();
         Files.lines(p).forEach((String s) -> { sb.append(s).append("\n"); } );
         String content = sb.toString();
@@ -45,6 +45,7 @@ public class Main {
             } catch (ICodeArray.CodeTooSmallError | CodeGenError codeTooSmallError) {
                 codeTooSmallError.printStackTrace();
             }
+            codeArray.resize();
             try {
                 VirtualMachine virtualMachine = new VirtualMachine(codeArray, 1024);
             } catch (IVirtualMachine.ExecutionError executionError) {

@@ -1,13 +1,17 @@
 program Array()
 global
-  var y:int32;
-  var z:int32;
-  var x:int32|3|
+  var x:int32|9|;
+  var y:int32
 do
-  x[1] init := 10;
-  x[2] init := 1;
-  x[3] init := 1;
-  y init := 8;
+  y init := 1;
+  while y <= arrLen(x) do
+    x[y] init := (y + 1) * (2 + 1);
+    y := y + 1
+  endwhile;
 
-  debugout x[1]
+    y := 1;
+    while y <= arrLen(x) do
+        debugout x[y];
+        y := y + 1
+    endwhile
 endprogram
