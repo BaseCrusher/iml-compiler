@@ -30,12 +30,12 @@ public class RepBoolOprTerm1 implements INtsParser {
     private Epsilon epsilon;
     private final String string;
 
-    public RepBoolOprTerm1(Environment environment) throws GrammarError {
+    public RepBoolOprTerm1(Environment environment, boolean isAssignment) throws GrammarError {
         token = Parser.getCurrentToken();
         if (token.hasTerminal(BOOLOPR)) {
             Parser.consume(BOOLOPR);
-            term1 = new Term1(environment);
-            repBoolOprTerm1 = new RepBoolOprTerm1(environment);
+            term1 = new Term1(environment, isAssignment);
+            repBoolOprTerm1 = new RepBoolOprTerm1(environment, isAssignment);
             string = token.toString() + " " + term1.toString() + " " + repBoolOprTerm1.toString();
         }
         else if (token.hasTerminal(COMMA, RBRACK, RPAREN, DO, THEN, ENDWHILE, ENDIF, ENDIF, ELSE, ENDPROC, ENDFUN, ENDPROGRAM, SEMICOLON, BECOMES)) {

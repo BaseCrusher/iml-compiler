@@ -1,16 +1,8 @@
 program Add17()
 global
-  var x:int32;
-  var y:int32;
-  var z:int32
+  var x:int32
 do
   debugin x init;
-  debugin y init;
-  debugin z init;
   x := x + 17;
-  y := x + 11;
-  z := x + 10;
-  debugout x;
-  debugout y;
-  debugout z
+  debugout x
 endprogram

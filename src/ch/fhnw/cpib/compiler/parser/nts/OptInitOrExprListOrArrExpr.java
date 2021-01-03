@@ -50,7 +50,7 @@ public class OptInitOrExprListOrArrExpr implements INtsParser {
         }
         else if (token.hasTerminal(LBRACK)) {
             Parser.consume(LBRACK);
-            expr = new Expr(environment);
+            expr = new Expr(environment, false);
             Parser.consume(RBRACK);
             optInit = new OptInit();
             finalToken = Parser.getCurrentToken();

@@ -33,12 +33,12 @@ public class RepAddOprTerm3 implements INtsParser {
     private Epsilon epsilon;
     private String string;
 
-    public RepAddOprTerm3(Environment environment) throws GrammarError {
+    public RepAddOprTerm3(Environment environment, boolean isAssignment) throws GrammarError {
         token = Parser.getCurrentToken();
         if (token.hasTerminal(ADDOPR)) {
             operator = Parser.consume(ADDOPR).getValue();
-            term3 = new Term3(environment);
-            repAddOprTerm3 = new RepAddOprTerm3(environment);
+            term3 = new Term3(environment, isAssignment);
+            repAddOprTerm3 = new RepAddOprTerm3(environment, isAssignment);
             string = token.toString() + " " + term3.toString() + " " + repAddOprTerm3.toString();
         } else if (token.hasTerminal(COMMA, RBRACK, RPAREN, DO, THEN, ENDWHILE, ENDIF, ELSE, ENDPROC, ENDFUN, ENDPROGRAM, SEMICOLON, BECOMES, BOOLOPR, RELOPR)) {
             epsilon = new Epsilon();

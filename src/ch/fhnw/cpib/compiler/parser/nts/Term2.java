@@ -18,11 +18,11 @@ public class Term2 implements INtsParser {
     private Term3 term3;
     private RepAddOprTerm3 repAddOprTerm3;
 
-    public Term2(Environment environment) throws GrammarError {
+    public Term2(Environment environment, boolean isAssignment) throws GrammarError {
         token = Parser.getCurrentToken();
         if (token.hasTerminal(ARRLEN, LPAREN, MONOPR, IDENT, LITERAL)) {
-            term3 = new Term3(environment);
-            repAddOprTerm3 = new RepAddOprTerm3(environment);
+            term3 = new Term3(environment, isAssignment);
+            repAddOprTerm3 = new RepAddOprTerm3(environment, isAssignment);
         }
         else {
             throw new GrammarError(token);

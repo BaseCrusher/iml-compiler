@@ -77,7 +77,7 @@ public class AbsArrExpr implements IAbstractNode {
         loc = exp.code(loc);
         codeArray.put(loc, new IInstructions.AddInt());
         loc++;
-        if ((optInit != null && !optInit.equals(BECOMES.name())) && !isAssignment) {
+        if (!isAssignment) {
             codeArray.put(loc, new IInstructions.Deref());
             loc++;
         }

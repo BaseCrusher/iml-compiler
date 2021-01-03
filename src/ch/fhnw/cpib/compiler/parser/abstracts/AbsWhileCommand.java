@@ -35,6 +35,7 @@ public class AbsWhileCommand implements IAbstractNode {
         int conCalcLoc = loc;
         loc = absExpr.code(loc);
         int whileCondLoc = loc;
+        loc++;
         for (IAbstractNode cmd : absCpsCmd) {
             loc = cmd.code(loc);
         }

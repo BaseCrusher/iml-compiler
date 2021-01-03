@@ -19,11 +19,11 @@ public class Term1 implements INtsParser {
     private final OptRelOprTerm2 optRelOprTerm2;
     private boolean isAssignment = false;
 
-    public Term1(Environment environment) throws GrammarError {
+    public Term1(Environment environment, boolean isAssignment) throws GrammarError {
         token = Parser.getCurrentToken();
         if (token.hasTerminal(ARRLEN, LPAREN, MONOPR, IDENT, LITERAL)) {
-            term2 = new Term2(environment);
-            optRelOprTerm2 = new OptRelOprTerm2(environment);
+            term2 = new Term2(environment, isAssignment);
+            optRelOprTerm2 = new OptRelOprTerm2(environment, isAssignment);
         }
         else {
             throw new GrammarError(token);

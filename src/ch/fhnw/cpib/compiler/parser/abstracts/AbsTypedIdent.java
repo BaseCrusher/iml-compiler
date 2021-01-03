@@ -30,9 +30,6 @@ public class AbsTypedIdent implements IAbstractNode {
 
     @Override
     public int code(int loc) throws ICodeArray.CodeTooSmallError {
-        if (optArrDecl != null) {
-
-        }
         return loc;
     }
 }

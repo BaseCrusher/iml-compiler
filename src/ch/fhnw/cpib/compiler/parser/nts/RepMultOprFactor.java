@@ -31,12 +31,12 @@ public class RepMultOprFactor implements INtsParser {
     private Epsilon epsilon;
     private final String string;
 
-    public RepMultOprFactor(Environment environment) throws GrammarError {
+    public RepMultOprFactor(Environment environment, boolean isAssignment) throws GrammarError {
         token = Parser.getCurrentToken();
         if (token.hasTerminal(MULTOPR, DIVOPR)) {
             operator = Parser.consume(MULTOPR, DIVOPR).getValue();
-            factor = new Factor(environment);
-            repMultOprFactor = new RepMultOprFactor(environment);
+            factor = new Factor(environment, isAssignment);
+            repMultOprFactor = new RepMultOprFactor(environment, isAssignment);
             string = token.toString() + " " + factor.toString() + " " + repMultOprFactor.toString();
         } else if (token.hasTerminal(COMMA, RBRACK, RPAREN, DO, THEN, ENDWHILE, ENDIF, ELSE, ENDPROC, ENDFUN, ENDPROGRAM, SEMICOLON, BECOMES, BOOLOPR, RELOPR, ADDOPR)) {
             epsilon = new Epsilon();

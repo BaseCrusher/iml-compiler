@@ -17,11 +17,11 @@ public class Expr implements INtsParser {
     private final Term1 term1;
     private final RepBoolOprTerm1 repBoolOprTerm1;
 
-    public Expr(Environment environment) throws GrammarError {
+    public Expr(Environment environment, boolean isAssignment) throws GrammarError {
         IToken token = Parser.getCurrentToken();
         if (token.hasTerminal(ARRLEN, LPAREN, MONOPR, IDENT, LITERAL)) {
-            term1 = new Term1(environment);
-            repBoolOprTerm1 = new RepBoolOprTerm1(environment);
+            term1 = new Term1(environment, isAssignment);
+            repBoolOprTerm1 = new RepBoolOprTerm1(environment, isAssignment);
         }
         else {
             throw new GrammarError(token);

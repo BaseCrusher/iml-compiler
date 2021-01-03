@@ -40,14 +40,14 @@ public class Cmd implements INtsParser {
             string = token.toString();
         }
         else if (token.hasTerminal(ARRLEN, LPAREN, MONOPR, IDENT, LITERAL)) {
-            expr1 = new Expr(environment);
+            expr1 = new Expr(environment, true);
             Parser.consume(BECOMES);
-            expr2 = new Expr(environment);
+            expr2 = new Expr(environment, false);
             string = expr1.toString() + " := " + expr2;
         }
         else if (token.hasTerminal(IF)) {
             Parser.consume(IF);
-            expr1 = new Expr(environment);
+            expr1 = new Expr(environment, false);
             Parser.consume(THEN);
             cpsCmd = new CpsCmd(environment);
             optElseCpsCmd = new OptElseCpsCmd(environment);
@@ -56,7 +56,7 @@ public class Cmd implements INtsParser {
         }
         else if (token.hasTerminal(WHILE)) {
             Parser.consume(WHILE);
-            expr1 = new Expr(environment);
+            expr1 = new Expr(environment, false);
             Parser.consume(DO);
             cpsCmd = new CpsCmd(environment);
             Parser.consume(ENDWHILE);
@@ -71,12 +71,12 @@ public class Cmd implements INtsParser {
         }
         else if (token.hasTerminal(DEBUGIN)) {
             Parser.consume(DEBUGIN);
-            expr1 = new Expr(environment);
+            expr1 = new Expr(environment, false);
             string = "DEBUGIN " + expr1.toString();
         }
         else if (token.hasTerminal(DEBUGOUT)) {
             Parser.consume(DEBUGOUT);
-            expr1 = new Expr(environment);
+            expr1 = new Expr(environment, false);
             string = "DEBUGOUT " + expr1.toString();
         }
         else {

@@ -28,8 +28,10 @@ public class Factor implements INtsParser {
     private Factor factor;
     private Expr expr;
     private final String string;
+    private final boolean isAssignment;
 
-    public Factor(Environment environment) throws GrammarError {
+    public Factor(Environment environment, boolean isAssignment) throws GrammarError {
+        this.isAssignment = isAssignment;
         token = Parser.getCurrentToken();
         if (token.hasTerminal(LITERAL)) {
             Parser.consume(LITERAL);
@@ -42,11 +44,11 @@ public class Factor implements INtsParser {
             string = token.toString() + " " + optInitOrExprListOrArrExpr.toString();
         } else if (token.hasTerminal(MONOPR)) {
             Parser.consume(MONOPR);
-            factor = new Factor(environment);
+            factor = new Factor(environment, isAssignment);
             string = token.toString() + " " + factor.toString();
         } else if (token.hasTerminal(LPAREN)) {
             Parser.consume(LPAREN);
-            expr = new Expr(environment);
+            expr = new Expr(environment, false);
             Parser.consume(RPAREN);
             string = "(" + expr.toString() + ")";
         }
@@ -100,9 +102,9 @@ public class Factor implements INtsParser {
             }
         }
         else if (token.hasTerminal(IDENT)) {
-            return optInitOrExprListOrArrExpr.toAbsSyn(identifier, isAssignment);
+            return optInitOrExprListOrArrExpr.toAbsSyn(identifier, this.isAssignment);
         } else if (token.hasTerminal(MONOPR)) {
-            return new AbsMonadicExpr(token.getValue(), factor.toAbsSyn(isAssignment));
+            return new AbsMonadicExpr(token.getValue(), factor.toAbsSyn(this.isAssignment));
         } else if (token.hasTerminal(LPAREN)) {
             return expr.toAbsSyn();
         }
