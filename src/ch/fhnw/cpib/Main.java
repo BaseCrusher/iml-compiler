@@ -23,7 +23,7 @@ import static ch.fhnw.cpib.compiler.codeGenerator.CodeGenerator.codeArray;
 public class Main {
 
     public static void main(String[] args) throws IOException {
-        Path p = Path.of("example_programs/Array.iml");
+        Path p = Path.of("example_programs/IfCmd.iml");
         StringBuilder sb = new StringBuilder();
         Files.lines(p).forEach((String s) -> { sb.append(s).append("\n"); } );
         String content = sb.toString();
@@ -35,8 +35,8 @@ public class Main {
             Parser parser = new Parser(bla);
             IConcreteTree concreteTree = parser.parse();
             IAbstractTree abstractTree = new AbstractTree(concreteTree);
-            System.out.println(concreteTree);
-            System.out.println(abstractTree);
+            //System.out.println(concreteTree);
+            //System.out.println(abstractTree);
 
             CodeGenerator codeGenerator = new CodeGenerator();
             codeGenerator.check(abstractTree);

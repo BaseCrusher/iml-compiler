@@ -9,5 +9,5 @@ do
   x[3] init := 1;
   y init := 8;
 
-  debugout arrLen(x)
+  debugout x[2]
 endprogram
