@@ -6,9 +6,7 @@ global
     do
         sum init := 0;
         i init := 1;
-        debugout arrLen(intArr);
         while i <= arrLen(intArr) +1 do
-            debugout i;
             sum := sum + intArr[i];
             i := i + 1
         endwhile

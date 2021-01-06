@@ -98,6 +98,8 @@ public class OptInitOrExprListOrArrExpr implements INtsParser {
                     return new AbsArrExpr(identifier, expr.toAbsSyn(), true);
                 }
                 return new AbsArrExpr(identifier, expr.toAbsSyn());
+            } else if (optInit.getToken().hasTerminal(BECOMES)) {
+                return new AbsArrExpr(identifier, expr.toAbsSyn(), true);
             }
             return new AbsArrExpr(identifier, expr.toAbsSyn(), optInit.toAbsSyn());
         }

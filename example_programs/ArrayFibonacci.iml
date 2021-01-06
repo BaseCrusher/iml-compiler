@@ -1,27 +1,39 @@
-program FibonacciCalculator (out myArray:int32||)
+program FibonacciCalculator ()
 global
-   proc fibonacci(inout ref var fibArr:int32||)
+   fun fibonacci(ref fibArr:int32||) returns void:int32
    local
       var i:int32
    do
-      i init := 2;
+      i init := 3;
       fibArr[1] := 0;
       fibArr[2] := 1;
-      while i < arrLen(fibArr)
+      while i <= arrLen(fibArr)
       do
          fibArr[i] := fibArr[i-2] + fibArr[i-1];
          i := i + 1
-      endwhile
-   endproc;
+      endwhile;
+      void := 0
+   endfun;
 
-   var myArray:int32|5|
-
+   var myArray:int32|10|;
+   var j:int32
 do
    myArray[1] init := 0;
    myArray[2] init := 0;
    myArray[3] init := 0;
    myArray[4] init := 0;
    myArray[5] init := 0;
+   myArray[6] init := 0;
+   myArray[7] init := 0;
+   myArray[8] init := 0;
+   myArray[9] init := 0;
+   myArray[10] init := 0;
 
-   call fibonacci(myArray)
+   j init := fibonacci(myArray);
+
+   j := 1;
+   while j <= arrLen(myArray) do
+        debugout myArray[j];
+        j := j + 1
+   endwhile
 endprogram

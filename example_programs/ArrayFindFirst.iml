@@ -1,9 +1,8 @@
-program FindFirstExample (in myArray:int32||, out index:int32)
+program FindFirstExample()
 global
-   fun findFirst(intArr:int32||, value:int32) returns elementIndex:int32
+   fun findFirst(ref intArr:int32||, value:int32) returns elementIndex:int32
    local
-      var i:int32;
-      var elementIndex:int32
+      var i:int32
    do
       i init := arrLen(intArr);
       elementIndex := 0;
@@ -14,9 +13,17 @@ global
          endif;
       i := i - 1
       endwhile
-   endfun
+   endfun;
 
+   var myArray:int32|5|;
+   var index:int32
 do
-   index init := findFirst(myArray, 69)
+   myArray[1] init := 12;
+   myArray[2] init := 13;
+   myArray[3] init := 45;
+   myArray[4] init := 69;
+   myArray[5] init := 74;
+   index init := findFirst(myArray, 69);
+   debugout index
 
 endprogram

@@ -29,7 +29,7 @@ public class AbsStoreExpr implements IAbstractNode {
     @Override
     public IType check() throws TypeCheckError {
         Variable variable = ident.getEnvironment().getVariable(ident.getIdent().getValue());
-        if (variable.getType() == null) throw new TypeCheckError("undefined " + ident.getIdent().getValue());
+        if (variable == null) throw new TypeCheckError("undefined variable " + ident.getIdent().getValue());
         return Types.getByName(variable.getType().getValue());
     }
 
