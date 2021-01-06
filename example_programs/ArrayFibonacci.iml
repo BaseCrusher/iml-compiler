@@ -15,19 +15,10 @@ global
       void := 0
    endfun;
 
-   var myArray:int32|10|;
+    var myArray:int32|20|;
    var j:int32
+
 do
-   myArray[1] init := 0;
-   myArray[2] init := 0;
-   myArray[3] init := 0;
-   myArray[4] init := 0;
-   myArray[5] init := 0;
-   myArray[6] init := 0;
-   myArray[7] init := 0;
-   myArray[8] init := 0;
-   myArray[9] init := 0;
-   myArray[10] init := 0;
 
    j init := fibonacci(myArray);
 

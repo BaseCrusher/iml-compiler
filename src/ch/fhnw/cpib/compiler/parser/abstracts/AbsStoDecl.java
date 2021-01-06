@@ -47,12 +47,21 @@ public class AbsStoDecl implements IAbstractNode {
     public int code(int loc) throws ICodeArray.CodeTooSmallError, CodeGenError {
         if (isArrDecl()) {
             String value = arrDecl.getArrDecl().getOptLit().getToken().getValue();
-            codeArray.put(loc, new IInstructions.LoadAddrRel(environment.getRelAddress(typedIdent.getIdentifier().getValue())));
+            int relAddress = environment.getRelAddress(typedIdent.getIdentifier().getValue());
+            codeArray.put(loc, new IInstructions.LoadAddrRel(relAddress));
             loc++;
             codeArray.put(loc, new IInstructions.LoadImInt(Integer.parseInt(value)));
             loc++;
             codeArray.put(loc, new IInstructions.Store());
             loc++;
+            for (int i = 0; i < Integer.parseInt(value); i++) {
+                codeArray.put(loc, new IInstructions.LoadAddrRel(i+1+relAddress));
+                loc++;
+                codeArray.put(loc, new IInstructions.LoadImInt(0));
+                loc++;
+                codeArray.put(loc, new IInstructions.Store());
+                loc++;
+            }
         }
         return loc;
     }
