@@ -4,6 +4,7 @@ import ch.fhnw.cpib.compiler.error.GrammarError;
 import ch.fhnw.cpib.compiler.parser.IAbstractNode;
 import ch.fhnw.cpib.compiler.parser.INtsParser;
 import ch.fhnw.cpib.compiler.parser.Parser;
+import ch.fhnw.cpib.compiler.parser.abstracts.AbsArrDecl;
 import ch.fhnw.cpib.compiler.tokens.IToken;
 
 import static ch.fhnw.cpib.compiler.tokens.enums.KeywordTerminals.COMMA;
@@ -25,7 +26,7 @@ public class OptArrDecl implements INtsParser {
         if (token.hasTerminal(PIPE)) {
             arrayDecl = new ArrayDecl();
             string = arrayDecl.toString();
-        } else if (token.hasTerminal(PIPE, LOCAL, GLOBAL, DO, SEMICOLON, RPAREN, COMMA)){
+        } else if (token.hasTerminal(LOCAL, GLOBAL, DO, SEMICOLON, RPAREN, COMMA)){
             epsilon = new Epsilon();
             string = epsilon.toString();
         } else {
@@ -50,8 +51,11 @@ public class OptArrDecl implements INtsParser {
         return arrayDecl;
     }
 
-    public IAbstractNode toAbsSyn(IToken type) {
-        return arrayDecl.toAbsSyn();
+    public IAbstractNode toAbsSyn() {
+        if (epsilon == null) {
+            return new AbsArrDecl(arrayDecl.toAbsSyn());
+        }
+        return null;
     }
 
     public Epsilon getEpsilon() {

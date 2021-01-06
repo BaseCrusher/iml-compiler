@@ -26,7 +26,13 @@ public class StoDecl implements INtsParser {
         if (token.hasTerminal(IDENT, CHANGEMODE)) {
             optChangemode = new OptChangemode();
             typedIdent = new TypedIdent();
-            Variable variable = new Variable(typedIdent.getIdentifier().getValue(), optChangemode, typedIdent.getToken(), environment.getStartAddress() + environment.getVars().size());
+            Variable variable;
+            if (typedIdent.getArrDecl().getEpsilon() == null) {
+                variable = new Variable(typedIdent.getIdentifier().getValue(), null, null, optChangemode, typedIdent.getToken(), environment.getStartAddress() + environment.getVars().size(), true);
+            }
+            else {
+                variable = new Variable(typedIdent.getIdentifier().getValue(), optChangemode, typedIdent.getToken(), environment.getStartAddress() + environment.getVars().size());
+            }
             environment.putVariable(typedIdent.getIdentifier().getValue(), variable);
             OptArrDecl optArrDecl = typedIdent.getArrDecl();
             if (optArrDecl != null){

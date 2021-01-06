@@ -98,6 +98,14 @@ public interface IInstructions {
         }
     }
 
+    // load address absolute to frame pointer (address -> stack)
+    class LoadAddrAbs implements IInstr {
+        public String toString() { return "LoadAddrAbs"; }
+        public IExecInstr toExecInstr(VirtualMachine vm) {
+            return vm.new LoadAddrAbsExec();
+        }
+    }
+
     // load instruction with address on stack
     // load (inside stack -> top of stack) operation
     class Deref implements IInstr {

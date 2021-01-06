@@ -14,12 +14,8 @@ public class AbstractTree implements IAbstractTree {
     }
 
     @Override
-    public void check() {
-        try {
-            absProgram.check();
-        } catch (TypeCheckError typeCheckError) {
-            typeCheckError.printStackTrace();
-        }
+    public void check() throws TypeCheckError {
+        absProgram.check();
     }
 
     public void code() throws ICodeArray.CodeTooSmallError, CodeGenError {

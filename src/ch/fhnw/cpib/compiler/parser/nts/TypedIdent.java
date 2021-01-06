@@ -38,7 +38,7 @@ public class TypedIdent implements INtsParser {
         if (optArrDecl.getEpsilon() != null) {
             return new AbsTypedIdent(identifier.getValue(), type.getValue(), null);
         }
-        return new AbsTypedIdent(identifier.getValue(), type.getValue(), optArrDecl.toAbsSyn(type));
+        return new AbsTypedIdent(identifier.getValue(), type.getValue(), optArrDecl.toAbsSyn());
     }
 
     @Override

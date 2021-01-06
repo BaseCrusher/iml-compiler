@@ -5,6 +5,7 @@ import ch.fhnw.cpib.compiler.codeGenerator.CodeGenerator;
 import ch.fhnw.cpib.compiler.error.CodeGenError;
 import ch.fhnw.cpib.compiler.error.GrammarError;
 import ch.fhnw.cpib.compiler.error.LexicalError;
+import ch.fhnw.cpib.compiler.error.TypeCheckError;
 import ch.fhnw.cpib.compiler.parser.AbstractTree;
 import ch.fhnw.cpib.compiler.parser.IAbstractTree;
 import ch.fhnw.cpib.compiler.parser.IConcreteTree;
@@ -23,7 +24,7 @@ import static ch.fhnw.cpib.compiler.codeGenerator.CodeGenerator.codeArray;
 public class Main {
 
     public static void main(String[] args) throws IOException {
-        Path p = Path.of("example_programs/Add17Fun.iml");
+        Path p = Path.of("example_programs/ArraySumExample.iml");
         StringBuilder sb = new StringBuilder();
         Files.lines(p).forEach((String s) -> { sb.append(s).append("\n"); } );
         String content = sb.toString();
@@ -39,17 +40,13 @@ public class Main {
             //System.out.println(abstractTree);
 
             CodeGenerator codeGenerator = new CodeGenerator();
-            codeGenerator.check(abstractTree);
             try {
+                codeGenerator.check(abstractTree);
                 codeGenerator.code(abstractTree);
-            } catch (ICodeArray.CodeTooSmallError | CodeGenError codeTooSmallError) {
-                codeTooSmallError.printStackTrace();
-            }
-            codeArray.resize();
-            try {
+                codeArray.resize();
                 VirtualMachine virtualMachine = new VirtualMachine(codeArray, 1024);
-            } catch (IVirtualMachine.ExecutionError executionError) {
-                executionError.printStackTrace();
+            } catch (ICodeArray.CodeTooSmallError | CodeGenError | TypeCheckError | IVirtualMachine.ExecutionError codeTooSmallError) {
+                codeTooSmallError.printStackTrace();
             }
 
         }

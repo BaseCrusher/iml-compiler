@@ -15,6 +15,7 @@ public class Variable {
     private OptChangemode changeMode;
     private IToken type;
     private int relAddress;
+    private final boolean isArray;
     private int offset = 1;
 
     public Variable(String ident, OptFlowmode flowMode, OptChangemode changeMode, IToken type, int relAddress) {
@@ -23,6 +24,7 @@ public class Variable {
         this.changeMode = changeMode;
         this.type = type;
         this.relAddress = relAddress;
+        this.isArray = false;
     }
 
     public Variable(String ident, OptChangemode changeMode, IToken type, int relAddress) {
@@ -30,6 +32,7 @@ public class Variable {
         this.changeMode = changeMode;
         this.type = type;
         this.relAddress = relAddress;
+        this.isArray = false;
     }
 
     public Variable(String ident, OptFlowmode flowMode, OptMechmode mechmode, OptChangemode changeMode, IToken type, int relAddress) {
@@ -39,12 +42,24 @@ public class Variable {
         this.changeMode = changeMode;
         this.type = type;
         this.relAddress = relAddress;
+        this.isArray = false;
     }
 
     public Variable(String ident, IToken type, int relAddress) {
         this.ident = ident;
         this.type = type;
         this.relAddress = relAddress;
+        this.isArray = false;
+    }
+
+    public Variable(String ident, OptFlowmode flowMode, OptMechmode mechmode, OptChangemode changeMode, IToken type, int relAddress, boolean isArray) {
+        this.ident = ident;
+        this.flowMode = flowMode;
+        this.mechmode = mechmode;
+        this.changeMode = changeMode;
+        this.type = type;
+        this.relAddress = relAddress;
+        this.isArray = isArray;
     }
 
     public String getIdent() {
@@ -73,5 +88,9 @@ public class Variable {
 
     public int getOffset() {
         return offset;
+    }
+
+    public boolean isArray() {
+        return isArray;
     }
 }

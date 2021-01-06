@@ -72,7 +72,7 @@ public class Environment {
     public int getRelAddress(String varKey) throws CodeGenError {
         int addr = 0;
         if (parent != null) {
-            addr += parent.getRelAddress(varKey);
+            addr += parent.getVars().size();
         }
         addr += getAbsoluteAddress(varKey);
         return addr;

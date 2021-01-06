@@ -51,12 +51,20 @@ public class AbsArrExpr implements IAbstractNode {
     @Override
     public int code(int loc) throws ICodeArray.CodeTooSmallError, CodeGenError {
         Environment env = identifier.getEnvironment();
+
         // Check if in bounds of array
         loc = exp.code(loc);
-        codeArray.put(loc, new IInstructions.LoadAddrRel(env.getRelAddress(identifier.getIdent().getValue())));
+        codeArray.put(loc, new IInstructions.LoadAddrRel(env.getAbsoluteAddress(identifier.getIdent().getValue())));
         loc++;
         codeArray.put(loc, new IInstructions.Deref());
         loc++;
+        if (env.getParent() != null) {
+            // local env
+            codeArray.put(loc, new IInstructions.LoadAddrAbs());
+            loc++;
+            codeArray.put(loc, new IInstructions.Deref());
+            loc++;
+        }
         codeArray.put(loc, new IInstructions.GtInt());
         loc++;
         codeArray.put(loc, new IInstructions.LoadImInt(0));
@@ -72,11 +80,25 @@ public class AbsArrExpr implements IAbstractNode {
         loc++;
 
         // Get value at index
-        codeArray.put(loc, new IInstructions.LoadAddrRel(env.getRelAddress(identifier.getIdent().getValue())));
+        codeArray.put(loc, new IInstructions.LoadAddrRel(env.getAbsoluteAddress(identifier.getIdent().getValue())));
         loc++;
-        loc = exp.code(loc);
-        codeArray.put(loc, new IInstructions.AddInt());
-        loc++;
+        if (env.getParent() != null) {
+            //local env
+            codeArray.put(loc, new IInstructions.Deref());
+            loc++;
+            loc = exp.code(loc);
+            codeArray.put(loc, new IInstructions.AddInt());
+            loc++;
+            codeArray.put(loc, new IInstructions.LoadAddrAbs());
+            loc++;
+        }
+        else {
+            // global env
+            loc = exp.code(loc);
+            codeArray.put(loc, new IInstructions.AddInt());
+            loc++;
+        }
+
         if (!isAssignment) {
             codeArray.put(loc, new IInstructions.Deref());
             loc++;

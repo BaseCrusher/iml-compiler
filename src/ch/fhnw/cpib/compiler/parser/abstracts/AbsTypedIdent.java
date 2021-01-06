@@ -22,8 +22,7 @@ public class AbsTypedIdent implements IAbstractNode {
     @Override
     public IType check() throws TypeCheckError {
         if (optArrDecl != null) {
-            return optArrDecl.check();
-
+            optArrDecl.check();
         }
         return Types.getByName(type);
     }
@@ -31,5 +30,9 @@ public class AbsTypedIdent implements IAbstractNode {
     @Override
     public int code(int loc) throws ICodeArray.CodeTooSmallError {
         return loc;
+    }
+
+    public IAbstractNode getOptArrDecl() {
+        return optArrDecl;
     }
 }

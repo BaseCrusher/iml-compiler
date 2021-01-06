@@ -182,6 +182,18 @@ public class VirtualMachine implements IVirtualMachine {
         }
     }
 
+    // load address absolute to frame pointer (address -> stack)
+    public class LoadAddrAbsExec extends IInstructions.LoadAddrAbs implements IInstructions.IExecInstr {
+        public LoadAddrAbsExec() { super(); }
+
+        public void execute() throws ExecutionError
+        {
+            if (sp > hp) { throw new ExecutionError(SP_OVER_HP); }
+            store[sp-1] = Data.intNew(Data.intGet(store[sp-1]));
+            pc= pc + 1;
+        }
+    }
+
     // load instruction with address on stack
     // load (inside stack -> top of stack) operation
     public class DerefExec extends IInstructions.Deref implements IInstructions.IExecInstr {

@@ -29,9 +29,15 @@ public class AbsArrLenExpr implements IAbstractNode {
     @Override
     public int code(int loc) throws ICodeArray.CodeTooSmallError, CodeGenError {
         Environment env = identifier.getEnvironment();
-        codeArray.put(loc, new IInstructions.LoadAddrRel(env.getRelAddress(identifier.getIdent().getValue())));
+        codeArray.put(loc, new IInstructions.LoadAddrRel(env.getAbsoluteAddress(identifier.getIdent().getValue())));
         loc++;
         codeArray.put(loc, new IInstructions.Deref());
+        if (env.getParent() != null) {
+            loc++;
+            codeArray.put(loc, new IInstructions.LoadAddrAbs());
+            loc++;
+            codeArray.put(loc, new IInstructions.Deref());
+        }
         return loc + 1;
     }
 }

@@ -29,7 +29,14 @@ public class Param implements INtsParser {
             optMechmode = new OptMechmode();
             optChangemode = new OptChangemode();
             typedIdent = new TypedIdent();
-            Variable variable = new Variable(typedIdent.getIdentifier().getValue(), optFlowmode, optMechmode, optChangemode, typedIdent.getToken(), environment.getStartAddress() + environment.getVars().size());
+            Variable variable;
+            if (typedIdent.getArrDecl().getEpsilon() == null) {
+                variable = new Variable(typedIdent.getIdentifier().getValue(), optFlowmode, optMechmode, optChangemode, typedIdent.getToken(), environment.getStartAddress() + environment.getVars().size(), true);
+            }
+            else {
+                variable = new Variable(typedIdent.getIdentifier().getValue(), optFlowmode, optMechmode, optChangemode, typedIdent.getToken(), environment.getStartAddress() + environment.getVars().size());
+            }
+
             environment.putVariable(typedIdent.getIdentifier().getValue(), variable);
             string = optFlowmode.toString() + " " + optMechmode.toString() + " " + optChangemode.toString() + " " + typedIdent.toString();
         } else {

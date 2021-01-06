@@ -9,12 +9,15 @@ import ch.fhnw.cpib.compiler.parser.Environment;
 import ch.fhnw.cpib.compiler.parser.IAbstractNode;
 import ch.fhnw.cpib.compiler.parser.Variable;
 import ch.fhnw.cpib.compiler.parser.nts.Identifier;
+import ch.fhnw.cpib.compiler.parser.nts.ParamList;
 import ch.fhnw.cpib.compiler.tokens.enums.types.IType;
 import ch.fhnw.cpib.compiler.vm.ICodeArray;
 import ch.fhnw.cpib.compiler.vm.IInstructions;
 
 import static ch.fhnw.cpib.compiler.codeGenerator.CodeGenerator.codeArray;
 import static ch.fhnw.cpib.compiler.parser.abstracts.AbsProgram.declMap;
+import static ch.fhnw.cpib.compiler.tokens.enums.modes.MechModes.COPY;
+import static ch.fhnw.cpib.compiler.tokens.enums.modes.MechModes.REF;
 import static ch.fhnw.cpib.compiler.tokens.enums.types.VoidType.VOID;
 
 public class AbsFunDecl implements IAbstractNode {
@@ -75,6 +78,7 @@ public class AbsFunDecl implements IAbstractNode {
                 paramCount++;
             }
         }
+
         for (int i = paramCount, j = 3; i > 0; i--, j++) {
             codeArray.put(loc, new IInstructions.LoadAddrRel(j));
             loc++;

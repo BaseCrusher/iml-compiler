@@ -1,6 +1,6 @@
 program Add17Fun()
 global
-  fun f(x:int32) returns y:int32
+  fun f(copy x:int32) returns y:int32
   do
     y init := x + 17
   endfun;

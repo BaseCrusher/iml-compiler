@@ -1,6 +1,7 @@
 package ch.fhnw.cpib.compiler.codeGenerator;
 
 import ch.fhnw.cpib.compiler.error.CodeGenError;
+import ch.fhnw.cpib.compiler.error.TypeCheckError;
 import ch.fhnw.cpib.compiler.parser.IAbstractTree;
 import ch.fhnw.cpib.compiler.vm.CodeArray;
 import ch.fhnw.cpib.compiler.vm.ICodeArray;
@@ -13,7 +14,7 @@ public class CodeGenerator {
         codeArray = new CodeArray(1024);
     }
 
-    public void check(IAbstractTree abstractTree) {
+    public void check(IAbstractTree abstractTree) throws TypeCheckError {
         abstractTree.check();
     }
 

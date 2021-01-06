@@ -54,8 +54,8 @@ public class AbsStoreExpr implements IAbstractNode {
 
     private boolean rValue(Variable variable) {
         if (variable.getMechmode() == null) {
-            return !isInit && !isAssignment;
+            return !isInit && !isAssignment && !variable.isArray();
         }
-        return (variable.getMechmode().getEpsilon() != null || variable.getMechmode().getToken().getValue().equals(COPY.name())) && !isInit && !isAssignment;
+        return (variable.getMechmode().getEpsilon() != null || variable.getMechmode().getToken().getValue().equals(COPY.name())) && !isInit && !isAssignment && !variable.isArray();
     }
 }
