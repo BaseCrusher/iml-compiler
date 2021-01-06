@@ -64,7 +64,6 @@ public class Param implements INtsParser {
     }
 
     public IAbstractNode toAbsSyn() {
-        new AbsParam(optFlowmode, optMechmode, optChangemode, typedIdent.toAbsSyn());
-        return null;
+        return new AbsParam(optFlowmode, optMechmode, optChangemode, typedIdent.toAbsSyn());
     }
 }

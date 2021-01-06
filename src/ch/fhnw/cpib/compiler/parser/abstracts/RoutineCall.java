@@ -12,6 +12,7 @@ import ch.fhnw.cpib.compiler.vm.ICodeArray;
 import ch.fhnw.cpib.compiler.vm.IInstructions;
 
 import static ch.fhnw.cpib.compiler.codeGenerator.CodeGenerator.codeArray;
+import static ch.fhnw.cpib.compiler.parser.abstracts.AbsProgram.callMap;
 import static ch.fhnw.cpib.compiler.tokens.enums.types.VoidType.VOID;
 
 public class RoutineCall implements IAbstractNode {
@@ -42,13 +43,13 @@ public class RoutineCall implements IAbstractNode {
         }
         boolean isFunction = routine.getReturnType() != VOID;
         int size = isFunction ? 1 : 0;
-        codeArray.put(loc, new IInstructions.AllocBlock(size)); //todo local or global!
+        codeArray.put(loc, new IInstructions.AllocBlock(size));
         loc++;
         for (IAbstractNode expr : exprList) {
             loc = expr.code(loc);
         }
 
-        codeArray.put(loc, new IInstructions.Call(identifier.getEnvironment().getAbsoluteAddress(routine.getName())));
+        callMap.put(loc, identifier.getIdent().getValue());
         return loc + 1;
 
     }

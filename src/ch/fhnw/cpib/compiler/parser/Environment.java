@@ -58,6 +58,9 @@ public class Environment {
         Variable variable = vars.get(varKey);
         // global
         if (variable !=null) {
+            if (parent!= null){
+                return variable.getRelAddress() + 3;
+            }
             return variable.getRelAddress();
         }
         if (parent != null) {

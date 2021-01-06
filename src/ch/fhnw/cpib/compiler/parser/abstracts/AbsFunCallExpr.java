@@ -1,9 +1,10 @@
 package ch.fhnw.cpib.compiler.parser.abstracts;
 
-import ch.fhnw.cpib.compiler.error.GrammarError;
+import ch.fhnw.cpib.compiler.error.CodeGenError;
 import ch.fhnw.cpib.compiler.error.TypeCheckError;
 import ch.fhnw.cpib.compiler.parser.IAbstractNode;
 import ch.fhnw.cpib.compiler.tokens.enums.types.IType;
+import ch.fhnw.cpib.compiler.vm.ICodeArray;
 
 public class AbsFunCallExpr implements IAbstractNode {
 
@@ -21,7 +22,8 @@ public class AbsFunCallExpr implements IAbstractNode {
     }
 
     @Override
-    public int code(int loc) {
+    public int code(int loc) throws ICodeArray.CodeTooSmallError, CodeGenError {
+        loc = routineCall.code(loc);
         return loc;
     }
 

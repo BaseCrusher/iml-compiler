@@ -4,19 +4,24 @@ import ch.fhnw.cpib.compiler.error.CodeGenError;
 import ch.fhnw.cpib.compiler.error.TypeCheckError;
 import ch.fhnw.cpib.compiler.parser.Environment;
 import ch.fhnw.cpib.compiler.parser.IAbstractNode;
+import ch.fhnw.cpib.compiler.parser.nts.Identifier;
 import ch.fhnw.cpib.compiler.tokens.enums.types.IType;
 
 import ch.fhnw.cpib.compiler.vm.ICodeArray;
 import ch.fhnw.cpib.compiler.vm.IInstructions;
 import ch.fhnw.cpib.compiler.vm.IInstructions.Stop;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static ch.fhnw.cpib.compiler.codeGenerator.CodeGenerator.codeArray;
 import static ch.fhnw.cpib.compiler.tokens.enums.types.VoidType.VOID;
 
 public class AbsProgram implements IAbstractNode {
 
+    public static Map<String, Integer> declMap = new HashMap<>();
+    public static Map<Integer, String> callMap = new HashMap<>();
 
     private String ident;
     private final List<IAbstractNode> progParamList;
@@ -54,13 +59,26 @@ public class AbsProgram implements IAbstractNode {
             loc = param.code(loc);
         }
         for (IAbstractNode decl : optGlobalCpsDecl) {
-            loc = decl.code(loc);
+            if (decl instanceof AbsStoDecl) {
+                loc = decl.code(loc);
+            }
         }
         for (IAbstractNode cmd : cmds) {
             loc = cmd.code(loc);
         }
         codeArray.put(loc, new Stop());
         loc++;
+        for (IAbstractNode decl : optGlobalCpsDecl) {
+            if (!(decl instanceof AbsStoDecl)) {
+                loc = decl.code(loc);
+            }
+        }
+
+        for (Map.Entry<Integer, String> entry : callMap.entrySet()) {
+            Integer location = declMap.get(entry.getValue());
+            codeArray.put(entry.getKey(), new IInstructions.Call(location));
+        }
+
         return loc;
     }
 }

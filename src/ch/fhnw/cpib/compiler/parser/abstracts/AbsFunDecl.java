@@ -14,6 +14,7 @@ import ch.fhnw.cpib.compiler.vm.ICodeArray;
 import ch.fhnw.cpib.compiler.vm.IInstructions;
 
 import static ch.fhnw.cpib.compiler.codeGenerator.CodeGenerator.codeArray;
+import static ch.fhnw.cpib.compiler.parser.abstracts.AbsProgram.declMap;
 import static ch.fhnw.cpib.compiler.tokens.enums.types.VoidType.VOID;
 
 public class AbsFunDecl implements IAbstractNode {
@@ -63,52 +64,41 @@ public class AbsFunDecl implements IAbstractNode {
 
     @Override
     public int code(int loc) throws ICodeArray.CodeTooSmallError, CodeGenError {
+        declMap.put(identifier.getIdent().getValue(), loc);
         codeArray.put(loc, new IInstructions.AllocBlock(localEnv.getVars().size()));
         loc++;
-        int nextLoc = loc + 1;
         loc = absStoDecl.code(loc);
-        var relLoc = 0;
-            for (IAbstractNode param : paramList) {
-                if (param != null) {
-                    loc = param.code(loc);
-                }
+        var paramCount = 0;
+        for (IAbstractNode param : paramList) {
+            if (param != null) {
+                loc = param.code(loc);
+                paramCount++;
             }
-            relLoc = paramList.size();
-        int globImpsSize = 0;
-            for (IAbstractNode glob : optGlobalGlobImps) {
-                if (glob != null) {
-                    loc = glob.code(loc);
-                }
-            }
-            globImpsSize = optGlobalGlobImps.size();
-
-        int optLocalCpsStoDeclsSize = 0;
-            for (IAbstractNode local : optLocalCpsStoDecl) {
-                if (local != null) {
-                    loc = local.code(loc);
-                }
-            }
-            optLocalCpsStoDeclsSize = optLocalCpsStoDecl.size();
+        }
+        for (int i = paramCount, j = 3; i > 0; i--, j++) {
+            codeArray.put(loc, new IInstructions.LoadAddrRel(j));
+            loc++;
+            codeArray.put(loc, new IInstructions.LoadAddrRel(-i));
+            loc++;
+            codeArray.put(loc, new IInstructions.Deref());
+            loc++;
+            codeArray.put(loc, new IInstructions.Store());
+            loc++;
+        }
 
         for (IAbstractNode cmd : cpsCmd) {
             loc = cmd.code(loc);
         }
 
-        Environment environment = identifier.getEnvironment();
-        int size = environment.getVars().size() - 4 - globImpsSize - optLocalCpsStoDeclsSize;
-
-        Variable variable = environment.getVariable(((AbsStoDecl)absStoDecl).getTypedIdent().getIdentifier().getValue());
-        codeArray.put(loc, new IInstructions.LoadAddrRel(variable.getRelAddress()));
+        codeArray.put(loc, new IInstructions.LoadAddrRel(-paramCount-1));
+        loc++;
+        codeArray.put(loc, new IInstructions.LoadAddrRel(paramCount + 3));
         loc++;
         codeArray.put(loc, new IInstructions.Deref());
         loc++;
-
-        codeArray.put(loc, new IInstructions.LoadAddrRel(relLoc + 1));
+        codeArray.put(loc, new IInstructions.Store());
         loc++;
-        codeArray.put(loc, new IInstructions.Return(size));
-        loc++;
-        codeArray.put(loc, new IInstructions.UncondJump(nextLoc));
-        loc++;
-        return loc;
+        codeArray.put(loc, new IInstructions.Return(paramCount));
+        return loc + 1;
     }
 }

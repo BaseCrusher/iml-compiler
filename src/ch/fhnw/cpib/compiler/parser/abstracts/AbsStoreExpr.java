@@ -41,7 +41,7 @@ public class AbsStoreExpr implements IAbstractNode {
         codeArray.put(loc, new IInstructions.LoadAddrRel(env.getAbsoluteAddress(ident.getIdent().getValue())));
 
         loc++;
-        if ((variable.getMechmode() == null || variable.getMechmode().getToken().getValue().equals(COPY.name())) && !isInit && !isAssignment) {
+        if (rValue(variable)) {
             codeArray.put(loc, new IInstructions.Deref());
             loc++;
         }
@@ -50,5 +50,12 @@ public class AbsStoreExpr implements IAbstractNode {
 
     public Identifier getIdent() {
         return ident;
+    }
+
+    private boolean rValue(Variable variable) {
+        if (variable.getMechmode() == null) {
+            return !isInit && !isAssignment;
+        }
+        return (variable.getMechmode().getEpsilon() != null || variable.getMechmode().getToken().getValue().equals(COPY.name())) && !isInit && !isAssignment;
     }
 }

@@ -9,6 +9,8 @@ import ch.fhnw.cpib.compiler.parser.nts.OptMechmode;
 import ch.fhnw.cpib.compiler.tokens.enums.types.IType;
 import ch.fhnw.cpib.compiler.vm.ICodeArray;
 
+import static ch.fhnw.cpib.compiler.codeGenerator.CodeGenerator.codeArray;
+
 public class AbsParam implements IAbstractNode {
     private final OptFlowmode optFlowmode;
     private final OptMechmode optMechmode;
