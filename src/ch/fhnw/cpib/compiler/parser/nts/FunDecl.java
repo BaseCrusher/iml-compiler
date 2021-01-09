@@ -1,8 +1,5 @@
 package ch.fhnw.cpib.compiler.parser.nts;
 
-import java.util.List;
-import java.util.Map;
-
 import ch.fhnw.cpib.compiler.error.DuplicateDeclaratoinError;
 import ch.fhnw.cpib.compiler.error.GrammarError;
 import ch.fhnw.cpib.compiler.parser.Environment;
@@ -10,9 +7,7 @@ import ch.fhnw.cpib.compiler.parser.IAbstractNode;
 import ch.fhnw.cpib.compiler.parser.INtsParser;
 import ch.fhnw.cpib.compiler.parser.Parser;
 import ch.fhnw.cpib.compiler.parser.Routine;
-import ch.fhnw.cpib.compiler.parser.Variable;
 import ch.fhnw.cpib.compiler.parser.abstracts.AbsFunDecl;
-import ch.fhnw.cpib.compiler.parser.abstracts.AbsParam;
 import ch.fhnw.cpib.compiler.tokens.IToken;
 
 import static ch.fhnw.cpib.compiler.tokens.enums.AttributeTerminals.IDENT;
@@ -40,7 +35,7 @@ public class FunDecl implements INtsParser {
             localEnv = new Environment(globalEnv, globalEnv.getStartAddress() + globalEnv.getVars().size());
             paramList = new ParamList(localEnv);
             Parser.consume(RETURNS);
-            stoDecl = new StoDecl(localEnv);
+            stoDecl = new StoDecl(localEnv, true);
             optGlobalGlobImps = new OptGlobalGlobImps();
             optLocalCpsStoDecl = new OptLocalCpsStoDecl(localEnv);
             try {

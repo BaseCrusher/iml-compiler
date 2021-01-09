@@ -17,6 +17,8 @@ public class Variable {
     private int relAddress;
     private final boolean isArray;
     private int offset = 1;
+    private boolean isReturns = false;
+    private boolean isParam = false;
 
     public Variable(String ident, OptFlowmode flowMode, OptChangemode changeMode, IToken type, int relAddress) {
         this.ident = ident;
@@ -92,5 +94,21 @@ public class Variable {
 
     public boolean isArray() {
         return isArray;
+    }
+
+    public void setIsReturns(boolean isReturns) {
+        this.isReturns = isReturns;
+    }
+
+    public boolean isReturns() {
+        return isReturns;
+    }
+
+    public boolean isParam() {
+        return isParam;
+    }
+
+    public void setParam(boolean param) {
+        isParam = param;
     }
 }

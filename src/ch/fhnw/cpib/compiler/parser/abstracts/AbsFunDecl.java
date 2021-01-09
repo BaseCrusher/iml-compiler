@@ -70,7 +70,6 @@ public class AbsFunDecl implements IAbstractNode {
         declMap.put(identifier.getIdent().getValue(), loc);
         codeArray.put(loc, new IInstructions.AllocBlock(localEnv.getVars().size()));
         loc++;
-        loc = absStoDecl.code(loc);
         var paramCount = 0;
         for (IAbstractNode param : paramList) {
             if (param != null) {
@@ -79,16 +78,24 @@ public class AbsFunDecl implements IAbstractNode {
             }
         }
 
-        for (int i = paramCount, j = 3; i > 0; i--, j++) {
+        for (int i = 0, j = 3; i < paramCount; i++, j++) {
             codeArray.put(loc, new IInstructions.LoadAddrRel(j));
             loc++;
-            codeArray.put(loc, new IInstructions.LoadAddrRel(-i));
+            codeArray.put(loc, new IInstructions.LoadAddrRel(i-paramCount));
             loc++;
+            if (isMechModeCopy(i)) {
+                codeArray.put(loc, new IInstructions.Deref());
+                loc++;
+                codeArray.put(loc, new IInstructions.LoadAddrAbs());
+                loc++;
+            }
             codeArray.put(loc, new IInstructions.Deref());
             loc++;
             codeArray.put(loc, new IInstructions.Store());
             loc++;
         }
+
+        loc = absStoDecl.code(loc);
 
         for (IAbstractNode cmd : cpsCmd) {
             loc = cmd.code(loc);
@@ -104,5 +111,9 @@ public class AbsFunDecl implements IAbstractNode {
         loc++;
         codeArray.put(loc, new IInstructions.Return(paramCount));
         return loc + 1;
+    }
+
+    private boolean isMechModeCopy(int i) {
+        return ((AbsParam)paramList.get(i)).getOptMechmode().getToken().getValue().equals(COPY.name());
     }
 }

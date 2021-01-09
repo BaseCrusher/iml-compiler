@@ -101,7 +101,7 @@ public class OptInitOrExprListOrArrExpr implements INtsParser {
             } else if (optInit.getToken().hasTerminal(BECOMES)) {
                 return new AbsArrExpr(identifier, expr.toAbsSyn(), true);
             }
-            return new AbsArrExpr(identifier, expr.toAbsSyn(), optInit.toAbsSyn());
+            return new AbsArrExpr(identifier, expr.toAbsSyn(), optInit.toAbsSyn(), isAssignment);
         }
         return new AbsStoreExpr(identifier, false, isAssignment);
     }

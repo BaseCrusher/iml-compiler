@@ -1,4 +1,4 @@
-program ArraySortExample (out myArray:int32||)
+program ArraySortExample ()
 global
    proc sort(inout ref var intArr:int32||)
    local
@@ -6,13 +6,15 @@ global
       var j:int32;
       var temp:int32
    do
-      i init := 0;
-      j init := 0;
-      while i > arrLen(intArr)
+      i init := 1;
+      j init := 1;
+      temp init := 0;
+      while i <= arrLen(intArr)
       do
-         while j > (arrLen(intArr) - i)
+         j := 1;
+         while j <= arrLen(intArr) - i
          do
-            if intArr[i] > intArr[j+1] then
+            if intArr[j] > intArr[j+1] then
                temp := intArr[j];
                intArr[j] := intArr[j+1];
                intArr[j+1] := temp
@@ -23,15 +25,21 @@ global
       endwhile
    endproc;
 
-   var myArray:int32|5|
-
+   var myArray:int32|5|;
+   var y:int32
 do
-   myArray[1] init := 9;
-   myArray[2] init := 2;
-   myArray[3] init := 5;
-   myArray[4] init := 1;
-   myArray[5] init := 7;
+   myArray[1] := 9;
+   myArray[2] := 2;
+   myArray[3] := 5;
+   myArray[4] := 1;
+   myArray[5] := 7;
 
-   call sort(myArray)
+   call sort(myArray);
+
+    y init := 1;
+   while y <= arrLen(myArray) do
+       debugout myArray[y];
+       y := y + 1
+   endwhile
 
 endprogram

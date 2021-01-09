@@ -21,11 +21,6 @@ public class AbsArrExpr implements IAbstractNode {
     private final IAbstractNode exp;
     private String optInit;
 
-    public AbsArrExpr(Identifier identifier, IAbstractNode exp, String optInit) {
-        this.identifier = identifier;
-        this.exp = exp;
-        this.optInit = optInit;
-    }
     public AbsArrExpr(Identifier identifier, IAbstractNode exp) {
         this.identifier = identifier;
         this.exp = exp;
@@ -37,9 +32,17 @@ public class AbsArrExpr implements IAbstractNode {
         this.isAssignment = isAssignment;
     }
 
+    public AbsArrExpr(Identifier identifier, IAbstractNode exp, String optInit, boolean isAssignment) {
+        this.identifier = identifier;
+        this.exp = exp;
+        this.optInit = optInit;
+        this.isAssignment = isAssignment;
+    }
+
     @Override
     public IType check() throws TypeCheckError {
         Variable variable = identifier.getEnvironment().getVariable(identifier.getIdent().getValue());
+        if (variable == null) throw new TypeCheckError("undefined " + identifier.getIdent().getValue());
         if (variable.getType() == null) throw new TypeCheckError("undefined " + identifier.getIdent().getValue());
         IType exprType = exp.check();
         if (!exprType.equals(INT32)) {

@@ -11,6 +11,7 @@ import ch.fhnw.cpib.compiler.tokens.enums.types.IType;
 import ch.fhnw.cpib.compiler.vm.ICodeArray;
 
 import static ch.fhnw.cpib.compiler.codeGenerator.CodeGenerator.codeArray;
+import static ch.fhnw.cpib.compiler.tokens.enums.modes.FlowModes.IN;
 import static ch.fhnw.cpib.compiler.tokens.enums.modes.MechModes.COPY;
 import static ch.fhnw.cpib.compiler.tokens.enums.modes.MechModes.REF;
 
@@ -45,5 +46,13 @@ public class AbsParam implements IAbstractNode {
 
     public OptMechmode getOptMechmode() {
         return optMechmode;
+    }
+
+    public OptFlowmode getOptFlowmode() {
+        return optFlowmode;
+    }
+
+    public OptChangemode getOptChangemode() {
+        return optChangemode;
     }
 }

@@ -1,6 +1,6 @@
 program FibonacciCalculator ()
 global
-   fun fibonacci(ref fibArr:int32||) returns void:int32
+   proc fibonacci(inout ref fibArr:int32||)
    local
       var i:int32
    do
@@ -11,16 +11,15 @@ global
       do
          fibArr[i] := fibArr[i-2] + fibArr[i-1];
          i := i + 1
-      endwhile;
-      void := 0
-   endfun;
+      endwhile
+   endproc;
 
     var myArray:int32|20|;
-   var j:int32
+    var j:int32
 
 do
 
-   j init := fibonacci(myArray);
+   call fibonacci(myArray);
 
    j := 1;
    while j <= arrLen(myArray) do

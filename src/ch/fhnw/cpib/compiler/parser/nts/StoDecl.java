@@ -20,7 +20,7 @@ public class StoDecl implements INtsParser {
     private OptChangemode optChangemode;
     private TypedIdent typedIdent;
 
-    public StoDecl(Environment environment) throws GrammarError {
+    public StoDecl(Environment environment, boolean isReturns) throws GrammarError {
         this.environment = environment;
         token = Parser.getCurrentToken();
         if (token.hasTerminal(IDENT, CHANGEMODE)) {
@@ -33,6 +33,7 @@ public class StoDecl implements INtsParser {
             else {
                 variable = new Variable(typedIdent.getIdentifier().getValue(), optChangemode, typedIdent.getToken(), environment.getStartAddress() + environment.getVars().size());
             }
+            variable.setIsReturns(isReturns);
             environment.putVariable(typedIdent.getIdentifier().getValue(), variable);
             OptArrDecl optArrDecl = typedIdent.getArrDecl();
             if (optArrDecl != null){

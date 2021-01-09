@@ -24,7 +24,7 @@ public class RepSemicolonStoDecl implements INtsParser {
         token = Parser.getCurrentToken();
         if (token.hasTerminal(SEMICOLON)) {
             Parser.consume(SEMICOLON);
-            stoDecl = new StoDecl(environment);
+            stoDecl = new StoDecl(environment, false);
             repSemicolonStoDecl = new RepSemicolonStoDecl(environment); // TODO is this needed??
             string = "; \n " + stoDecl.toString();
         }

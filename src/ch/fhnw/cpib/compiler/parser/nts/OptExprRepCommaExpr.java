@@ -27,7 +27,7 @@ public class OptExprRepCommaExpr implements INtsParser {
     public OptExprRepCommaExpr(Environment environment) throws GrammarError {
         token = Parser.getCurrentToken();
         if (token.hasTerminal(ARRLEN, LPAREN, MONOPR, IDENT, LITERAL)) {
-            expr = new Expr(environment, false);
+            expr = new Expr(environment, true);
             optRepCommaExpr = new OptRepCommaExpr(environment);
             string = expr.toString() + " " + optRepCommaExpr.toString();
         }

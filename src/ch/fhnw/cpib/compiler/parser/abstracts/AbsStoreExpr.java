@@ -12,6 +12,7 @@ import ch.fhnw.cpib.compiler.vm.ICodeArray;
 import ch.fhnw.cpib.compiler.vm.IInstructions;
 
 import static ch.fhnw.cpib.compiler.codeGenerator.CodeGenerator.codeArray;
+import static ch.fhnw.cpib.compiler.tokens.enums.modes.FlowModes.IN;
 import static ch.fhnw.cpib.compiler.tokens.enums.modes.MechModes.COPY;
 
 public class AbsStoreExpr implements IAbstractNode {
@@ -39,8 +40,14 @@ public class AbsStoreExpr implements IAbstractNode {
         Variable variable = env.getVariable(ident.getIdent().getValue());
 
         codeArray.put(loc, new IInstructions.LoadAddrRel(env.getAbsoluteAddress(ident.getIdent().getValue())));
-
         loc++;
+
+        if (env.getParent() != null && !(isMechModeCopy(variable) && isFlowModeIn(variable)) && !variable.isReturns() && variable.isParam()) {
+            codeArray.put(loc, new IInstructions.Deref());
+            loc++;
+            codeArray.put(loc, new IInstructions.LoadAddrAbs());
+            loc++;
+        }
         if (rValue(variable)) {
             codeArray.put(loc, new IInstructions.Deref());
             loc++;
@@ -53,9 +60,20 @@ public class AbsStoreExpr implements IAbstractNode {
     }
 
     private boolean rValue(Variable variable) {
-        if (variable.getMechmode() == null) {
-            return !isInit && !isAssignment && !variable.isArray();
+        return !isInit && !isAssignment && !variable.isArray();
+    }
+
+    private boolean isFlowModeIn(Variable variable) {
+        if (variable.getFlowMode() != null && variable.getFlowMode().getEpsilon() != null) {
+            return true;
         }
-        return (variable.getMechmode().getEpsilon() != null || variable.getMechmode().getToken().getValue().equals(COPY.name())) && !isInit && !isAssignment && !variable.isArray();
+        return variable.getFlowMode() != null && variable.getFlowMode().getToken().getValue().equals(IN.name());
+    }
+
+    private boolean isMechModeCopy(Variable variable) {
+        if (variable.getMechmode() != null && variable.getMechmode().getEpsilon() !=  null) {
+            return true;
+        }
+        return variable.getMechmode() != null && variable.getMechmode().getToken().getValue().equals(COPY.name());
     }
 }

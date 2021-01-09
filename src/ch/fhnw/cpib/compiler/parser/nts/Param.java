@@ -36,7 +36,7 @@ public class Param implements INtsParser {
             else {
                 variable = new Variable(typedIdent.getIdentifier().getValue(), optFlowmode, optMechmode, optChangemode, typedIdent.getToken(), environment.getStartAddress() + environment.getVars().size());
             }
-
+            variable.setParam(true);
             environment.putVariable(typedIdent.getIdentifier().getValue(), variable);
             string = optFlowmode.toString() + " " + optMechmode.toString() + " " + optChangemode.toString() + " " + typedIdent.toString();
         } else {

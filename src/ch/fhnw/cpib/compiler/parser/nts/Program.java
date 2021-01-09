@@ -1,7 +1,5 @@
 package ch.fhnw.cpib.compiler.parser.nts;
 
-import java.util.HashMap;
-
 import ch.fhnw.cpib.compiler.error.GrammarError;
 import ch.fhnw.cpib.compiler.parser.*;
 import ch.fhnw.cpib.compiler.parser.abstracts.AbsProgram;

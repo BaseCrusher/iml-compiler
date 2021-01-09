@@ -20,10 +20,9 @@ global
 do
    myArray[1] init := 12;
    myArray[2] init := 13;
-   myArray[3] init := 45;
-   myArray[4] init := 69;
-   myArray[5] init := 74;
-   index init := findFirst(myArray, 69);
-   debugout index
+   myArray[3] init := 24;
+   myArray[4] init := 42;
+   myArray[5] init := 55;
+   debugout findFirst(myArray, 42)
 
 endprogram

@@ -24,6 +24,7 @@ import static ch.fhnw.cpib.compiler.tokens.enums.KeywordTerminals.WHILE;
 
 public class Cmd implements INtsParser {
     private final IToken token;
+    private final Environment environment;
     private IToken identifier;
     private ExprList exprList;
     private OptGlobInits optGlobInits;
@@ -34,6 +35,7 @@ public class Cmd implements INtsParser {
     private final String string;
 
     public Cmd(Environment environment) throws GrammarError {
+        this.environment = environment;
         token = Parser.getCurrentToken();
         if (token.hasTerminal(SKIP)) {
             Parser.consume(SKIP);
@@ -71,7 +73,7 @@ public class Cmd implements INtsParser {
         }
         else if (token.hasTerminal(DEBUGIN)) {
             Parser.consume(DEBUGIN);
-            expr1 = new Expr(environment, false);
+            expr1 = new Expr(environment, true);
             string = "DEBUGIN " + expr1.toString();
         }
         else if (token.hasTerminal(DEBUGOUT)) {
@@ -103,7 +105,7 @@ public class Cmd implements INtsParser {
             return new AbsWhileCommand(expr1.toAbsSyn(), cpsCmd.toAbsSyn());
         }
         else if (token.hasTerminal(CALL)) {
-            return new AbsCallCommand(identifier.getValue(), exprList.toAbsSyn(), optGlobInits.toAbsSyn());
+            return new AbsCallCommand(new Identifier(identifier, environment), exprList.toAbsSyn(), optGlobInits.toAbsSyn());
         }
         else if (token.hasTerminal(DEBUGIN)) {
             return new AbsInputCommand(expr1);

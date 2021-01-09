@@ -42,9 +42,11 @@ public class RoutineCall implements IAbstractNode {
             throw new CodeGenError("Routine not found in environment " + identifier.getIdent().getValue());
         }
         boolean isFunction = routine.getReturnType() != VOID;
-        int size = isFunction ? 1 : 0;
-        codeArray.put(loc, new IInstructions.AllocBlock(size));
-        loc++;
+        if (isFunction) {
+            codeArray.put(loc, new IInstructions.AllocBlock(1));
+            loc++;
+        }
+
         for (IAbstractNode expr : exprList) {
             loc = expr.code(loc);
         }

@@ -22,7 +22,7 @@ public class Decl implements INtsParser {
     public Decl(Environment environment) throws GrammarError {
         token = Parser.getCurrentToken();
         if (token.hasTerminal(IDENT, CHANGEMODE)) {
-            stoDecl = new StoDecl(environment);
+            stoDecl = new StoDecl(environment, false);
             string = stoDecl.toString();
         }
         else if (token.hasTerminal(FUN)) {

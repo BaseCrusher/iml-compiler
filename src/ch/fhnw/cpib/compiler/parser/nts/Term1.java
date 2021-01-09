@@ -17,7 +17,6 @@ public class Term1 implements INtsParser {
     private final IToken token;
     private final Term2 term2;
     private final OptRelOprTerm2 optRelOprTerm2;
-    private boolean isAssignment = false;
 
     public Term1(Environment environment, boolean isAssignment) throws GrammarError {
         token = Parser.getCurrentToken();

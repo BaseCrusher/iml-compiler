@@ -22,7 +22,7 @@ public class CpsStoDecl implements INtsParser {
     public CpsStoDecl(Environment environment) throws GrammarError {
         token = Parser.getCurrentToken();
         if (token.hasTerminal(IDENT, CHANGEMODE)) {
-            stoDecl = new StoDecl(environment);
+            stoDecl = new StoDecl(environment, false);
             repSemicolonStoDecl = new RepSemicolonStoDecl(environment);
             string = stoDecl.toString() + " " + repSemicolonStoDecl.toString();
         }

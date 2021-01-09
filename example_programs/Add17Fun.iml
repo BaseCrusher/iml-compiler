@@ -1,12 +1,12 @@
 program Add17Fun()
 global
-  fun f(copy x:int32) returns y:int32
+  fun f(ref x:int32||) returns y:int32
   do
-    y init := x + 17
+    y init := x[1] + 17
   endfun;
 
-  var x:int32
+  var x:int32|1|
 do
-  debugin x init;
+  debugin x[1];
   debugout f(x)
 endprogram
