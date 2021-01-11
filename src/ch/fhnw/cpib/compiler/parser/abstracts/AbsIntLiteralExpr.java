@@ -31,4 +31,8 @@ public class AbsIntLiteralExpr implements IAbstractNode {
     public boolean lvalue() {
         return false;
     }
+
+    public AttributeToken getLiteral() {
+        return literal;
+    }
 }

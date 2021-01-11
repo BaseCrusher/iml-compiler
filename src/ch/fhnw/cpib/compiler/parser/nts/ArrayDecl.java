@@ -31,7 +31,7 @@ public class ArrayDecl implements INtsParser {
     }
 
     public IAbstractNode toAbsSyn() {
-        return optLit.toAbsSyn(); // TODO arrayDecl??
+        return optLit.toAbsSyn();
     }
 
     public IToken getToken() {

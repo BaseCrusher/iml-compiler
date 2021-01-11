@@ -24,7 +24,7 @@ import static ch.fhnw.cpib.compiler.codeGenerator.CodeGenerator.codeArray;
 public class Main {
 
     public static void main(String[] args) throws IOException {
-        Path p = Path.of("example_programs/ArrayFindFirst.iml");
+        Path p = Path.of("example_programs/ArrayBubbleSort.iml");
         StringBuilder sb = new StringBuilder();
         Files.lines(p).forEach((String s) -> { sb.append(s).append("\n"); } );
         String content = sb.toString();

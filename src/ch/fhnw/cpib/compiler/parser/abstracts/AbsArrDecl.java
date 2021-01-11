@@ -20,7 +20,7 @@ public class AbsArrDecl implements IAbstractNode {
     @Override
     public IType check() throws TypeCheckError {
         if (arrDecl != null) {
-            if (((Inttypes)arrDecl.check()).ordinal() == 0) throw new TypeCheckError("Array cannot be instantiated with 0");
+            if (Integer.parseInt(((AbsIntLiteralExpr)arrDecl).getLiteral().getValue()) == 0) throw new TypeCheckError("Array cannot be instantiated with 0");
             return arrDecl.check();
         }
         return VOID;
