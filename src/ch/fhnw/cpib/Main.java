@@ -44,6 +44,7 @@ public class Main {
                 codeGenerator.check(abstractTree);
                 codeGenerator.code(abstractTree);
                 codeArray.resize();
+                //System.out.println(codeArray.toString());
                 VirtualMachine virtualMachine = new VirtualMachine(codeArray, 1024);
             } catch (ICodeArray.CodeTooSmallError | CodeGenError | TypeCheckError | IVirtualMachine.ExecutionError codeTooSmallError) {
                 codeTooSmallError.printStackTrace();

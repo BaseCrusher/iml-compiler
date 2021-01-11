@@ -1,6 +1,6 @@
 program Array()
 global
-  var x:int32|3|;
+  var x:int32|2147483648|;
   var y:int32
 do
   y init := 1;
